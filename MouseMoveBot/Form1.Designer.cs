@@ -52,6 +52,7 @@ namespace MouseMoveBot
             this.targetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lootToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
@@ -81,6 +82,7 @@ namespace MouseMoveBot
             // 
             // timer1
             // 
+            this.timer1.Interval = 3000;
             this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
             // 
             // label1
@@ -227,6 +229,7 @@ namespace MouseMoveBot
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.comboBox1);
             this.panel1.Controls.Add(this.checkBox4);
             this.panel1.Controls.Add(this.checkBox3);
             this.panel1.Controls.Add(this.checkBox1);
@@ -235,6 +238,15 @@ namespace MouseMoveBot
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(284, 183);
             this.panel1.TabIndex = 15;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(121, 14);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(121, 21);
+            this.comboBox1.TabIndex = 19;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.ComboBox1_SelectedIndexChanged);
             // 
             // checkBox4
             // 
@@ -275,6 +287,7 @@ namespace MouseMoveBot
             this.checkBox2.TabIndex = 0;
             this.checkBox2.Text = "Cavebot";
             this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox2.CheckedChanged += new System.EventHandler(this.CheckBox2_CheckedChanged);
             // 
             // button2
             // 
@@ -349,6 +362,7 @@ namespace MouseMoveBot
         public CheckBox checkBox1;
         public CheckBox checkBox2;
         private Button button2;
+        private ComboBox comboBox1;
     }
 }
 
