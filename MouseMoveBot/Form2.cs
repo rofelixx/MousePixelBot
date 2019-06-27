@@ -67,12 +67,12 @@ namespace MouseMoveBot
 
         private void Form2_Load(object sender, EventArgs e)
         {
-            this.checkBox1.Checked = f1.checkBox1.Checked;
+            this.checkBox1.Checked = f1.cbHealerLife.Checked;
         }
 
         private void CheckBox1_CheckedChanged(object sender, EventArgs e)
         {
-            f1.checkBox1.Checked = this.checkBox1.Checked;
+            f1.cbHealerLife.Checked = this.checkBox1.Checked;
         }
     }
 }

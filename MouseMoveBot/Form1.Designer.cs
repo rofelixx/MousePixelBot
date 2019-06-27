@@ -52,17 +52,16 @@ namespace MouseMoveBot
             this.targetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lootToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.checkBox6 = new System.Windows.Forms.CheckBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.checkBox5 = new System.Windows.Forms.CheckBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.comboBoxSdKey = new System.Windows.Forms.ComboBox();
+            this.cbAttackSd = new System.Windows.Forms.CheckBox();
+            this.comboBoxManaKey = new System.Windows.Forms.ComboBox();
+            this.cbHealerMana = new System.Windows.Forms.CheckBox();
+            this.comboBoxLifeKey = new System.Windows.Forms.ComboBox();
+            this.cbLooter = new System.Windows.Forms.CheckBox();
+            this.cbTarget = new System.Windows.Forms.CheckBox();
+            this.cbHealerLife = new System.Windows.Forms.CheckBox();
+            this.cbCavebot = new System.Windows.Forms.CheckBox();
             this.button2 = new System.Windows.Forms.Button();
-            this.timer2 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.menuStrip2.SuspendLayout();
@@ -234,15 +233,15 @@ namespace MouseMoveBot
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.comboBox3);
-            this.panel1.Controls.Add(this.checkBox6);
-            this.panel1.Controls.Add(this.comboBox2);
-            this.panel1.Controls.Add(this.checkBox5);
-            this.panel1.Controls.Add(this.comboBox1);
-            this.panel1.Controls.Add(this.checkBox4);
-            this.panel1.Controls.Add(this.checkBox3);
-            this.panel1.Controls.Add(this.checkBox1);
-            this.panel1.Controls.Add(this.checkBox2);
+            this.panel1.Controls.Add(this.comboBoxSdKey);
+            this.panel1.Controls.Add(this.cbAttackSd);
+            this.panel1.Controls.Add(this.comboBoxManaKey);
+            this.panel1.Controls.Add(this.cbHealerMana);
+            this.panel1.Controls.Add(this.comboBoxLifeKey);
+            this.panel1.Controls.Add(this.cbLooter);
+            this.panel1.Controls.Add(this.cbTarget);
+            this.panel1.Controls.Add(this.cbHealerLife);
+            this.panel1.Controls.Add(this.cbCavebot);
             this.panel1.Location = new System.Drawing.Point(275, 33);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(284, 183);
@@ -250,91 +249,90 @@ namespace MouseMoveBot
             // 
             // comboBox3
             // 
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(218, 126);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(52, 21);
-            this.comboBox3.TabIndex = 23;
-            this.comboBox3.SelectedIndexChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged);
+            this.comboBoxSdKey.FormattingEnabled = true;
+            this.comboBoxSdKey.Location = new System.Drawing.Point(218, 126);
+            this.comboBoxSdKey.Name = "comboBox3";
+            this.comboBoxSdKey.Size = new System.Drawing.Size(52, 21);
+            this.comboBoxSdKey.TabIndex = 23;
+            this.comboBoxSdKey.SelectedIndexChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged);
             // 
             // checkBox6
             // 
-            this.checkBox6.AutoSize = true;
-            this.checkBox6.Location = new System.Drawing.Point(137, 128);
-            this.checkBox6.Name = "checkBox6";
-            this.checkBox6.Size = new System.Drawing.Size(75, 17);
-            this.checkBox6.TabIndex = 22;
-            this.checkBox6.Text = "Attack SD";
-            this.checkBox6.UseVisualStyleBackColor = true;
+            this.cbAttackSd.AutoSize = true;
+            this.cbAttackSd.Location = new System.Drawing.Point(137, 128);
+            this.cbAttackSd.Name = "checkBox6";
+            this.cbAttackSd.Size = new System.Drawing.Size(75, 17);
+            this.cbAttackSd.TabIndex = 22;
+            this.cbAttackSd.Text = "Attack SD";
+            this.cbAttackSd.UseVisualStyleBackColor = true;
             // 
             // comboBox2
             // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(121, 50);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(121, 21);
-            this.comboBox2.TabIndex = 21;
-            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged_1);
+            this.comboBoxManaKey.FormattingEnabled = true;
+            this.comboBoxManaKey.Location = new System.Drawing.Point(121, 50);
+            this.comboBoxManaKey.Name = "comboBox2";
+            this.comboBoxManaKey.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxManaKey.TabIndex = 21;
+            this.comboBoxManaKey.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged_1);
             // 
             // checkBox5
             // 
-            this.checkBox5.AutoSize = true;
-            this.checkBox5.Location = new System.Drawing.Point(27, 50);
-            this.checkBox5.Name = "checkBox5";
-            this.checkBox5.Size = new System.Drawing.Size(53, 17);
-            this.checkBox5.TabIndex = 20;
-            this.checkBox5.Text = "Mana";
-            this.checkBox5.UseVisualStyleBackColor = true;
+            this.cbHealerMana.AutoSize = true;
+            this.cbHealerMana.Location = new System.Drawing.Point(27, 50);
+            this.cbHealerMana.Name = "checkBox5";
+            this.cbHealerMana.Size = new System.Drawing.Size(53, 17);
+            this.cbHealerMana.TabIndex = 20;
+            this.cbHealerMana.Text = "Mana";
+            this.cbHealerMana.UseVisualStyleBackColor = true;
             // 
             // comboBox1
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(121, 14);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
-            this.comboBox1.TabIndex = 19;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.ComboBox1_SelectedIndexChanged);
+            this.comboBoxLifeKey.FormattingEnabled = true;
+            this.comboBoxLifeKey.Location = new System.Drawing.Point(121, 14);
+            this.comboBoxLifeKey.Name = "comboBox1";
+            this.comboBoxLifeKey.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxLifeKey.TabIndex = 19;
+            this.comboBoxLifeKey.SelectedIndexChanged += new System.EventHandler(this.ComboBox1_SelectedIndexChanged);
             // 
             // checkBox4
             // 
-            this.checkBox4.AutoSize = true;
-            this.checkBox4.Location = new System.Drawing.Point(27, 163);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(47, 17);
-            this.checkBox4.TabIndex = 18;
-            this.checkBox4.Text = "Loot";
-            this.checkBox4.UseVisualStyleBackColor = true;
+            this.cbLooter.AutoSize = true;
+            this.cbLooter.Location = new System.Drawing.Point(27, 163);
+            this.cbLooter.Name = "checkBox4";
+            this.cbLooter.Size = new System.Drawing.Size(47, 17);
+            this.cbLooter.TabIndex = 18;
+            this.cbLooter.Text = "Loot";
+            this.cbLooter.UseVisualStyleBackColor = true;
             // 
             // checkBox3
             // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(27, 128);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(57, 17);
-            this.checkBox3.TabIndex = 17;
-            this.checkBox3.Text = "Target";
-            this.checkBox3.UseVisualStyleBackColor = true;
+            this.cbTarget.AutoSize = true;
+            this.cbTarget.Location = new System.Drawing.Point(27, 128);
+            this.cbTarget.Name = "checkBox3";
+            this.cbTarget.Size = new System.Drawing.Size(57, 17);
+            this.cbTarget.TabIndex = 17;
+            this.cbTarget.Text = "Target";
+            this.cbTarget.UseVisualStyleBackColor = true;
             // 
             // checkBox1
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(27, 14);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(57, 17);
-            this.checkBox1.TabIndex = 16;
-            this.checkBox1.Text = "Healer";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.cbHealerLife.AutoSize = true;
+            this.cbHealerLife.Location = new System.Drawing.Point(27, 14);
+            this.cbHealerLife.Name = "checkBox1";
+            this.cbHealerLife.Size = new System.Drawing.Size(57, 17);
+            this.cbHealerLife.TabIndex = 16;
+            this.cbHealerLife.Text = "Healer";
+            this.cbHealerLife.UseVisualStyleBackColor = true;
             // 
             // checkBox2
             // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(27, 89);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(66, 17);
-            this.checkBox2.TabIndex = 0;
-            this.checkBox2.Text = "Cavebot";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            this.checkBox2.CheckedChanged += new System.EventHandler(this.CheckBox2_CheckedChanged);
+            this.cbCavebot.AutoSize = true;
+            this.cbCavebot.Location = new System.Drawing.Point(27, 89);
+            this.cbCavebot.Name = "checkBox2";
+            this.cbCavebot.Size = new System.Drawing.Size(66, 17);
+            this.cbCavebot.TabIndex = 0;
+            this.cbCavebot.Text = "Cavebot";
+            this.cbCavebot.UseVisualStyleBackColor = true;
             // 
             // button2
             // 
@@ -345,10 +343,6 @@ namespace MouseMoveBot
             this.button2.Text = "Scan";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.Button2_Click);
-            // 
-            // timer2
-            // 
-            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
             // 
             // Form1
             // 
@@ -408,17 +402,16 @@ namespace MouseMoveBot
         public ToolStripMenuItem targetToolStripMenuItem;
         public ToolStripMenuItem lootToolStripMenuItem;
         public Panel panel1;
-        public CheckBox checkBox4;
-        public CheckBox checkBox3;
-        public CheckBox checkBox1;
-        public CheckBox checkBox2;
+        public CheckBox cbLooter;
+        public CheckBox cbTarget;
+        public CheckBox cbHealerLife;
+        public CheckBox cbCavebot;
+        public CheckBox cbHealerMana;
+        public CheckBox cbAttackSd;
         private Button button2;
-        private ComboBox comboBox1;
-        private ComboBox comboBox2;
-        public CheckBox checkBox5;
-        public CheckBox checkBox6;
-        private ComboBox comboBox3;
-        private Timer timer2;
+        private ComboBox comboBoxLifeKey;
+        private ComboBox comboBoxManaKey;
+        private ComboBox comboBoxSdKey;
     }
 }
 

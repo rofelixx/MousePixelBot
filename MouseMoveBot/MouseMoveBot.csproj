@@ -55,6 +55,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EnumState.cs" />
     <Compile Include="Form2.cs">
       <SubType>Form</SubType>
     </Compile>
