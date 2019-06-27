@@ -11,6 +11,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Media;
+using Emgu.CV;
+using Emgu.CV.Structure;
 using Color = System.Drawing.Color;
 
 namespace MouseMoveBot
@@ -392,6 +394,27 @@ namespace MouseMoveBot
         private void Button2_Click(object sender, EventArgs e)
         {
 
+            //Bitmap screenCapture = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+
+            //Graphics g = Graphics.FromImage(screenCapture);
+
+            //g.CopyFromScreen(Screen.PrimaryScreen.Bounds.X,
+            //                 Screen.PrimaryScreen.Bounds.Y,
+            //                 0, 0,
+            //                 screenCapture.Size,
+            //                 CopyPixelOperation.SourceCopy);
+
+            //Bitmap myPic = new Bitmap("C:\\Users\\ALM4CT\\Desktop\\teste.png");
+
+            //List<Point> isInCapture = Find(screenCapture, myPic);
+            //if (isInCapture.Count > 0)
+            //    foreach (var item in isInCapture)
+            //    {
+            //        Cursor.Position = item;
+            //        Thread.Sleep(1000);
+            //    }
+
+
             Bitmap screenCapture = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
 
             Graphics g = Graphics.FromImage(screenCapture);
@@ -402,15 +425,38 @@ namespace MouseMoveBot
                              screenCapture.Size,
                              CopyPixelOperation.SourceCopy);
 
-            Bitmap myPic = new Bitmap("C:\\Users\\ALM4CT\\Desktop\\teste.png");
+            Image<Bgr, Byte> source = new Image<Bgr, Byte>(screenCapture);
+            Image<Bgr, byte> template = new Image<Bgr, byte>("C:\\Users\\ALM4CT\\Desktop\\testebody.png"); // Image A
+            Image<Bgr, byte> imageToShow = source.Copy();
 
-            List<Point> isInCapture = Find(screenCapture, myPic);
-            if (isInCapture.Count > 0)
-                foreach (var item in isInCapture)
+            using (Image<Gray, float> result = source.MatchTemplate(template, Emgu.CV.CvEnum.TemplateMatchingType.CcoeffNormed))
+            {
+                double[] minValues, maxValues;
+                Point[] minLocations, maxLocations;
+                result.MinMax(out minValues, out maxValues, out minLocations, out maxLocations);
+
+                // You can try different values of the threshold. I guess somewhere between 0.75 and 0.95 would be good.
+                if (maxValues[0] > 0.95)
                 {
-                    Cursor.Position = item;
-                    Thread.Sleep(1000);
+                    // This is a match. Do something with it, for example draw a rectangle around it.
+                    Rectangle match = new Rectangle(maxLocations[0], template.Size);
+                    imageToShow.Draw(match, new Bgr(Color.Red), 3);
+                    Console.WriteLine(minLocations[0]);
+                    Console.WriteLine(maxLocations[0]);
+                    Console.WriteLine("Achou");
+                    var pMin = minLocations[0];
+                    var pMax = maxLocations[0];
+
+                    var meioQuad = pMin.Y - pMax.Y;
+                    var centerPosition = new Point((maxLocations[0].X + meioQuad), minLocations[0].Y);
+                    Console.WriteLine("Center: " + centerPosition);
+                    Cursor.Position = centerPosition;
+
                 }
+                else
+                    Console.WriteLine("Não Achou");
+
+            }
 
             //Point isInCapture = IsInCapture(myPic, screenCapture);
             //Cursor.Position = isInCapture;
