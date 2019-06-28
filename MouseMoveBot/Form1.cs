@@ -60,6 +60,8 @@ namespace MouseMoveBot
         Form2 newform;
         Task taskHealers; Task taskCavebot; Task taskAttack; Task taskLoot;
         Waypoints currentWaypoint = new Waypoints() { bitIcon = null, delay = 2000, state = State.Waiting };
+        Color iconTibia;
+        Color iconColor;
         public Form1()
         {
             InitializeComponent();
@@ -88,9 +90,9 @@ namespace MouseMoveBot
 
             var sequenceIcons = new List<String>()
             {
-                "C:\\Users\\ALM4CT\\Desktop\\iconG.png",
-                "C:\\Users\\ALM4CT\\Desktop\\iconO.png",
-                "C:\\Users\\ALM4CT\\Desktop\\iconL.png"
+                "C:\\Users\\Guigo\\Desktop\\iconRight.png",
+                "C:\\Users\\Guigo\\Desktop\\iconUp.png",
+                "C:\\Users\\Guigo\\Desktop\\iconDown.png",
             };
             var x = 286;
             foreach (var path in sequenceIcons)
@@ -146,88 +148,91 @@ namespace MouseMoveBot
 
         public void ManageFunction()
         {
-            var iconTibia = System.Drawing.Color.FromArgb(GetPixel(DesktopDC, 10, 10));
-            Color iconColor = Color.FromArgb(0, 0, 24, 213);
+            //var iconGoogle = System.Drawing.Color.FromArgb(GetPixel(DesktopDC, 830, 291));
+            //var iconGoogleColor = Color.FromArgb(0, 244, 133, 66);
 
-            var iconGoogle = System.Drawing.Color.FromArgb(GetPixel(DesktopDC, 830, 291));
-            var iconGoogleColor = Color.FromArgb(0, 244, 133, 66);
-
+            taskHealers = Task.Factory.StartNew(() =>
             {
-                taskHealers = Task.Factory.StartNew(() =>
+                do
                 {
-                    do
+                    checkIconTibia();
+                    if (this.cbHealerLife.Checked && iconTibia == iconColor)
                     {
-                        if (this.cbHealerLife.Checked)
-                        {
-                            checkHealer();
-                        }
+                        checkHealer();
+                    }
 
-                        if (this.cbHealerMana.Checked)
-                        {
-                            checkMana();
-                        }
+                    if (this.cbHealerMana.Checked && iconTibia == iconColor)
+                    {
+                        checkMana();
+                    }
 
-                        Task.Delay(500).Wait();
-                    } while (true);
-                });
+                    Task.Delay(500).Wait();
+                } while (true);
+            });
 
-                taskCavebot = Task.Factory.StartNew(() =>
+            taskCavebot = Task.Factory.StartNew(() =>
+            {
+                do
                 {
-                    do
+                    if (cbCavebot.Checked)
                     {
-                        if (cbCavebot.Checked)
+                        // Attacking
+                        if (this.cbTarget.Checked)
                         {
-                            // Attacking
-                            if (this.cbTarget.Checked)
-                            {
-                                Task.Delay(10).Wait();
-                                continue;
-                            }
-
-                            // Walking
-                            if (currentWaypoint != null && currentWaypoint.state == State.Walking)
-                            {
-                                checkArrivedWaypoint();
-                                Task.Delay(1).Wait();
-                                continue;
-                            }
-
-                            // waiting
-                            if (currentWaypoint.state == State.Waiting || currentWaypoint.state == State.Attacking)
-                            {
-                                walk();
-                            }
-
-                            if (currentWaypoint.state == State.Concluded)
-                            {
-                                var index = listWaypoints.IndexOf(currentWaypoint) >= listWaypoints.Count - 1 ? listWaypoints.IndexOf(currentWaypoint) : listWaypoints.IndexOf(currentWaypoint) + 1;
-                                if (index == (listWaypoints.Count - 1) && listWaypoints[index].state == State.Concluded)
-                                {
-                                    createWaypoints();
-                                    index = 0;
-                                    Console.WriteLine("Resetou waypoints");
-                                }
-                                currentWaypoint = listWaypoints[index];
-                                currentWaypoint.state = State.Waiting;
-                            }
+                            Task.Delay(10).Wait();
+                            continue;
                         }
-                        Task.Delay(1000).Wait();
-                    } while (true);
-                });
 
-                taskAttack = Task.Factory.StartNew(() =>
+                        // Walking
+                        if (currentWaypoint != null && currentWaypoint.state == State.Walking)
+                        {
+                            checkArrivedWaypoint();
+                            Task.Delay(1).Wait();
+                            continue;
+                        }
+
+                        // waiting
+                        if (currentWaypoint.state == State.Waiting)
+                        {
+                            walk();
+                        }
+
+                        if (currentWaypoint.state == State.Concluded)
+                        {
+                            var index = listWaypoints.IndexOf(currentWaypoint) >= listWaypoints.Count - 1 ? listWaypoints.IndexOf(currentWaypoint) : listWaypoints.IndexOf(currentWaypoint) + 1;
+                            if (index == (listWaypoints.Count - 1) && listWaypoints[index].state == State.Concluded)
+                            {
+                                createWaypoints();
+                                index = 0;
+                                Console.WriteLine("Resetou waypoints");
+                            }
+                            currentWaypoint = listWaypoints[index];
+                            currentWaypoint.state = State.Waiting;
+                        }
+                    }
+                    Task.Delay(1000).Wait();
+                } while (true);
+            });
+
+            taskAttack = Task.Factory.StartNew(() =>
+            {
+                do
                 {
-                    do
+                    if (iconTibia == iconColor)
                     {
-                        if (cbCavebot.Checked)
-                        {
-                            checkAttack();
-                        }
-                    } while (true);
-                });
+                        checkAttack();
+                    }
+                } while (true);
+            });
 
-                //task4 = Task.Factory.StartNew(() => checkLoot());
-            }
+            //task4 = Task.Factory.StartNew(() => checkLoot());
+
+        }
+
+        private void checkIconTibia()
+        {
+            iconTibia = System.Drawing.Color.FromArgb(GetPixel(DesktopDC, 10, 10));
+            iconColor = Color.FromArgb(0, 0, 24, 213);
         }
 
         private void checkArrivedWaypoint()
@@ -243,7 +248,7 @@ namespace MouseMoveBot
                 currentWaypoint = listWaypoints.FirstOrDefault();
             }
 
-            moveMouseWaypoint(currentWaypoint.bitIcon);
+            moveMouseWaypointEmgu(currentWaypoint.bitIcon);
             DoMouseClick();
             Console.WriteLine("Moveu mouse");
             currentWaypoint.state = State.Walking;
@@ -299,34 +304,38 @@ namespace MouseMoveBot
 
         public void checkAttack()
         {
-            //var corPainelBattle = new Color();
-            //var corBixoBattle = new Color();
-            //var bixoSelecionado = new Color();
-            //var white = new Color();
-            //bixoSelecionado = GetColorAt(new Point(1756, 412));
+            var corPainelBattle = new Color();
+            var corBixoBattle = new Color();
+            var bixoSelecionado = new Color();
+            var white = new Color();
+            bixoSelecionado = GetColorAt(new Point(1756, 412));
 
-            //corBixoBattle = System.Drawing.Color.FromArgb(GetPixel(DesktopDC, 1757, 421));
+            corBixoBattle = System.Drawing.Color.FromArgb(GetPixel(DesktopDC, 1757, 421));
 
-            //corPainelBattle = Color.FromArgb(0, 65, 65, 65);
-            //white = Color.FromArgb(255, 255, 0, 0);
-            //var red = Color.FromArgb(255, 255, 0, 0);
-            //var bixoSelecionadoRed = GetColorAt(new Point(1756, 412));
-            //if (corPainelBattle != corBixoBattle && bixoSelecionado != white)
+            corPainelBattle = Color.FromArgb(0, 65, 65, 65);
+            white = Color.FromArgb(255, 255, 255, 255);
+            var red = Color.FromArgb(255, 255, 0, 0);
+            var bixoSelecionadoRed = GetColorAt(new Point(1756, 412));
 
-            var foundIconColor = System.Drawing.Color.FromArgb(GetPixel(DesktopDC, 1000, 280));
-            Color iconColor = Color.FromArgb(0, 197, 120, 14);
+            //var foundIconColor = System.Drawing.Color.FromArgb(GetPixel(DesktopDC, 1000, 280));
+            //Color iconColor = Color.FromArgb(0, 197, 120, 14);
 
             this.Invoke((MethodInvoker)delegate
             {
-                if (foundIconColor == iconColor)
+                if ((corPainelBattle != corBixoBattle && corBixoBattle != white) && bixoSelecionadoRed != red)
                 {
+                    SendKeys.SendWait("{ESC}");
                     this.cbTarget.Checked = true;
                     currentWaypoint.state = State.Attacking;
+                    Cursor.Position = new Point(1757, 421);
+                    DoMouseClick();
+                    Cursor.Position = new Point(1700, 421);
                     Console.WriteLine("Atacando");
                 }
                 else
                 {
                     this.cbTarget.Checked = false;
+                    currentWaypoint.state = State.Waiting;
                 }
 
                 //if (this.checkBox6.Checked && bixoSelecionadoRed == red)
@@ -364,6 +373,51 @@ namespace MouseMoveBot
                 Cursor.Position = isInCapture.Value;
 
             //Cursor.Position = currentWaypoint.point;
+        }
+
+        private void moveMouseWaypointEmgu(Bitmap myPic)
+        {
+            Bitmap screenCapture = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+
+            Graphics g = Graphics.FromImage(screenCapture);
+
+            g.CopyFromScreen(Screen.PrimaryScreen.Bounds.X,
+                             Screen.PrimaryScreen.Bounds.Y,
+                             0, 0,
+                             screenCapture.Size,
+                             CopyPixelOperation.SourceCopy);
+
+            Image<Bgr, Byte> source = new Image<Bgr, Byte>(screenCapture);
+            Image<Bgr, byte> template = new Image<Bgr, byte>(myPic); // Image A
+            Image<Bgr, byte> imageToShow = source.Copy();
+
+            using (Image<Gray, float> result = source.MatchTemplate(template, Emgu.CV.CvEnum.TemplateMatchingType.CcoeffNormed))
+            {
+                double[] minValues, maxValues;
+                Point[] minLocations, maxLocations;
+                result.MinMax(out minValues, out maxValues, out minLocations, out maxLocations);
+
+                // You can try different values of the threshold. I guess somewhere between 0.75 and 0.95 would be good.
+                if (maxValues[0] > 0.95)
+                {
+                    // This is a match. Do something with it, for example draw a rectangle around it.
+                    Rectangle match = new Rectangle(maxLocations[0], template.Size);
+                    imageToShow.Draw(match, new Bgr(Color.Red), 3);
+                    Console.WriteLine(minLocations[0]);
+                    Console.WriteLine(maxLocations[0]);
+                    Console.WriteLine("Achou");
+                    var pMin = minLocations[0];
+                    var pMax = maxLocations[0];
+
+                    var meioQuad = pMin.Y - pMax.Y;
+                    var centerPosition = new Point((maxLocations[0].X + meioQuad), minLocations[0].Y);
+                    Console.WriteLine("Center: " + centerPosition);
+                    Cursor.Position = new Point(maxLocations[0].X, maxLocations[0].Y);
+                }
+                else
+                    Console.WriteLine("Não Achou");
+
+            }
         }
 
         private void TrackBar1_Scroll(object sender, EventArgs e)
@@ -426,7 +480,7 @@ namespace MouseMoveBot
                              CopyPixelOperation.SourceCopy);
 
             Image<Bgr, Byte> source = new Image<Bgr, Byte>(screenCapture);
-            Image<Bgr, byte> template = new Image<Bgr, byte>("C:\\Users\\ALM4CT\\Desktop\\testebody.png"); // Image A
+            Image<Bgr, byte> template = new Image<Bgr, byte>("C:\\Users\\Guigo\\Desktop\\iconDown.png"); // Image A
             Image<Bgr, byte> imageToShow = source.Copy();
 
             using (Image<Gray, float> result = source.MatchTemplate(template, Emgu.CV.CvEnum.TemplateMatchingType.CcoeffNormed))
@@ -450,7 +504,7 @@ namespace MouseMoveBot
                     var meioQuad = pMin.Y - pMax.Y;
                     var centerPosition = new Point((maxLocations[0].X + meioQuad), minLocations[0].Y);
                     Console.WriteLine("Center: " + centerPosition);
-                    Cursor.Position = centerPosition;
+                    Cursor.Position = new Point(maxLocations[0].X, maxLocations[0].Y);
 
                 }
                 else
