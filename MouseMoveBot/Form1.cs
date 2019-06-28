@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -62,6 +63,8 @@ namespace MouseMoveBot
         Waypoints currentWaypoint = new Waypoints() { bitIcon = null, delay = 2000, state = State.Waiting };
         Color iconTibia;
         Color iconColor;
+        String path = Path.GetDirectoryName(Path.GetDirectoryName(System.IO.Directory.GetCurrentDirectory())) + "\\Resources\\";
+
         public Form1()
         {
             InitializeComponent();
@@ -90,9 +93,9 @@ namespace MouseMoveBot
 
             var sequenceIcons = new List<String>()
             {
-                "C:\\Users\\Guigo\\Desktop\\iconRight.png",
-                "C:\\Users\\Guigo\\Desktop\\iconUp.png",
-                "C:\\Users\\Guigo\\Desktop\\iconDown.png",
+                //"C:\\Users\\Guigo\\Desktop\\iconRight.png",
+                //"C:\\Users\\Guigo\\Desktop\\iconUp.png",
+                //"C:\\Users\\Guigo\\Desktop\\iconDown.png",
             };
             var x = 286;
             foreach (var path in sequenceIcons)
@@ -177,9 +180,9 @@ namespace MouseMoveBot
                     if (cbCavebot.Checked)
                     {
                         // Attacking
-                        if (this.cbTarget.Checked)
+                        if (currentWaypoint.state == State.Attacking)
                         {
-                            Task.Delay(10).Wait();
+                            Task.Delay(100).Wait();
                             continue;
                         }
 
@@ -187,7 +190,7 @@ namespace MouseMoveBot
                         if (currentWaypoint != null && currentWaypoint.state == State.Walking)
                         {
                             checkArrivedWaypoint();
-                            Task.Delay(1).Wait();
+                            Task.Delay(100).Wait();
                             continue;
                         }
 
@@ -218,7 +221,7 @@ namespace MouseMoveBot
             {
                 do
                 {
-                    if (iconTibia == iconColor)
+                    if (cbTarget.Checked && iconTibia == iconColor)
                     {
                         checkAttack();
                     }
@@ -237,6 +240,8 @@ namespace MouseMoveBot
 
         private void checkArrivedWaypoint()
         {
+            var arrived = false;
+
             Task.Delay(10000).Wait();
             currentWaypoint.state = State.Concluded;
         }
@@ -325,21 +330,14 @@ namespace MouseMoveBot
                 if ((corPainelBattle != corBixoBattle && corBixoBattle != white) && bixoSelecionadoRed != red)
                 {
                     SendKeys.SendWait("{ESC}");
-                    this.cbTarget.Checked = true;
+                    SendKeys.SendWait("{SPACE}");
                     currentWaypoint.state = State.Attacking;
-                    Cursor.Position = new Point(1757, 421);
-                    DoMouseClick();
-                    Cursor.Position = new Point(1700, 421);
                     Console.WriteLine("Atacando");
                 }
                 else
                 {
-                    this.cbTarget.Checked = false;
                     currentWaypoint.state = State.Waiting;
                 }
-
-                //if (this.checkBox6.Checked && bixoSelecionadoRed == red)
-                //    checkAttackSd();
             });
         }
 
@@ -427,14 +425,22 @@ namespace MouseMoveBot
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            //foreach (var item in listMoves)
-            //{
-            //    Cursor.Position = item;
-            //    mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, (uint)item.X, (uint)item.Y, 0, 0);
-            //    Thread.Sleep(1000);
-            //}
-            //SendKeys.SendWait("{R}");
-            checkHealer();
+            Bitmap screenCapture = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+
+            Graphics g = Graphics.FromImage(screenCapture);
+
+            g.CopyFromScreen(Screen.PrimaryScreen.Bounds.X,
+                             Screen.PrimaryScreen.Bounds.Y,
+                             0, 0,
+                             screenCapture.Size,
+                             CopyPixelOperation.SourceCopy);
+
+            Bitmap myPic = new Bitmap(path + "battleClear.png");
+            var contain = FindBattle(myPic, screenCapture);
+            if (contain)
+                MessageBox.Show("Battle Normal");
+            else
+                MessageBox.Show("Battle with monster");
         }
 
         private void HealerToolStripMenuItem_Click(object sender, EventArgs e)
@@ -480,7 +486,7 @@ namespace MouseMoveBot
                              CopyPixelOperation.SourceCopy);
 
             Image<Bgr, Byte> source = new Image<Bgr, Byte>(screenCapture);
-            Image<Bgr, byte> template = new Image<Bgr, byte>("C:\\Users\\Guigo\\Desktop\\iconDown.png"); // Image A
+            Image<Bgr, byte> template = new Image<Bgr, byte>("C:\\Users\\ALM4CT\\Desktop\\teste.png"); // Image A
             Image<Bgr, byte> imageToShow = source.Copy();
 
             using (Image<Gray, float> result = source.MatchTemplate(template, Emgu.CV.CvEnum.TemplateMatchingType.CcoeffNormed))
@@ -512,11 +518,41 @@ namespace MouseMoveBot
 
             }
 
-            //Point isInCapture = IsInCapture(myPic, screenCapture);
-            //Cursor.Position = isInCapture;
         }
 
-        private Point IsInCapture(Bitmap searchFor, Bitmap searchIn)
+        private bool compareTwoImages(Bitmap img1, Bitmap img2)
+        {
+            string img1_ref, img2_ref;
+            int count1 = 0;
+            int count2 = 0;
+            bool flag = true;
+            if (img1.Width == img2.Width && img1.Height == img2.Height)
+            {
+                for (int i = 0; i < img1.Width; i++)
+                {
+                    for (int j = 0; j < img1.Height; j++)
+                    {
+                        img1_ref = img1.GetPixel(i, j).ToString();
+                        img2_ref = img2.GetPixel(i, j).ToString();
+                        if (img1_ref != img2_ref)
+                        {
+                            count2++;
+                            flag = false;
+                            break;
+                        }
+                        count1++;
+                    }
+                }
+            }
+            if (flag == false)
+                Console.WriteLine("Sorry, Images are not same , " + count2 + " wrong pixels found");
+            else
+                Console.WriteLine(" Images are same , " + count1 + " same pixels found and " + count2 + " wrong pixels found");
+
+            return flag;
+        }
+
+        private bool IsInCapture(Bitmap searchFor, Bitmap searchIn)
         {
             for (int x = 0; x < searchIn.Width; x++)
             {
@@ -543,10 +579,43 @@ namespace MouseMoveBot
                             k++;
                     }
                     if (!invalid)
-                        return new Point(x, y);
+                        return true;
                 }
             }
-            return new Point(0, 0);
+            return false;
+        }
+
+        public bool FindBattle(Bitmap searchFor, Bitmap searchIn)
+        {
+            Image<Bgr, Byte> source = new Image<Bgr, Byte>(searchIn);
+            Image<Bgr, byte> template = new Image<Bgr, byte>(searchFor);
+            Image<Bgr, byte> imageToShow = source.Copy();
+
+            using (Image<Gray, float> result = source.MatchTemplate(template, Emgu.CV.CvEnum.TemplateMatchingType.CcoeffNormed))
+            {
+                double[] minValues, maxValues;
+                Point[] minLocations, maxLocations;
+                result.MinMax(out minValues, out maxValues, out minLocations, out maxLocations);
+
+                // You can try different values of the threshold. I guess somewhere between 0.75 and 0.95 would be good.
+                if (maxValues[0] > 0.95)
+                {
+                    // This is a match. Do something with it, for example draw a rectangle around it.
+                    Rectangle match = new Rectangle(maxLocations[0], template.Size);
+                    imageToShow.Draw(match, new Bgr(Color.Red), 3);
+                    Console.WriteLine(minLocations[0]);
+                    Console.WriteLine(maxLocations[0]);
+                    Console.WriteLine("Achou");
+                    var pMin = minLocations[0];
+                    var pMax = maxLocations[0];
+
+                    var meioQuad = pMin.Y - pMax.Y;
+                    var centerPosition = new Point((maxLocations[0].X + meioQuad), minLocations[0].Y);
+                    Console.WriteLine("Center: " + centerPosition);
+                    return true;
+                }
+                return false;
+            }
         }
 
         public List<Point> Find(Bitmap haystack, Bitmap needle)
