@@ -62,6 +62,7 @@ namespace MouseMoveBot
             this.cbHealerLife = new System.Windows.Forms.CheckBox();
             this.cbCavebot = new System.Windows.Forms.CheckBox();
             this.button2 = new System.Windows.Forms.Button();
+            this.cbFollowMonster = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.menuStrip2.SuspendLayout();
@@ -233,6 +234,7 @@ namespace MouseMoveBot
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.cbFollowMonster);
             this.panel1.Controls.Add(this.comboBoxSdKey);
             this.panel1.Controls.Add(this.cbAttackSd);
             this.panel1.Controls.Add(this.comboBoxManaKey);
@@ -247,88 +249,88 @@ namespace MouseMoveBot
             this.panel1.Size = new System.Drawing.Size(284, 183);
             this.panel1.TabIndex = 15;
             // 
-            // comboBox3
+            // comboBoxSdKey
             // 
             this.comboBoxSdKey.FormattingEnabled = true;
             this.comboBoxSdKey.Location = new System.Drawing.Point(218, 126);
-            this.comboBoxSdKey.Name = "comboBox3";
+            this.comboBoxSdKey.Name = "comboBoxSdKey";
             this.comboBoxSdKey.Size = new System.Drawing.Size(52, 21);
             this.comboBoxSdKey.TabIndex = 23;
             this.comboBoxSdKey.SelectedIndexChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged);
             // 
-            // checkBox6
+            // cbAttackSd
             // 
             this.cbAttackSd.AutoSize = true;
             this.cbAttackSd.Location = new System.Drawing.Point(137, 128);
-            this.cbAttackSd.Name = "checkBox6";
+            this.cbAttackSd.Name = "cbAttackSd";
             this.cbAttackSd.Size = new System.Drawing.Size(75, 17);
             this.cbAttackSd.TabIndex = 22;
             this.cbAttackSd.Text = "Attack SD";
             this.cbAttackSd.UseVisualStyleBackColor = true;
             // 
-            // comboBox2
+            // comboBoxManaKey
             // 
             this.comboBoxManaKey.FormattingEnabled = true;
             this.comboBoxManaKey.Location = new System.Drawing.Point(121, 50);
-            this.comboBoxManaKey.Name = "comboBox2";
+            this.comboBoxManaKey.Name = "comboBoxManaKey";
             this.comboBoxManaKey.Size = new System.Drawing.Size(121, 21);
             this.comboBoxManaKey.TabIndex = 21;
             this.comboBoxManaKey.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged_1);
             // 
-            // checkBox5
+            // cbHealerMana
             // 
             this.cbHealerMana.AutoSize = true;
             this.cbHealerMana.Location = new System.Drawing.Point(27, 50);
-            this.cbHealerMana.Name = "checkBox5";
+            this.cbHealerMana.Name = "cbHealerMana";
             this.cbHealerMana.Size = new System.Drawing.Size(53, 17);
             this.cbHealerMana.TabIndex = 20;
             this.cbHealerMana.Text = "Mana";
             this.cbHealerMana.UseVisualStyleBackColor = true;
             // 
-            // comboBox1
+            // comboBoxLifeKey
             // 
             this.comboBoxLifeKey.FormattingEnabled = true;
             this.comboBoxLifeKey.Location = new System.Drawing.Point(121, 14);
-            this.comboBoxLifeKey.Name = "comboBox1";
+            this.comboBoxLifeKey.Name = "comboBoxLifeKey";
             this.comboBoxLifeKey.Size = new System.Drawing.Size(121, 21);
             this.comboBoxLifeKey.TabIndex = 19;
             this.comboBoxLifeKey.SelectedIndexChanged += new System.EventHandler(this.ComboBox1_SelectedIndexChanged);
             // 
-            // checkBox4
+            // cbLooter
             // 
             this.cbLooter.AutoSize = true;
             this.cbLooter.Location = new System.Drawing.Point(27, 163);
-            this.cbLooter.Name = "checkBox4";
+            this.cbLooter.Name = "cbLooter";
             this.cbLooter.Size = new System.Drawing.Size(47, 17);
             this.cbLooter.TabIndex = 18;
             this.cbLooter.Text = "Loot";
             this.cbLooter.UseVisualStyleBackColor = true;
             // 
-            // checkBox3
+            // cbTarget
             // 
             this.cbTarget.AutoSize = true;
             this.cbTarget.Location = new System.Drawing.Point(27, 128);
-            this.cbTarget.Name = "checkBox3";
+            this.cbTarget.Name = "cbTarget";
             this.cbTarget.Size = new System.Drawing.Size(57, 17);
             this.cbTarget.TabIndex = 17;
             this.cbTarget.Text = "Target";
             this.cbTarget.UseVisualStyleBackColor = true;
             // 
-            // checkBox1
+            // cbHealerLife
             // 
             this.cbHealerLife.AutoSize = true;
             this.cbHealerLife.Location = new System.Drawing.Point(27, 14);
-            this.cbHealerLife.Name = "checkBox1";
+            this.cbHealerLife.Name = "cbHealerLife";
             this.cbHealerLife.Size = new System.Drawing.Size(57, 17);
             this.cbHealerLife.TabIndex = 16;
             this.cbHealerLife.Text = "Healer";
             this.cbHealerLife.UseVisualStyleBackColor = true;
             // 
-            // checkBox2
+            // cbCavebot
             // 
             this.cbCavebot.AutoSize = true;
             this.cbCavebot.Location = new System.Drawing.Point(27, 89);
-            this.cbCavebot.Name = "checkBox2";
+            this.cbCavebot.Name = "cbCavebot";
             this.cbCavebot.Size = new System.Drawing.Size(66, 17);
             this.cbCavebot.TabIndex = 0;
             this.cbCavebot.Text = "Cavebot";
@@ -343,6 +345,16 @@ namespace MouseMoveBot
             this.button2.Text = "Scan";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.Button2_Click);
+            // 
+            // cbFollowMonster
+            // 
+            this.cbFollowMonster.AutoSize = true;
+            this.cbFollowMonster.Location = new System.Drawing.Point(137, 163);
+            this.cbFollowMonster.Name = "cbFollowMonster";
+            this.cbFollowMonster.Size = new System.Drawing.Size(97, 17);
+            this.cbFollowMonster.TabIndex = 24;
+            this.cbFollowMonster.Text = "Follow Monster";
+            this.cbFollowMonster.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -412,6 +424,7 @@ namespace MouseMoveBot
         private ComboBox comboBoxLifeKey;
         private ComboBox comboBoxManaKey;
         private ComboBox comboBoxSdKey;
+        public CheckBox cbFollowMonster;
     }
 }
 

@@ -424,7 +424,7 @@ namespace MouseMoveBot
 
 
             });
-            Task.Delay(1300).Wait();
+            Task.Delay(300).Wait();
         }
 
         private void checkFollowMonster()
@@ -432,7 +432,7 @@ namespace MouseMoveBot
             var follow = Color.FromArgb(255, 85, 255, 85);
             var followMonster = GetColorAt(new Point(1902, 173));
 
-            if (followMonster != follow)
+            if (followMonster != follow && cbFollowMonster.Checked)
             {
                 Cursor.Position = new Point(1902, 173);
                 DoMouseClick();
