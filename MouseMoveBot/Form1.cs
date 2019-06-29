@@ -101,12 +101,12 @@ namespace MouseMoveBot
 
             var sequenceIcons = new List<String>()
             {
-                "C:\\Users\\Guigo\\Desktop\\iconRight.png",
-                "C:\\Users\\Guigo\\Desktop\\iconDown.png",
-                "C:\\Users\\Guigo\\Desktop\\iconUp.png",
-                "C:\\Users\\Guigo\\Desktop\\greenUp.png",
-                "C:\\Users\\Guigo\\Desktop\\greenDown.png",
-                "C:\\Users\\Guigo\\Desktop\\greenUp.png",
+                path + "iconRight.png",
+                path + "iconDown.png",
+                path + "iconUp.png",
+                path + "greenUp.png",
+                path + "greenDown.png",
+                path + "greenUp.png",
             };
             foreach (var item in sequenceIcons)
             {
