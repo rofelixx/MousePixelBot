@@ -12,7 +12,5 @@ namespace MouseMoveBot
         public Bitmap bitIcon { get; set; }
         public int delay { get; set; }
         public State state { get; set; }
-
-        public Point point { get; set; }
     }
 }

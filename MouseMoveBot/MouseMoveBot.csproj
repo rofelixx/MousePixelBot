@@ -116,6 +116,12 @@
     <Content Include="License-LGPL.txt" />
     <Content Include="Resources\battleClear.png" />
     <Content Include="Resources\battleNotClear.png" />
+    <Content Include="Resources\greenDown.png" />
+    <Content Include="Resources\greenUp.png" />
+    <Content Include="Resources\iconDown.png" />
+    <Content Include="Resources\iconLeft.png" />
+    <Content Include="Resources\iconRight.png" />
+    <Content Include="Resources\iconUp.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\EMGU.CV.4.1.0.3420\build\EMGU.CV.targets" Condition="Exists('..\packages\EMGU.CV.4.1.0.3420\build\EMGU.CV.targets')" />
