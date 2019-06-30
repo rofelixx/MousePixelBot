@@ -67,7 +67,7 @@ namespace MouseMoveBot
         List<Waypoints> listWaypoints = new List<Waypoints>();
 
         Form2 newform;
-        Task taskHealers; Task taskCavebot; Task taskAttack; Task taskAttackSd; Task taskLoot; Task checkArriveWp;
+        Task taskHealerLife; Task taskHealerMana; Task taskCavebot; Task taskAttack; Task taskAttackSd; Task taskLoot; Task checkArriveWp;
         Waypoints currentWaypoint = new Waypoints() { bitIcon = null, delay = 2000, state = State.Waiting };
         Color iconTibia;
         Color iconColor;
@@ -106,7 +106,7 @@ namespace MouseMoveBot
                 path + "iconUp.png",
                 path + "greenUp.png",
                 path + "greenDown.png",
-                path + "greenUp.png",
+                path + "iconBank.png",
             };
             foreach (var item in sequenceIcons)
             {
@@ -160,8 +160,8 @@ namespace MouseMoveBot
         {
             //var iconGoogle = System.Drawing.Color.FromArgb(GetPixel(DesktopDC, 830, 291));
             //var iconGoogleColor = Color.FromArgb(0, 244, 133, 66);
-
-            taskHealers = Task.Factory.StartNew(() =>
+            
+            taskHealerLife = Task.Factory.StartNew(() =>
             {
                 do
                 {
@@ -171,14 +171,23 @@ namespace MouseMoveBot
                         checkHealer();
                     }
 
+                    Task.Delay(100).Wait();
+                } while (true);
+            });
+
+            taskHealerMana = Task.Factory.StartNew(() =>
+            {
+                do
+                {
                     if (this.cbHealerMana.Checked && iconTibia == iconColor)
                     {
                         checkMana();
                     }
 
-                    Task.Delay(500).Wait();
+                    Task.Delay(1000).Wait();
                 } while (true);
             });
+
 
             taskCavebot = Task.Factory.StartNew(() =>
             {
@@ -236,12 +245,7 @@ namespace MouseMoveBot
 
                         if (currentWaypoint.state == State.Concluded)
                         {
-                            var index = listWaypoints.IndexOf(currentWaypoint) >= listWaypoints.Count - 1 ? listWaypoints.FindIndex(f => f.bitIcon == currentWaypoint.bitIcon && f.state != State.Waiting) : listWaypoints.FindIndex(f => f.bitIcon == currentWaypoint.bitIcon && f.state != State.Waiting) + 1;
-
-                            foreach (var item in listWaypoints.Where(w => w.state == State.Concluded && w != currentWaypoint))
-                            {
-                                item.state = State.Waiting;
-                            }
+                            var index = listWaypoints.IndexOf(currentWaypoint) >= listWaypoints.Count - 1 ? listWaypoints.IndexOf(currentWaypoint) : listWaypoints.IndexOf(currentWaypoint) + 1;
 
                             if (index == (listWaypoints.Count - 1) && listWaypoints[index].state == State.Concluded)
                             {

@@ -118,6 +118,7 @@
     <Content Include="Resources\battleNotClear.png" />
     <Content Include="Resources\greenDown.png" />
     <Content Include="Resources\greenUp.png" />
+    <Content Include="Resources\iconBank.png" />
     <Content Include="Resources\iconDown.png" />
     <Content Include="Resources\iconLeft.png" />
     <Content Include="Resources\iconRight.png" />
