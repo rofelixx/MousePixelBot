@@ -52,6 +52,7 @@ namespace MouseMoveBot
             this.targetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lootToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.cbFollowMonster = new System.Windows.Forms.CheckBox();
             this.comboBoxSdKey = new System.Windows.Forms.ComboBox();
             this.cbAttackSd = new System.Windows.Forms.CheckBox();
             this.comboBoxManaKey = new System.Windows.Forms.ComboBox();
@@ -62,7 +63,8 @@ namespace MouseMoveBot
             this.cbHealerLife = new System.Windows.Forms.CheckBox();
             this.cbCavebot = new System.Windows.Forms.CheckBox();
             this.button2 = new System.Windows.Forms.Button();
-            this.cbFollowMonster = new System.Windows.Forms.CheckBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.capTextBox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.menuStrip2.SuspendLayout();
@@ -249,6 +251,16 @@ namespace MouseMoveBot
             this.panel1.Size = new System.Drawing.Size(284, 183);
             this.panel1.TabIndex = 15;
             // 
+            // cbFollowMonster
+            // 
+            this.cbFollowMonster.AutoSize = true;
+            this.cbFollowMonster.Location = new System.Drawing.Point(137, 163);
+            this.cbFollowMonster.Name = "cbFollowMonster";
+            this.cbFollowMonster.Size = new System.Drawing.Size(97, 17);
+            this.cbFollowMonster.TabIndex = 24;
+            this.cbFollowMonster.Text = "Follow Monster";
+            this.cbFollowMonster.UseVisualStyleBackColor = true;
+            // 
             // comboBoxSdKey
             // 
             this.comboBoxSdKey.FormattingEnabled = true;
@@ -346,21 +358,29 @@ namespace MouseMoveBot
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.Button2_Click);
             // 
-            // cbFollowMonster
+            // label6
             // 
-            this.cbFollowMonster.AutoSize = true;
-            this.cbFollowMonster.Location = new System.Drawing.Point(137, 163);
-            this.cbFollowMonster.Name = "cbFollowMonster";
-            this.cbFollowMonster.Size = new System.Drawing.Size(97, 17);
-            this.cbFollowMonster.TabIndex = 24;
-            this.cbFollowMonster.Text = "Follow Monster";
-            this.cbFollowMonster.UseVisualStyleBackColor = true;
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(409, 242);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(26, 13);
+            this.label6.TabIndex = 17;
+            this.label6.Text = "Cap";
+            // 
+            // capTextBox
+            // 
+            this.capTextBox.Location = new System.Drawing.Point(445, 239);
+            this.capTextBox.Name = "capTextBox";
+            this.capTextBox.Size = new System.Drawing.Size(100, 20);
+            this.capTextBox.TabIndex = 18;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(571, 340);
+            this.Controls.Add(this.capTextBox);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.button1);
@@ -425,6 +445,8 @@ namespace MouseMoveBot
         private ComboBox comboBoxManaKey;
         private ComboBox comboBoxSdKey;
         public CheckBox cbFollowMonster;
+        private Label label6;
+        private TextBox capTextBox;
     }
 }
 
