@@ -499,7 +499,11 @@ namespace MouseMoveBot
                 sim.Keyboard.KeyDown(VirtualKeyCode.LMENU);
                 sim.Mouse.LeftButtonClick();
                 sim.Keyboard.KeyUp(VirtualKeyCode.LMENU);
+                if (sim.InputDeviceState.IsKeyDown(VirtualKeyCode.LMENU))
+                    sim.Keyboard.KeyUp(VirtualKeyCode.LMENU);
             }
+            if (sim.InputDeviceState.IsKeyDown(VirtualKeyCode.LMENU))
+                sim.Keyboard.KeyUp(VirtualKeyCode.LMENU);
         }
 
         private void checkAttackSd()
