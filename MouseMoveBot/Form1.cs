@@ -67,10 +67,23 @@ namespace MouseMoveBot
         List<Waypoints> listWaypoints = new List<Waypoints>();
 
         Form2 newform;
-        Task taskHealerLife; Task taskHealerMana; Task taskCavebot; Task taskAttack; Task taskAttackSd; Task taskTimer; Task checkArriveWp; Task TaskCheckCap;
+
+        Task taskHealerLife;
+        Task taskHealerMana;
+        Task taskCavebot;
+        Task taskAttack;
+        Task taskAttackSd;
+        Task taskTimer;
+        Task checkArriveWp;
+        Task TaskCheckCap;
+        Task TaskCheckBattleList;
+
+        bool battleIsNormal = false;
+
         Waypoints currentWaypoint = new Waypoints() { bitIcon = null, delay = 2000, state = State.Waiting };
         Color iconTibia;
         Color iconColor;
+
         String path = Path.GetDirectoryName(Path.GetDirectoryName(System.IO.Directory.GetCurrentDirectory())) + "\\Resources\\";
 
         public Form1()
@@ -159,8 +172,8 @@ namespace MouseMoveBot
         public void ManageFunction()
         {
             //var iconGoogle = System.Drawing.Color.FromArgb(GetPixel(DesktopDC, 830, 291));
-            //var iconGoogleColor = Color.FromArgb(0, 244, 133, 66);
-            var battleNormal = false;
+            //var iconGoogleColor = Color.FromArgb(0, 244, 133, 66);           
+
             taskHealerLife = Task.Factory.StartNew(() =>
             {
                 do
@@ -171,7 +184,7 @@ namespace MouseMoveBot
                         checkHealer();
                     }
 
-                    Task.Delay(100).Wait();
+                    Task.Delay(50).Wait();
                 } while (true);
             });
 
@@ -188,6 +201,18 @@ namespace MouseMoveBot
                 } while (true);
             });
 
+            TaskCheckBattleList = Task.Factory.StartNew(() =>
+            {
+                do
+                {
+                    if (this.cbCavebot.Checked && iconTibia == iconColor)
+                    {
+                        checkBattleList();
+                    }
+
+                    Task.Delay(150).Wait();
+                } while (true);
+            });           
 
             taskCavebot = Task.Factory.StartNew(() =>
             {
@@ -196,31 +221,18 @@ namespace MouseMoveBot
                     //var corBattle = Color.FromArgb(255, 71, 71, 71);
                     //var corPixelBattle = GetColorAt(new Point(1755, 417));
 
-                    Bitmap screenCapture = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
-
-                    Graphics g = Graphics.FromImage(screenCapture);
-
-                    g.CopyFromScreen(Screen.PrimaryScreen.Bounds.X,
-                                     Screen.PrimaryScreen.Bounds.Y,
-                                     0, 0,
-                                     screenCapture.Size,
-                                     CopyPixelOperation.SourceCopy);
-
-                    Bitmap myPic = new Bitmap(path + "battleClear.png");
-                    battleNormal = CheckFindBattle(myPic, screenCapture);
-
                     if (cbCavebot.Checked && currentWaypoint.state == State.Attacking && iconTibia == iconColor)
                     {
                         looting();
                         Task.Delay(500).Wait();
                     }
 
-                    if (cbCavebot.Checked && currentWaypoint.state == State.Walking && !battleNormal && iconTibia == iconColor)
+                    if (cbCavebot.Checked && currentWaypoint.state == State.Walking && !battleIsNormal && iconTibia == iconColor)
                         SendKeys.SendWait("{Esc}");
 
-                    if (cbCavebot.Checked && battleNormal && iconTibia == iconColor)
+                    if (cbCavebot.Checked && battleIsNormal && iconTibia == iconColor)
                     {
-                        if (currentWaypoint.state == State.Attacking && battleNormal)
+                        if (currentWaypoint.state == State.Attacking && battleIsNormal)
                             currentWaypoint.state = State.Waiting;
 
                         // Attacking
@@ -290,7 +302,7 @@ namespace MouseMoveBot
                     {
                         checkArrivedWaypoint();
                     }
-                    Task.Delay(1000).Wait();
+                    Task.Delay(500).Wait();
                 } while (true);
             });
 
@@ -298,37 +310,28 @@ namespace MouseMoveBot
             {
                 do
                 {
-                    Bitmap screenCapture = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
-
-                    Graphics g = Graphics.FromImage(screenCapture);
-
-                    g.CopyFromScreen(Screen.PrimaryScreen.Bounds.X,
-                                     Screen.PrimaryScreen.Bounds.Y,
-                                     0, 0,
-                                     screenCapture.Size,
-                                     CopyPixelOperation.SourceCopy);
-
-                    Bitmap myPic = new Bitmap(path + "battleClear.png");
-                    battleNormal = CheckFindBattle(myPic, screenCapture);
-
-                    if (cbCavebot.Checked && iconTibia == iconColor && currentWaypoint.state == State.Walking && battleNormal)
+                    if (cbCavebot.Checked && iconTibia == iconColor && currentWaypoint.state == State.Walking && !battleIsNormal)
                     {
                         checkIfStopped();
                     }
                 } while (true);
             });
+        }
 
-            //TaskCheckCap = Task.Factory.StartNew(() =>
-            //{
-            //    do
-            //    {
-            //        if (iconTibia == iconColor)
-            //        {
-            //            checkCap();
-            //        }
-            //        Task.Delay(1000).Wait();
-            //    } while (true);
-            //});
+        private void checkBattleList()
+        {
+            Bitmap screenCapture = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+
+            Graphics g = Graphics.FromImage(screenCapture);
+
+            g.CopyFromScreen(Screen.PrimaryScreen.Bounds.X,
+                             Screen.PrimaryScreen.Bounds.Y,
+                             0, 0,
+                             screenCapture.Size,
+                             CopyPixelOperation.SourceCopy);
+
+            Bitmap myPic = new Bitmap(path + "battleClear.png");
+            battleIsNormal = CheckFindBattle(myPic, screenCapture);
         }
 
         private void checkCap()
@@ -339,11 +342,14 @@ namespace MouseMoveBot
         private void checkIfStopped()
         {
             Color c1 = GetColorAt(new Point(808, 434));
-            Task.Delay(2000);
+            Task.Delay(3000);
             Color c2 = GetColorAt(new Point(808, 434));
 
             if (c1 == c2)
+            {
                 currentWaypoint.state = State.Waiting;
+                Console.WriteLine("Estava parado.");
+            }
         }
 
         private void checkIconTibia()
@@ -382,12 +388,12 @@ namespace MouseMoveBot
                 }
 
                 moveMouseWaypointEmgu(currentWaypoint.bitIcon);
-                Task.Delay(1000).Wait();
+                Task.Delay(200).Wait();
                 DoMouseClick();
-                Task.Delay(1000).Wait();
+                Task.Delay(200).Wait();
                 Console.WriteLine("Moveu mouse");
                 Cursor.Position = new Point(1700, 80);
-                Task.Delay(1000).Wait();
+                Task.Delay(200).Wait();
                 currentWaypoint.state = State.Walking;
             }
         }
