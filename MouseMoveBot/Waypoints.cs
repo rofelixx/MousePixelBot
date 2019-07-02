@@ -10,7 +10,8 @@ namespace MouseMoveBot
     public class Waypoints
     {
         public Bitmap bitIcon { get; set; }
-        public int delay { get; set; }
         public State state { get; set; }
+        public bool precision { get; set; }
+        public Function function { get; set; }
     }
 }

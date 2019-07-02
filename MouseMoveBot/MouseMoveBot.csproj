@@ -66,6 +66,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EnumAction.cs" />
     <Compile Include="EnumState.cs" />
     <Compile Include="Form2.cs">
       <SubType>Form</SubType>
@@ -79,6 +80,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Function.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Waypoints.cs" />
@@ -119,6 +121,7 @@
     <Content Include="Resources\greenDown.png" />
     <Content Include="Resources\greenUp.png" />
     <Content Include="Resources\iconBank.png" />
+    <Content Include="Resources\iconCheck.png" />
     <Content Include="Resources\iconDown.png" />
     <Content Include="Resources\iconLeft.png" />
     <Content Include="Resources\iconRight.png" />

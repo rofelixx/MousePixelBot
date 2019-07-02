@@ -5,6 +5,7 @@
         Walking,
         Attacking,
         Waiting,
+        SpecialMovement,
         Concluded
     }
 

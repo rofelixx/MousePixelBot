@@ -80,7 +80,7 @@ namespace MouseMoveBot
 
         bool battleIsNormal = false;
 
-        Waypoints currentWaypoint = new Waypoints() { bitIcon = null, delay = 2000, state = State.Waiting };
+        Waypoints currentWaypoint = new Waypoints() { bitIcon = null, state = State.Waiting, precision = false };
         Color iconTibia;
         Color iconColor;
 
@@ -126,7 +126,6 @@ namespace MouseMoveBot
                 listWaypoints.Add(new Waypoints()
                 {
                     bitIcon = new Bitmap(item),
-                    delay = 1000,
                     state = State.Waiting,
                 });
             }
@@ -137,6 +136,7 @@ namespace MouseMoveBot
         {
             IncluiItems();
         }
+
         private void IncluiItems()
         {
             ItemRange = new System.Object[12];
@@ -184,7 +184,7 @@ namespace MouseMoveBot
                         checkHealer();
                     }
 
-                    Task.Delay(50).Wait();
+                    Task.Delay(100).Wait();
                 } while (true);
             });
 
@@ -210,7 +210,7 @@ namespace MouseMoveBot
                         checkBattleList();
                     }
 
-                    Task.Delay(150).Wait();
+                    Task.Delay(200).Wait();
                 } while (true);
             });           
 
