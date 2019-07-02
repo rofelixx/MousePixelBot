@@ -310,7 +310,7 @@ namespace MouseMoveBot
             {
                 do
                 {
-                    if (cbCavebot.Checked && iconTibia == iconColor && currentWaypoint.state == State.Walking && !battleIsNormal)
+                    if (cbCavebot.Checked && iconTibia == iconColor && currentWaypoint.state == State.Walking && (battleIsNormal || !battleIsNormal))
                     {
                         checkIfStopped();
                     }
@@ -342,7 +342,7 @@ namespace MouseMoveBot
         private void checkIfStopped()
         {
             Color c1 = GetColorAt(new Point(808, 434));
-            Task.Delay(3000);
+            Task.Delay(2000).Wait();
             Color c2 = GetColorAt(new Point(808, 434));
 
             if (c1 == c2)
@@ -448,6 +448,8 @@ namespace MouseMoveBot
 
         public void checkAttack()
         {
+
+
             var corPainelBattle = new Color();
             var corBixoBattle = new Color();
             var bixoSelecionado = new Color();
@@ -461,6 +463,11 @@ namespace MouseMoveBot
             var red = Color.FromArgb(255, 255, 0, 0);
             var bixoSelecionadoRed = GetColorAt(new Point(1756, 412));
 
+            InputSimulator sim = new InputSimulator();
+
+            if (sim.InputDeviceState.IsKeyDown(VirtualKeyCode.LMENU))
+                sim.Keyboard.KeyUp(VirtualKeyCode.LMENU);
+
             //var foundIconColor = System.Drawing.Color.FromArgb(GetPixel(DesktopDC, 1000, 280));
             //Color iconColor = Color.FromArgb(0, 197, 120, 14);
 
@@ -469,7 +476,6 @@ namespace MouseMoveBot
                 if ((corPainelBattle != corBixoBattle && corBixoBattle != white) && bixoSelecionadoRed != red)
                 {
                     checkFollowMonster();
-                    InputSimulator sim = new InputSimulator();
                     // Press M key
                     sim.Keyboard.KeyPress(VirtualKeyCode.VK_M);
                     //SendKeys.SendWait("{Esc}");
