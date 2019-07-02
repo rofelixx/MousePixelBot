@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
@@ -42,6 +43,12 @@ namespace MouseMoveBot
 
         private static readonly IntPtr DesktopDC = GetWindowDC(IntPtr.Zero);
 
+        [DllImport("User32", CharSet = CharSet.Unicode)]
+        public static extern IntPtr FindWindow(String lpClassName, String lpWindowName);
+
+        [DllImport("User32")]
+        public static extern bool SetForegroundWindow(IntPtr hWnd);
+
         int zoom = 2;
 
         String keyHealerSelected;
@@ -77,6 +84,7 @@ namespace MouseMoveBot
         Task checkArriveWp;
         Task TaskCheckCap;
         Task TaskCheckBattleList;
+        Task taskCheckTibiaAreInFront;
 
         bool battleIsNormal = false;
 
@@ -174,11 +182,22 @@ namespace MouseMoveBot
             //var iconGoogle = System.Drawing.Color.FromArgb(GetPixel(DesktopDC, 830, 291));
             //var iconGoogleColor = Color.FromArgb(0, 244, 133, 66);           
 
-            taskHealerLife = Task.Factory.StartNew(() =>
+            taskCheckTibiaAreInFront = Task.Factory.StartNew(() =>
             {
                 do
                 {
                     checkIconTibia();
+                    if (cbCheckMaximized.Checked)
+                        checkTibiaAreInFront();
+
+                    Task.Delay(100).Wait();
+                } while (true);
+            });
+
+            taskHealerLife = Task.Factory.StartNew(() =>
+            {
+                do
+                {
                     if (this.cbHealerLife.Checked && iconTibia == iconColor)
                     {
                         checkHealer();
@@ -212,7 +231,7 @@ namespace MouseMoveBot
 
                     Task.Delay(200).Wait();
                 } while (true);
-            });           
+            });
 
             taskCavebot = Task.Factory.StartNew(() =>
             {
@@ -316,6 +335,18 @@ namespace MouseMoveBot
                     }
                 } while (true);
             });
+        }
+
+        private void checkTibiaAreInFront()
+        {
+            Process process = Process.GetProcesses().FirstOrDefault(f => f.ProcessName.Contains("OUTLOOK"));
+
+            if (process != null)
+            {
+                process.WaitForInputIdle();
+                IntPtr s = process.MainWindowHandle;
+                SetForegroundWindow(s);
+            }
         }
 
         private void checkBattleList()
@@ -663,6 +694,7 @@ namespace MouseMoveBot
                 MessageBox.Show("Battle Normal");
             else
                 MessageBox.Show("Battle with monster");
+
         }
 
         private bool FindBattle()

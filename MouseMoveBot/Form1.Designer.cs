@@ -52,6 +52,7 @@ namespace MouseMoveBot
             this.targetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lootToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.cbCheckMaximized = new System.Windows.Forms.CheckBox();
             this.cbFollowMonster = new System.Windows.Forms.CheckBox();
             this.comboBoxSdKey = new System.Windows.Forms.ComboBox();
             this.cbAttackSd = new System.Windows.Forms.CheckBox();
@@ -236,6 +237,7 @@ namespace MouseMoveBot
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.cbCheckMaximized);
             this.panel1.Controls.Add(this.cbFollowMonster);
             this.panel1.Controls.Add(this.comboBoxSdKey);
             this.panel1.Controls.Add(this.cbAttackSd);
@@ -246,10 +248,20 @@ namespace MouseMoveBot
             this.panel1.Controls.Add(this.cbTarget);
             this.panel1.Controls.Add(this.cbHealerLife);
             this.panel1.Controls.Add(this.cbCavebot);
-            this.panel1.Location = new System.Drawing.Point(275, 33);
+            this.panel1.Location = new System.Drawing.Point(274, 33);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(284, 183);
+            this.panel1.Size = new System.Drawing.Size(285, 226);
             this.panel1.TabIndex = 15;
+            // 
+            // cbCheckMaximized
+            // 
+            this.cbCheckMaximized.AutoSize = true;
+            this.cbCheckMaximized.Location = new System.Drawing.Point(27, 203);
+            this.cbCheckMaximized.Name = "cbCheckMaximized";
+            this.cbCheckMaximized.Size = new System.Drawing.Size(111, 17);
+            this.cbCheckMaximized.TabIndex = 25;
+            this.cbCheckMaximized.Text = "Always Maximized";
+            this.cbCheckMaximized.UseVisualStyleBackColor = true;
             // 
             // cbFollowMonster
             // 
@@ -350,7 +362,7 @@ namespace MouseMoveBot
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(274, 237);
+            this.button2.Location = new System.Drawing.Point(132, 236);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 16;
@@ -361,7 +373,7 @@ namespace MouseMoveBot
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(409, 242);
+            this.label6.Location = new System.Drawing.Point(423, 311);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(26, 13);
             this.label6.TabIndex = 17;
@@ -369,7 +381,7 @@ namespace MouseMoveBot
             // 
             // capTextBox
             // 
-            this.capTextBox.Location = new System.Drawing.Point(445, 239);
+            this.capTextBox.Location = new System.Drawing.Point(459, 308);
             this.capTextBox.Name = "capTextBox";
             this.capTextBox.Size = new System.Drawing.Size(100, 20);
             this.capTextBox.TabIndex = 18;
@@ -447,6 +459,7 @@ namespace MouseMoveBot
         public CheckBox cbFollowMonster;
         private Label label6;
         private TextBox capTextBox;
+        private CheckBox cbCheckMaximized;
     }
 }
 
