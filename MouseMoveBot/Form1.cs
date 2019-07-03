@@ -243,7 +243,7 @@ namespace MouseMoveBot
                     if (cbCavebot.Checked && currentWaypoint.state == State.Attacking && iconTibia == iconColor)
                     {
                         looting();
-                        Task.Delay(500).Wait();
+                        Task.Delay(1000).Wait();
                     }
 
                     if (cbCavebot.Checked && currentWaypoint.state == State.Walking && !battleIsNormal && iconTibia == iconColor)
@@ -339,7 +339,7 @@ namespace MouseMoveBot
 
         private void checkTibiaAreInFront()
         {
-            Process process = Process.GetProcesses().FirstOrDefault(f => f.ProcessName.Contains("OUTLOOK"));
+            Process process = Process.GetProcesses().FirstOrDefault(f => f.ProcessName.Equals("client"));
 
             if (process != null)
             {
@@ -480,6 +480,7 @@ namespace MouseMoveBot
         public void checkAttack()
         {
 
+            checkFollowMonster();
 
             var corPainelBattle = new Color();
             var corBixoBattle = new Color();
@@ -505,8 +506,7 @@ namespace MouseMoveBot
             this.Invoke((MethodInvoker)delegate
             {
                 if ((corPainelBattle != corBixoBattle && corBixoBattle != white) && bixoSelecionadoRed != red)
-                {
-                    checkFollowMonster();
+                {                  
                     // Press M key
                     sim.Keyboard.KeyPress(VirtualKeyCode.VK_M);
                     //SendKeys.SendWait("{Esc}");
@@ -527,6 +527,7 @@ namespace MouseMoveBot
 
             if (followMonster != follow && cbFollowMonster.Checked)
             {
+                SendKeys.SendWait("{Esc}");
                 Cursor.Position = new Point(1902, 173);
                 DoMouseClick();
             }
