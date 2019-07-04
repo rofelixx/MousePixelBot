@@ -68,11 +68,35 @@ namespace MouseMoveBot
         private void Form2_Load(object sender, EventArgs e)
         {
             this.checkBox1.Checked = f1.cbHealerLife.Checked;
+            CriaComboBox();
+        }
+
+        private void CriaComboBox()
+        {
+            IncluiItems();
+        }
+
+        private void IncluiItems()
+        {
+            System.Object[]  ItemRange = new System.Object[12];
+            for (int i = 0; i < 12; i++)
+            {
+                ItemRange[i] = "F" + (i + 1);
+            }
+            this.comboBoxHealthMax.Items.AddRange(ItemRange);
+            this.comboBoxHealthMid.Items.AddRange(ItemRange);
+            this.comboBoxHealthMin.Items.AddRange(ItemRange);
         }
 
         private void CheckBox1_CheckedChanged(object sender, EventArgs e)
         {
             f1.cbHealerLife.Checked = this.checkBox1.Checked;
+        }
+
+        private void HomeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            f1.Show();
         }
     }
 }

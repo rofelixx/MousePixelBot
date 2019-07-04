@@ -73,7 +73,7 @@ namespace MouseMoveBot
 
         List<Waypoints> listWaypoints = new List<Waypoints>();
 
-        Form2 newform;
+        Form2 f2;
 
         Task taskHealerLife;
         Task taskHealerMana;
@@ -187,7 +187,7 @@ namespace MouseMoveBot
                 do
                 {
                     checkIconTibia();
-                    if (cbCheckMaximized.Checked)
+                    if (checkMaximized.Checked)
                         checkTibiaAreInFront();
 
                     Task.Delay(100).Wait();
@@ -716,9 +716,9 @@ namespace MouseMoveBot
 
         private void HealerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            newform = new Form2(this);
+            f2 = new Form2(this);
             this.Hide();
-            newform.ShowDialog();
+            f2.ShowDialog();
             this.Show();
         }
 

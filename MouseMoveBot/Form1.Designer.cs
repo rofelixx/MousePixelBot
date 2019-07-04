@@ -52,7 +52,7 @@ namespace MouseMoveBot
             this.targetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lootToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.cbCheckMaximized = new System.Windows.Forms.CheckBox();
+            this.checkMaximized = new System.Windows.Forms.CheckBox();
             this.cbFollowMonster = new System.Windows.Forms.CheckBox();
             this.comboBoxSdKey = new System.Windows.Forms.ComboBox();
             this.cbAttackSd = new System.Windows.Forms.CheckBox();
@@ -237,7 +237,7 @@ namespace MouseMoveBot
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.cbCheckMaximized);
+            this.panel1.Controls.Add(this.checkMaximized);
             this.panel1.Controls.Add(this.cbFollowMonster);
             this.panel1.Controls.Add(this.comboBoxSdKey);
             this.panel1.Controls.Add(this.cbAttackSd);
@@ -253,15 +253,15 @@ namespace MouseMoveBot
             this.panel1.Size = new System.Drawing.Size(285, 226);
             this.panel1.TabIndex = 15;
             // 
-            // cbCheckMaximized
+            // checkMaximized
             // 
-            this.cbCheckMaximized.AutoSize = true;
-            this.cbCheckMaximized.Location = new System.Drawing.Point(27, 203);
-            this.cbCheckMaximized.Name = "cbCheckMaximized";
-            this.cbCheckMaximized.Size = new System.Drawing.Size(111, 17);
-            this.cbCheckMaximized.TabIndex = 25;
-            this.cbCheckMaximized.Text = "Always Maximized";
-            this.cbCheckMaximized.UseVisualStyleBackColor = true;
+            this.checkMaximized.AutoSize = true;
+            this.checkMaximized.Location = new System.Drawing.Point(27, 203);
+            this.checkMaximized.Name = "checkMaximized";
+            this.checkMaximized.Size = new System.Drawing.Size(111, 17);
+            this.checkMaximized.TabIndex = 25;
+            this.checkMaximized.Text = "Always Maximized";
+            this.checkMaximized.UseVisualStyleBackColor = true;
             // 
             // cbFollowMonster
             // 
@@ -410,6 +410,7 @@ namespace MouseMoveBot
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.menuStrip2);
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -459,7 +460,7 @@ namespace MouseMoveBot
         public CheckBox cbFollowMonster;
         private Label label6;
         private TextBox capTextBox;
-        private CheckBox cbCheckMaximized;
+        private CheckBox checkMaximized;
     }
 }
 
