@@ -16,6 +16,7 @@ using System.Windows.Forms;
 using System.Windows.Media;
 using Emgu.CV;
 using Emgu.CV.Structure;
+using IronOcr;
 using WindowsInput;
 using WindowsInput.Native;
 using Color = System.Drawing.Color;
@@ -203,7 +204,7 @@ namespace MouseMoveBot
                         checkHealer();
                     }
 
-                    Task.Delay(100).Wait();
+                    Task.Delay(200).Wait();
                 } while (true);
             });
 
@@ -367,7 +368,22 @@ namespace MouseMoveBot
 
         private void checkCap()
         {
-            //Rectangle rect = new Rectangle(1826, 264, 18, 9);
+            Cursor.Position = new Point(1889, 694);
+
+            Thread.Sleep(1500);
+            Rectangle rect = new Rectangle(1688, 676, 231, 26);
+            Bitmap areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            Graphics g = Graphics.FromImage(areaIcon);
+            g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
+
+            var Ocr = new AutoOcr()
+            {
+                Language = IronOcr.Languages.Portuguese.OcrLanguagePack
+            };
+
+            var Result = Ocr.Read(areaIcon);
+
+            capTextBox.Text = Result.Text;
         }
 
         private void checkIfStopped()
@@ -559,7 +575,7 @@ namespace MouseMoveBot
             {
                 SendKeys.SendWait("{" + keySdSelected + "}");
                 Console.WriteLine("Key sd Pressed.");
-                Task.Delay(1500).Wait();
+                Task.Delay(2000).Wait();
             }
         }
 
@@ -746,23 +762,24 @@ namespace MouseMoveBot
             //    }
 
 
-            var arrived = false;
+            //var arrived = false;
 
-            var p1 = new Point(1780, 70);
-            var p2 = new Point(1810, 95);
+            //var p1 = new Point(1780, 70);
+            //var p2 = new Point(1810, 95);
 
-            Rectangle rect = new Rectangle(1780, 70, 30, 25);
-            Bitmap areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            Graphics g = Graphics.FromImage(areaIcon);
-            g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
+            //Rectangle rect = new Rectangle(1780, 70, 30, 25);
+            //Bitmap areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            //Graphics g = Graphics.FromImage(areaIcon);
+            //g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
 
-            arrived = CheckFindBattle(currentWaypoint.bitIcon, areaIcon);
+            //arrived = CheckFindBattle(currentWaypoint.bitIcon, areaIcon);
 
-            if (arrived)
-                MessageBox.Show("Achou");
-            else
-                MessageBox.Show("Nao Achou");
-
+            //if (arrived)
+            //    MessageBox.Show("Achou");
+            //else
+            //    MessageBox.Show("Nao Achou");
+            checkTibiaAreInFront();
+            checkCap();
         }
 
         private bool compareTwoImages(Bitmap img1, Bitmap img2)

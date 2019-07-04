@@ -42,6 +42,12 @@
     <Reference Include="Emgu.CV.World, Version=4.1.0.3420, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
       <HintPath>..\packages\EMGU.CV.4.1.0.3420\lib\net35\Emgu.CV.World.dll</HintPath>
     </Reference>
+    <Reference Include="IronOcr, Version=4.4.0.21181, Culture=neutral, PublicKeyToken=5f366048dc436899, processorArchitecture=MSIL">
+      <HintPath>..\packages\IronOcr.4.4.0\lib\net40\IronOcr.dll</HintPath>
+    </Reference>
+    <Reference Include="IronOcr.Portuguese, Version=4.0.0.15217, Culture=neutral, PublicKeyToken=5f366048dc436899, processorArchitecture=MSIL">
+      <HintPath>..\packages\IronOcr.Languages.Portuguese.4.4.4.1\lib\net40\IronOcr.Portuguese.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
