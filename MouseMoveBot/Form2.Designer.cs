@@ -32,6 +32,9 @@ namespace MouseMoveBot
         {
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.comboBoxHealthMax = new System.Windows.Forms.ComboBox();
+            this.comboBoxHealthMid = new System.Windows.Forms.ComboBox();
+            this.comboBoxHealthMin = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -42,9 +45,6 @@ namespace MouseMoveBot
             this.cavebotToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.targetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lootToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.comboBoxHealthMin = new System.Windows.Forms.ComboBox();
-            this.comboBoxHealthMid = new System.Windows.Forms.ComboBox();
-            this.comboBoxHealthMax = new System.Windows.Forms.ComboBox();
             this.panel1.SuspendLayout();
             this.menuStrip2.SuspendLayout();
             this.SuspendLayout();
@@ -72,6 +72,33 @@ namespace MouseMoveBot
             this.panel1.Size = new System.Drawing.Size(544, 145);
             this.panel1.TabIndex = 1;
             // 
+            // comboBoxHealthMax
+            // 
+            this.comboBoxHealthMax.FormattingEnabled = true;
+            this.comboBoxHealthMax.Location = new System.Drawing.Point(344, 78);
+            this.comboBoxHealthMax.Name = "comboBoxHealthMax";
+            this.comboBoxHealthMax.Size = new System.Drawing.Size(95, 21);
+            this.comboBoxHealthMax.TabIndex = 26;
+            this.comboBoxHealthMax.SelectedIndexChanged += new System.EventHandler(this.ComboBoxHealthMax_SelectedIndexChanged);
+            // 
+            // comboBoxHealthMid
+            // 
+            this.comboBoxHealthMid.FormattingEnabled = true;
+            this.comboBoxHealthMid.Location = new System.Drawing.Point(172, 78);
+            this.comboBoxHealthMid.Name = "comboBoxHealthMid";
+            this.comboBoxHealthMid.Size = new System.Drawing.Size(95, 21);
+            this.comboBoxHealthMid.TabIndex = 25;
+            this.comboBoxHealthMid.SelectedIndexChanged += new System.EventHandler(this.ComboBoxHealthMid_SelectedIndexChanged);
+            // 
+            // comboBoxHealthMin
+            // 
+            this.comboBoxHealthMin.FormattingEnabled = true;
+            this.comboBoxHealthMin.Location = new System.Drawing.Point(12, 78);
+            this.comboBoxHealthMin.Name = "comboBoxHealthMin";
+            this.comboBoxHealthMin.Size = new System.Drawing.Size(95, 21);
+            this.comboBoxHealthMin.TabIndex = 24;
+            this.comboBoxHealthMin.SelectedIndexChanged += new System.EventHandler(this.ComboBoxHealthMin_SelectedIndexChanged);
+            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -79,7 +106,7 @@ namespace MouseMoveBot
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(79, 13);
             this.label4.TabIndex = 23;
-            this.label4.Text = "Health <= 75 %";
+            this.label4.Text = "Health <= 85 %";
             // 
             // label3
             // 
@@ -88,7 +115,7 @@ namespace MouseMoveBot
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(79, 13);
             this.label3.TabIndex = 21;
-            this.label3.Text = "Health <= 50 %";
+            this.label3.Text = "Health <= 65 %";
             // 
             // label2
             // 
@@ -97,7 +124,7 @@ namespace MouseMoveBot
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(79, 13);
             this.label2.TabIndex = 19;
-            this.label2.Text = "Health <= 25 %";
+            this.label2.Text = "Health <= 30 %";
             // 
             // checkBox1
             // 
@@ -154,30 +181,6 @@ namespace MouseMoveBot
             this.lootToolStripMenuItem.Name = "lootToolStripMenuItem";
             this.lootToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.lootToolStripMenuItem.Text = "Loot";
-            // 
-            // comboBox1
-            // 
-            this.comboBoxHealthMin.FormattingEnabled = true;
-            this.comboBoxHealthMin.Location = new System.Drawing.Point(12, 78);
-            this.comboBoxHealthMin.Name = "comboBox1";
-            this.comboBoxHealthMin.Size = new System.Drawing.Size(95, 21);
-            this.comboBoxHealthMin.TabIndex = 24;
-            // 
-            // comboBox2
-            // 
-            this.comboBoxHealthMid.FormattingEnabled = true;
-            this.comboBoxHealthMid.Location = new System.Drawing.Point(172, 78);
-            this.comboBoxHealthMid.Name = "comboBox2";
-            this.comboBoxHealthMid.Size = new System.Drawing.Size(95, 21);
-            this.comboBoxHealthMid.TabIndex = 25;
-            // 
-            // comboBox3
-            // 
-            this.comboBoxHealthMax.FormattingEnabled = true;
-            this.comboBoxHealthMax.Location = new System.Drawing.Point(344, 78);
-            this.comboBoxHealthMax.Name = "comboBox3";
-            this.comboBoxHealthMax.Size = new System.Drawing.Size(95, 21);
-            this.comboBoxHealthMax.TabIndex = 26;
             // 
             // Form2
             // 

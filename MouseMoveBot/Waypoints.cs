@@ -11,7 +11,6 @@ namespace MouseMoveBot
     {
         public Bitmap bitIcon { get; set; }
         public State state { get; set; }
-        public bool precision { get; set; }
         public Function function { get; set; }
     }
 }

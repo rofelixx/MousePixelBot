@@ -66,6 +66,9 @@ namespace MouseMoveBot
             this.button2 = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.capTextBox = new System.Windows.Forms.TextBox();
+            this.textboxMinHealth = new System.Windows.Forms.TextBox();
+            this.textboxMidHealth = new System.Windows.Forms.TextBox();
+            this.textboxMaxHealth = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.menuStrip2.SuspendLayout();
@@ -386,6 +389,30 @@ namespace MouseMoveBot
             this.capTextBox.Size = new System.Drawing.Size(100, 20);
             this.capTextBox.TabIndex = 18;
             // 
+            // textboxMinHealth
+            // 
+            this.textboxMinHealth.Location = new System.Drawing.Point(0, 0);
+            this.textboxMinHealth.Name = "textboxMinHealth";
+            this.textboxMinHealth.Size = new System.Drawing.Size(100, 20);
+            this.textboxMinHealth.TabIndex = 19;
+            this.textboxMinHealth.Visible = false;
+            // 
+            // textboxMidHealth
+            // 
+            this.textboxMidHealth.Location = new System.Drawing.Point(0, 0);
+            this.textboxMidHealth.Name = "textboxMidHealth";
+            this.textboxMidHealth.Size = new System.Drawing.Size(100, 20);
+            this.textboxMidHealth.TabIndex = 20;
+            this.textboxMidHealth.Visible = false;
+            // 
+            // textboxMaxHealth
+            // 
+            this.textboxMaxHealth.Location = new System.Drawing.Point(0, 0);
+            this.textboxMaxHealth.Name = "textboxMaxHealth";
+            this.textboxMaxHealth.Size = new System.Drawing.Size(100, 20);
+            this.textboxMaxHealth.TabIndex = 21;
+            this.textboxMaxHealth.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -409,6 +436,9 @@ namespace MouseMoveBot
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.menuStrip2);
+            this.Controls.Add(this.textboxMinHealth);
+            this.Controls.Add(this.textboxMidHealth);
+            this.Controls.Add(this.textboxMaxHealth);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
@@ -454,13 +484,16 @@ namespace MouseMoveBot
         public CheckBox cbHealerMana;
         public CheckBox cbAttackSd;
         private Button button2;
-        private ComboBox comboBoxLifeKey;
+        public ComboBox comboBoxLifeKey;
         private ComboBox comboBoxManaKey;
         private ComboBox comboBoxSdKey;
         public CheckBox cbFollowMonster;
         private Label label6;
         private TextBox capTextBox;
         private CheckBox checkMaximized;
+        public TextBox textboxMinHealth;
+        public TextBox textboxMidHealth;
+        public TextBox textboxMaxHealth;
     }
 }
 

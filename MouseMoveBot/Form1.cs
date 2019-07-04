@@ -16,7 +16,6 @@ using System.Windows.Forms;
 using System.Windows.Media;
 using Emgu.CV;
 using Emgu.CV.Structure;
-using IronOcr;
 using WindowsInput;
 using WindowsInput.Native;
 using Color = System.Drawing.Color;
@@ -52,7 +51,10 @@ namespace MouseMoveBot
 
         int zoom = 2;
 
-        String keyHealerSelected;
+        String keyMaxHealerSelected;
+        String keyMidHealerSelected;
+        String keyMinHealerSelected;
+
         String keyManaSelected;
         String keySdSelected;
 
@@ -83,18 +85,17 @@ namespace MouseMoveBot
         Task taskAttackSd;
         Task taskTimer;
         Task checkArriveWp;
-        Task TaskCheckCap;
         Task TaskCheckBattleList;
         Task taskCheckTibiaAreInFront;
 
         bool battleIsNormal = false;
 
-        Waypoints currentWaypoint = new Waypoints() { bitIcon = null, state = State.Waiting, precision = false };
+        Waypoints currentWaypoint = new Waypoints() { bitIcon = null, state = State.Waiting, function = null };
         Color iconTibia;
         Color iconColor;
 
         String path = Path.GetDirectoryName(Path.GetDirectoryName(System.IO.Directory.GetCurrentDirectory())) + "\\Resources\\";
-
+        
         public Form1()
         {
             InitializeComponent();
@@ -250,7 +251,7 @@ namespace MouseMoveBot
                     if (cbCavebot.Checked && currentWaypoint.state == State.Walking && !battleIsNormal && iconTibia == iconColor)
                         SendKeys.SendWait("{Esc}");
 
-                    if (cbCavebot.Checked && battleIsNormal && iconTibia == iconColor)
+                    if (cbCavebot.Checked && battleIsNormal && iconTibia == iconColor && currentWaypoint != null)
                     {
                         if (currentWaypoint.state == State.Attacking && battleIsNormal)
                             currentWaypoint.state = State.Waiting;
@@ -263,7 +264,7 @@ namespace MouseMoveBot
                         }
 
                         // Walking
-                        if (currentWaypoint != null && currentWaypoint.state == State.Walking)
+                        if (currentWaypoint.state == State.Walking)
                         {
                             checkArrivedWaypoint();
                             continue;
@@ -273,6 +274,13 @@ namespace MouseMoveBot
                         if (currentWaypoint.state == State.Waiting)
                         {
                             walk();
+                        }
+
+                        // Special Movement
+                        if (currentWaypoint.state == State.SpecialMovement)
+                        {
+                            checkFunctionToDo();
+                            continue;
                         }
 
                         if (currentWaypoint.state == State.Concluded)
@@ -338,6 +346,115 @@ namespace MouseMoveBot
             });
         }
 
+        private void checkFunctionToDo()
+        {
+            switch (currentWaypoint.function.action)
+            {
+                case EnumAction.Rope:
+                    useRope();
+                    break;
+                case EnumAction.Shovel:
+                    useShovel();
+                    break;
+                case EnumAction.ToUp:
+                case EnumAction.ToDown:
+                case EnumAction.ToLeft:
+                case EnumAction.ToRight:
+                    moveTo();
+                    break;
+                case EnumAction.Check:
+                    checkPotAndCap();
+                    break;
+                default:
+                    break;
+            }
+
+            Task.Delay(200).Wait();
+
+            var arrived = checkArrivedWpSpecialMovement();
+
+            if (arrived)
+            {
+                currentWaypoint.state = State.Concluded;
+            }
+        }
+
+        private void checkPotAndCap()
+        {
+            Cursor.Position = new Point(1889, 694);
+
+            Thread.Sleep(1500);
+            Rectangle rect = new Rectangle(1688, 676, 231, 26);
+            Bitmap areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            Graphics g = Graphics.FromImage(areaIcon);
+            g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
+
+            //var Ocr = new AutoOcr()
+            //{
+            //    Language = IronOcr.Languages.Portuguese.OcrLanguagePack
+            //};
+
+            //var Result = Ocr.Read(areaIcon);
+
+            //capTextBox.Text = Result.Text;
+        }
+
+        private void moveTo()
+        {
+            //// Center of xar 870, 470 in screen            
+            if (currentWaypoint.function.action == EnumAction.ToUp)
+            {
+                Cursor.Position = new Point(870, 410);
+                DoMouseClick();
+                return;
+            }
+
+            if (currentWaypoint.function.action == EnumAction.ToDown)
+            {
+                Cursor.Position = new Point(870, 530);
+                DoMouseClick();
+                return;
+            }
+
+            if (currentWaypoint.function.action == EnumAction.ToLeft)
+            {
+                Cursor.Position = new Point(800, 470);
+                DoMouseClick();
+                return;
+            }
+
+            if (currentWaypoint.function.action == EnumAction.ToRight)
+            {
+                Cursor.Position = new Point(930, 470);
+                DoMouseClick();
+                return;
+            }
+        }
+
+        private void useShovel()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void useRope()
+        {
+            throw new NotImplementedException();
+        }
+
+        private bool checkArrivedWpSpecialMovement()
+        {
+            var arrived = false;
+
+            Rectangle rect = new Rectangle(1800, 75, 12, 12);
+            Bitmap areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            Graphics g = Graphics.FromImage(areaIcon);
+            g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
+
+            arrived = CheckFindBattle(currentWaypoint.function.bitCheck, areaIcon);
+
+            return arrived ? true : false;
+        }
+
         private void checkTibiaAreInFront()
         {
             Process process = Process.GetProcesses().FirstOrDefault(f => f.ProcessName.Equals("client"));
@@ -364,26 +481,6 @@ namespace MouseMoveBot
 
             Bitmap myPic = new Bitmap(path + "battleClear.png");
             battleIsNormal = CheckFindBattle(myPic, screenCapture);
-        }
-
-        private void checkCap()
-        {
-            Cursor.Position = new Point(1889, 694);
-
-            Thread.Sleep(1500);
-            Rectangle rect = new Rectangle(1688, 676, 231, 26);
-            Bitmap areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            Graphics g = Graphics.FromImage(areaIcon);
-            g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
-
-            var Ocr = new AutoOcr()
-            {
-                Language = IronOcr.Languages.Portuguese.OcrLanguagePack
-            };
-
-            var Result = Ocr.Read(areaIcon);
-
-            capTextBox.Text = Result.Text;
         }
 
         private void checkIfStopped()
@@ -421,7 +518,10 @@ namespace MouseMoveBot
 
             if (arrived)
             {
-                currentWaypoint.state = State.Concluded;
+                if (currentWaypoint.function != null)
+                    currentWaypoint.state = State.SpecialMovement;
+                else
+                    currentWaypoint.state = State.Concluded;
             }
         }
 
@@ -469,9 +569,9 @@ namespace MouseMoveBot
             lifeBar = GetColorAt(new Point(620, 33));
             Color iconColor = Color.FromArgb(255, 0, 190, 0);
 
-            if (keyHealerSelected != null && iconColor != lifeBar)
+            if (keyMaxHealerSelected != null && iconColor != lifeBar)
             {
-                SendKeys.SendWait("{" + keyHealerSelected + "}");
+                SendKeys.SendWait("{" + keyMaxHealerSelected + "}");
                 Console.WriteLine("Key Healer Pressed.");
             }
             Console.WriteLine("Healer.");
@@ -522,7 +622,7 @@ namespace MouseMoveBot
             this.Invoke((MethodInvoker)delegate
             {
                 if ((corPainelBattle != corBixoBattle && corBixoBattle != white) && bixoSelecionadoRed != red)
-                {                  
+                {
                     // Press M key
                     sim.Keyboard.KeyPress(VirtualKeyCode.VK_M);
                     //SendKeys.SendWait("{Esc}");
@@ -778,8 +878,42 @@ namespace MouseMoveBot
             //    MessageBox.Show("Achou");
             //else
             //    MessageBox.Show("Nao Achou");
-            checkTibiaAreInFront();
-            checkCap();
+            //checkTibiaAreInFront();
+            //checkPotAndCap();
+
+            var x1 = new Point(875, 26);
+            var x2 = new Point(875, 40);
+
+            //Rectangle rect = new Rectangle(875, 33, 858, 0);
+
+            Rectangle rect = new Rectangle(135, 785, 1711, 1);
+            Bitmap searchIn = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            Graphics g = Graphics.FromImage(searchIn);
+            g.CopyFromScreen(rect.Left, rect.Top, 0, 0, searchIn.Size, CopyPixelOperation.SourceCopy);
+
+            Color manaColor = Color.FromArgb(255, 0, 63, 141);
+
+            var percentageOfMana = 0;
+
+            var percent80 = GetColorAt(new Point(1260, 786)) == manaColor;
+            var percent50 = GetColorAt(new Point(945, 786)) == manaColor;
+            var percent30 = GetColorAt(new Point(472, 786)) == manaColor;
+
+            //for (int x = 135; x < searchIn.Width; x++)
+            //{
+            //    var color = ;
+            //    if (color == manaColor)
+            //    {
+            //        percentageOfMana = x;
+            //        break;
+            //    }
+            //}
+
+            MessageBox.Show(percentageOfMana.ToString());
+
+            percentageOfMana = (percentageOfMana - 135) / 135;
+
+
         }
 
         private bool compareTwoImages(Bitmap img1, Bitmap img2)
@@ -999,7 +1133,7 @@ namespace MouseMoveBot
 
         private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            keyHealerSelected = this.comboBoxLifeKey.SelectedItem.ToString();
+            keyMaxHealerSelected = this.comboBoxLifeKey.SelectedItem.ToString();
         }
 
         private void comboBox2_SelectedIndexChanged_1(object sender, EventArgs e)

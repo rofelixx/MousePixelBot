@@ -4,9 +4,10 @@
     {
         Rope,
         Shovel,
-        Subir,
-        Descer,
-        Esquerda,
-        Direita
+        ToUp,
+        ToDown,
+        ToLeft,
+        ToRight,
+        Check
     }
 }
