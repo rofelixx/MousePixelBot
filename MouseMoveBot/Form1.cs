@@ -895,9 +895,9 @@ namespace MouseMoveBot
 
             var percentageOfMana = 0;
 
-            var percent80 = GetColorAt(new Point(1260, 786)) == manaColor;
+            var percent80 = GetColorAt(new Point(472, 786)) == manaColor;
             var percent50 = GetColorAt(new Point(945, 786)) == manaColor;
-            var percent30 = GetColorAt(new Point(472, 786)) == manaColor;
+            var percent30 = GetColorAt(new Point(1500, 786)) == manaColor;
 
             //for (int x = 135; x < searchIn.Width; x++)
             //{
@@ -909,10 +909,7 @@ namespace MouseMoveBot
             //    }
             //}
 
-            MessageBox.Show(percentageOfMana.ToString());
-
-            percentageOfMana = (percentageOfMana - 135) / 135;
-
+            MessageBox.Show(percent80 + ", " + percent50 + ", " + percent30);
 
         }
 
