@@ -12,5 +12,6 @@ namespace MouseMoveBot
         public Bitmap bitIcon { get; set; }
         public State state { get; set; }
         public Function function { get; set; }
+        public LabelWp label { get; set; }
     }
 }

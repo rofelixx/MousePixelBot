@@ -2,12 +2,25 @@
 {
     public enum EnumAction
     {
-        Rope,
-        Shovel,
+        RopeCenter,
+        RopeToUp,
+        RopeToDown,
+        RopeToLeft,
+        RopeToRight,
+        ShovelToUp,
+        ShovelToDown,
+        ShovelToLeft,
+        ShovelToRight,
         ToUp,
         ToDown,
         ToLeft,
         ToRight,
-        Check
+        CheckRefill,
+        Depot,
+        BuyPots,
+        Walk,
+        CheckWp,
+        MapZoomMax,
+        MapZoomMin
     }
 }

@@ -97,26 +97,26 @@ namespace MouseMoveBot
             f1.cbHealerLife.Checked = this.checkBox1.Checked;
         }
 
-        private void ComboBoxHealthMin_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            f1.textboxMinHealth.Text = this.comboBoxHealthMin.Text;
-        }
-
         private void HomeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Hide();
             f1.Show();
         }
+    
+        private void ComboBoxHealthMin_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            f1.keyMinHealerSelected = this.comboBoxHealthMin.Text;
+        }
 
         private void ComboBoxHealthMid_SelectedIndexChanged(object sender, EventArgs e)
         {
-            f1.textboxMidHealth.Text = this.comboBoxHealthMid.Text;
+            f1.keyMidHealerSelected = this.comboBoxHealthMid.Text;
         }
 
         private void ComboBoxHealthMax_SelectedIndexChanged(object sender, EventArgs e)
         {
             f1.textboxMaxHealth.Text = this.comboBoxHealthMax.Text;
-            f1.comboBoxLifeKey.Text = this.comboBoxHealthMax.Text;
+            f1.keyMaxHealerSelected = this.comboBoxHealthMax.Text;
         }
     }
 }
