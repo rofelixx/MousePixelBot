@@ -46,43 +46,20 @@ namespace MouseMoveBot
             this.f1 = f;
         }
 
-        public void DoMouseClick()
-        {
-            //Call the imported function with the cursor's current position
-            uint X = (uint)Cursor.Position.X;
-            uint Y = (uint)Cursor.Position.Y;
-            mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, X, Y, 0, 0);
-        }
-
-        private void Timer1_Tick(object sender, EventArgs e)
-        {
-
-        }
-
-        public static System.Drawing.Color GetPixelAtCursor()
-        {
-            System.Drawing.Point p = Cursor.Position;
-            return System.Drawing.Color.FromArgb(GetPixel(DesktopDC, p.X, p.Y));
-        }
-
         private void Form2_Load(object sender, EventArgs e)
         {
             this.checkBox1.Checked = f1.cbHealerLife.Checked;
             this.comboBoxHealthMax.Text = f1.textboxMaxHealth.Text;
             this.comboBoxHealthMid.Text = f1.textboxMidHealth.Text;
             this.comboBoxHealthMin.Text = f1.textboxMinHealth.Text;
-
+            this.comboBoxMana.Text = f1.comboBoxManaKey.Text;
+            this.cbManaHealer.Checked = f1.cbHealerMana.Checked;
             CriaComboBox();
         }
 
         private void CriaComboBox()
         {
-            IncluiItems();
-        }
-
-        private void IncluiItems()
-        {
-            System.Object[]  ItemRange = new System.Object[12];
+            System.Object[] ItemRange = new System.Object[12];
             for (int i = 0; i < 12; i++)
             {
                 ItemRange[i] = "F" + (i + 1);
@@ -90,6 +67,7 @@ namespace MouseMoveBot
             this.comboBoxHealthMax.Items.AddRange(ItemRange);
             this.comboBoxHealthMid.Items.AddRange(ItemRange);
             this.comboBoxHealthMin.Items.AddRange(ItemRange);
+            this.comboBoxMana.Items.AddRange(ItemRange);
         }
 
         private void CheckBox1_CheckedChanged(object sender, EventArgs e)
@@ -105,11 +83,13 @@ namespace MouseMoveBot
     
         private void ComboBoxHealthMin_SelectedIndexChanged(object sender, EventArgs e)
         {
+            f1.textboxMinHealth.Text = this.comboBoxHealthMin.Text;
             f1.keyMinHealerSelected = this.comboBoxHealthMin.Text;
         }
 
         private void ComboBoxHealthMid_SelectedIndexChanged(object sender, EventArgs e)
         {
+            f1.textboxMidHealth.Text = this.comboBoxHealthMid.Text;
             f1.keyMidHealerSelected = this.comboBoxHealthMid.Text;
         }
 
@@ -117,6 +97,17 @@ namespace MouseMoveBot
         {
             f1.textboxMaxHealth.Text = this.comboBoxHealthMax.Text;
             f1.keyMaxHealerSelected = this.comboBoxHealthMax.Text;
+        }
+
+        private void CheckBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            f1.cbHealerMana.Checked = this.cbManaHealer.Checked;
+        }
+
+        private void ComboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            f1.comboBoxManaKey.Text = this.comboBoxMana.Text;
+            f1.keyManaSelected = this.comboBoxMana.Text;
         }
     }
 }

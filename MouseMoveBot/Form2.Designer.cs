@@ -45,8 +45,13 @@ namespace MouseMoveBot
             this.cavebotToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.targetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lootToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.comboBoxMana = new System.Windows.Forms.ComboBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.cbManaHealer = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.menuStrip2.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -133,7 +138,7 @@ namespace MouseMoveBot
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(57, 17);
             this.checkBox1.TabIndex = 17;
-            this.checkBox1.Text = "Healer";
+            this.checkBox1.Text = "Health";
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.CheckBox1_CheckedChanged);
             // 
@@ -182,11 +187,51 @@ namespace MouseMoveBot
             this.lootToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.lootToolStripMenuItem.Text = "Loot";
             // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.comboBoxMana);
+            this.panel2.Controls.Add(this.label7);
+            this.panel2.Controls.Add(this.cbManaHealer);
+            this.panel2.Location = new System.Drawing.Point(15, 190);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(544, 145);
+            this.panel2.TabIndex = 27;
+            // 
+            // comboBox3
+            // 
+            this.comboBoxMana.FormattingEnabled = true;
+            this.comboBoxMana.Location = new System.Drawing.Point(12, 78);
+            this.comboBoxMana.Name = "comboBox3";
+            this.comboBoxMana.Size = new System.Drawing.Size(95, 21);
+            this.comboBoxMana.TabIndex = 24;
+            this.comboBoxMana.SelectedIndexChanged += new System.EventHandler(this.ComboBox3_SelectedIndexChanged);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(9, 46);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(75, 13);
+            this.label7.TabIndex = 19;
+            this.label7.Text = "Mana <= 50 %";
+            // 
+            // checkBox2
+            // 
+            this.cbManaHealer.AutoSize = true;
+            this.cbManaHealer.Location = new System.Drawing.Point(12, 12);
+            this.cbManaHealer.Name = "checkBox2";
+            this.cbManaHealer.Size = new System.Drawing.Size(53, 17);
+            this.cbManaHealer.TabIndex = 17;
+            this.cbManaHealer.Text = "Mana";
+            this.cbManaHealer.UseVisualStyleBackColor = true;
+            this.cbManaHealer.CheckedChanged += new System.EventHandler(this.CheckBox2_CheckedChanged);
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(571, 340);
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.menuStrip2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label1);
@@ -197,6 +242,8 @@ namespace MouseMoveBot
             this.panel1.PerformLayout();
             this.menuStrip2.ResumeLayout(false);
             this.menuStrip2.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -219,6 +266,10 @@ namespace MouseMoveBot
         private ComboBox comboBoxHealthMax;
         private ComboBox comboBoxHealthMid;
         private ComboBox comboBoxHealthMin;
+        public Panel panel2;
+        public ComboBox comboBoxMana;
+        private Label label7;
+        public CheckBox cbManaHealer;
     }
 }
 

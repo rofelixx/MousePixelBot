@@ -225,6 +225,7 @@ namespace MouseMoveBot
             this.cavebotToolStripMenuItem.Name = "cavebotToolStripMenuItem";
             this.cavebotToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
             this.cavebotToolStripMenuItem.Text = "Cavebot";
+            this.cavebotToolStripMenuItem.Click += new System.EventHandler(this.CavebotToolStripMenuItem_Click);
             // 
             // targetToolStripMenuItem
             // 
@@ -485,7 +486,7 @@ namespace MouseMoveBot
         public CheckBox cbAttackSd;
         private Button button2;
         public ComboBox comboBoxLifeKey;
-        private ComboBox comboBoxManaKey;
+        public ComboBox comboBoxManaKey;
         private ComboBox comboBoxSdKey;
         public CheckBox cbFollowMonster;
         private Label label6;
