@@ -250,7 +250,7 @@ namespace MouseMoveBot
                 state = State.Waiting,
                 function = new Function()
                 {
-                    action = EnumAction.MapZoomMax,
+                    action = EnumAction.CheckRefill,
                     bitCheck = new Bitmap(path + "iconRight.png")
                 },
                 label = LabelWp.InCave
@@ -266,18 +266,6 @@ namespace MouseMoveBot
                 function = new Function()
                 {
                     action = EnumAction.RopeCenter,
-                    bitCheck = new Bitmap(path + "iconBank.png")
-                },
-                label = LabelWp.WayToReffil
-            });
-
-            listWaypointsToReffil.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "iconBank.png"),
-                state = State.Waiting,
-                function = new Function()
-                {
-                    action = EnumAction.MapZoomMin,
                     bitCheck = new Bitmap(path + "iconBank.png")
                 },
                 label = LabelWp.WayToReffil
@@ -320,43 +308,43 @@ namespace MouseMoveBot
 
             #endregion
 
-            #region InReffil
+            //#region InReffil
 
-            listWaypointsInReffil.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "iconBank.png"),
-                state = State.Waiting,
-                function = new Function()
-                {
-                    action = EnumAction.Walk,
-                    bitCheck = new Bitmap(path + "iconBank.png")
-                },
-                label = LabelWp.Reffil
-            });
+            //listWaypointsInReffil.Add(new Waypoints()
+            //{
+            //    bitIcon = new Bitmap(path + "iconBank.png"),
+            //    state = State.Waiting,
+            //    function = new Function()
+            //    {
+            //        action = EnumAction.Walk,
+            //        bitCheck = new Bitmap(path + "iconBank.png")
+            //    },
+            //    label = LabelWp.Reffil
+            //});
 
-            listWaypointsInReffil.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "iconBank.png"),
-                state = State.Waiting,
-                function = new Function()
-                {
-                    action = EnumAction.BuyPots
-                },
-                label = LabelWp.Reffil
-            });
+            //listWaypointsInReffil.Add(new Waypoints()
+            //{
+            //    bitIcon = new Bitmap(path + "iconBank.png"),
+            //    state = State.Waiting,
+            //    function = new Function()
+            //    {
+            //        action = EnumAction.BuyPots
+            //    },
+            //    label = LabelWp.Reffil
+            //});
 
-            listWaypointsInReffil.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "iconBank.png"),
-                state = State.Waiting,
-                function = new Function()
-                {
-                    action = EnumAction.CheckWp
-                },
-                label = LabelWp.Reffil
-            });
+            //listWaypointsInReffil.Add(new Waypoints()
+            //{
+            //    bitIcon = new Bitmap(path + "iconBank.png"),
+            //    state = State.Waiting,
+            //    function = new Function()
+            //    {
+            //        action = EnumAction.CheckWp
+            //    },
+            //    label = LabelWp.Reffil
+            //});
 
-            #endregion
+            //#endregion
 
             #region InHuntMS
 
@@ -413,7 +401,7 @@ namespace MouseMoveBot
 
             #endregion
 
-            listWaypoints = listWaypointsInHunt;
+            listWaypoints = listWaypointsToReffil;
         }
 
         private void CriaComboBox()
@@ -687,10 +675,10 @@ namespace MouseMoveBot
             Task.Delay(1000).Wait();
             sim.Keyboard.KeyPress(VirtualKeyCode.F10);
             Task.Delay(1000).Wait();
-            Cursor.Position = new Point(1908, 827);
+            Cursor.Position = new Point(1908, 826);
             sim.Mouse.LeftButtonClick();
             Task.Delay(1000).Wait();
-            Cursor.Position = new Point(1800, 827);
+            Cursor.Position = new Point(1800, 826);
             sim.Mouse.LeftButtonClick();
             Task.Delay(500).Wait();
             Cursor.Position = new Point(1848, 885);
@@ -698,7 +686,13 @@ namespace MouseMoveBot
             Task.Delay(500).Wait();
             Cursor.Position = new Point(1890, 928);
             sim.Mouse.LeftButtonClick();
-            Task.Delay(500).Wait();           
+            Task.Delay(500).Wait();
+            Cursor.Position = new Point(1890, 928);
+            sim.Mouse.LeftButtonClick();
+            Task.Delay(500).Wait();
+            Cursor.Position = new Point(1890, 928);
+            sim.Mouse.LeftButtonClick();
+            Task.Delay(500).Wait();
         }
 
         private void findDepotAndDeposit()
@@ -719,6 +713,7 @@ namespace MouseMoveBot
             DoMouseClick();
             Task.Delay(3000).Wait();
             DepositItems();
+            listWaypoints = listWaypointsInReffil;
         }
 
         private void DepositItems()
@@ -1190,16 +1185,6 @@ namespace MouseMoveBot
         {
             checkFollowMonster();
 
-            var corPainelBattle = new Color();
-            var corBixoBattle = new Color();
-            var bixoSelecionado = new Color();
-            var white = new Color();
-            bixoSelecionado = GetColorAt(new Point(1756, 412));
-
-            corBixoBattle = System.Drawing.Color.FromArgb(GetPixel(DesktopDC, 1757, 421));
-
-            corPainelBattle = Color.FromArgb(0, 65, 65, 65);
-            white = Color.FromArgb(255, 255, 255, 255);
             var red = Color.FromArgb(255, 255, 0, 0);
             var bixoSelecionadoRed = GetColorAt(new Point(1756, 440));
 
@@ -1213,7 +1198,7 @@ namespace MouseMoveBot
 
             this.Invoke((MethodInvoker)delegate
             {
-                if ((corPainelBattle != corBixoBattle && corBixoBattle != white) && bixoSelecionadoRed != red)
+                if (!battleIsNormal && bixoSelecionadoRed != red)
                 {
                     // Press M key
                     sim.Keyboard.KeyPress(VirtualKeyCode.VK_M);
