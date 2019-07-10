@@ -39,7 +39,7 @@ namespace MouseMoveBot
         };
 
         Form1 f1;
-
+        Form3 f3;
         public Form2(Form1 f)
         {
             InitializeComponent();
@@ -108,6 +108,13 @@ namespace MouseMoveBot
         {
             f1.comboBoxManaKey.Text = this.comboBoxMana.Text;
             f1.keyManaSelected = this.comboBoxMana.Text;
+        }
+
+        private void CavebotToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            f3 = new Form3(f1);
+            this.Hide();
+            f3.ShowDialog();
         }
     }
 }

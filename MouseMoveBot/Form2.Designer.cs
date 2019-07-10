@@ -174,6 +174,7 @@ namespace MouseMoveBot
             this.cavebotToolStripMenuItem.Name = "cavebotToolStripMenuItem";
             this.cavebotToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
             this.cavebotToolStripMenuItem.Text = "Cavebot";
+            this.cavebotToolStripMenuItem.Click += new System.EventHandler(this.CavebotToolStripMenuItem_Click);
             // 
             // targetToolStripMenuItem
             // 
@@ -197,11 +198,11 @@ namespace MouseMoveBot
             this.panel2.Size = new System.Drawing.Size(544, 145);
             this.panel2.TabIndex = 27;
             // 
-            // comboBox3
+            // comboBoxMana
             // 
             this.comboBoxMana.FormattingEnabled = true;
             this.comboBoxMana.Location = new System.Drawing.Point(12, 78);
-            this.comboBoxMana.Name = "comboBox3";
+            this.comboBoxMana.Name = "comboBoxMana";
             this.comboBoxMana.Size = new System.Drawing.Size(95, 21);
             this.comboBoxMana.TabIndex = 24;
             this.comboBoxMana.SelectedIndexChanged += new System.EventHandler(this.ComboBox3_SelectedIndexChanged);
@@ -215,11 +216,11 @@ namespace MouseMoveBot
             this.label7.TabIndex = 19;
             this.label7.Text = "Mana <= 50 %";
             // 
-            // checkBox2
+            // cbManaHealer
             // 
             this.cbManaHealer.AutoSize = true;
             this.cbManaHealer.Location = new System.Drawing.Point(12, 12);
-            this.cbManaHealer.Name = "checkBox2";
+            this.cbManaHealer.Name = "cbManaHealer";
             this.cbManaHealer.Size = new System.Drawing.Size(53, 17);
             this.cbManaHealer.TabIndex = 17;
             this.cbManaHealer.Text = "Mana";

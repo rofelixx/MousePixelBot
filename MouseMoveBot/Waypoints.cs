@@ -13,7 +13,7 @@ namespace MouseMoveBot
         public State state { get; set; }
         public Function function { get; set; }
         public LabelWp label { get; set; }
-
         public string name { get; set; }
+        public string exportBitmap { get; set; }
     }
 }
