@@ -83,6 +83,7 @@ namespace MouseMoveBot
 
         Form2 f2;
         Form3 f3;
+        Form4 f4;
 
         Task taskHealerLife;
         Task taskHealerMana;
@@ -454,7 +455,7 @@ namespace MouseMoveBot
             textBox5.Text = c.R.ToString();
             Bitmap bit = new Bitmap(pictureBox1.Width / zoom, pictureBox1.Height / zoom, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             g = Graphics.FromImage(bit);
-            //g.CopyFromScreen(Cursor.Position.X - pictureBox1.Width / (zoom * 2), Cursor.Position.Y - pictureBox1.Height / (zoom * 2), 0, 0, pictureBox1.Size, CopyPixelOperation.SourceCopy);
+            g.CopyFromScreen(Cursor.Position.X - pictureBox1.Width / (zoom * 2), Cursor.Position.Y - pictureBox1.Height / (zoom * 2), 0, 0, pictureBox1.Size, CopyPixelOperation.SourceCopy);
             pictureBox1.Image = bit;
         }
 
@@ -1803,6 +1804,13 @@ namespace MouseMoveBot
             f3 = new Form3(this);
             this.Hide();
             f3.ShowDialog();
+        }
+
+        private void TargetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            f4 = new Form4(this);
+            this.Hide();
+            f4.ShowDialog();
         }
     }
 }

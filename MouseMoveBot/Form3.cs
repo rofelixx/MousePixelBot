@@ -20,6 +20,8 @@ namespace MouseMoveBot
 
         Form1 f1;
         Form2 f2;
+        Form4 f4;
+
         public List<Waypoints> listWaypoints = new List<Waypoints>();
         public Waypoints currentWaypoint = new Waypoints() { bitIcon = null, state = State.Waiting, function = null, name = "" };
 
@@ -436,6 +438,13 @@ namespace MouseMoveBot
             f2 = new Form2(f1);
             this.Hide();
             f2.ShowDialog();
+        }
+
+        private void TargetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            f4 = new Form4(f1);
+            this.Hide();
+            f4.ShowDialog();
         }
     }
 }

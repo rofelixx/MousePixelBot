@@ -232,6 +232,7 @@ namespace MouseMoveBot
             this.targetToolStripMenuItem.Name = "targetToolStripMenuItem";
             this.targetToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
             this.targetToolStripMenuItem.Text = "Target";
+            this.targetToolStripMenuItem.Click += new System.EventHandler(this.TargetToolStripMenuItem_Click);
             // 
             // lootToolStripMenuItem
             // 
