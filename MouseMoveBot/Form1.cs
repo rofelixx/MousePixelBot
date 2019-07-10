@@ -83,6 +83,7 @@ namespace MouseMoveBot
 
         Form2 f2;
         Form3 f3;
+        Form4 f4;
 
         Task taskHealerLife;
         Task taskHealerMana;
@@ -135,237 +136,237 @@ namespace MouseMoveBot
 
             #region WayToHut
 
-            listWaypointsToHunt.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "iconUp.png"),
-                state = State.Waiting,
-                function = null,
-                label = LabelWp.WayToCave,
-                name = "iconUp.png"
-            });
-            listWaypointsToHunt.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "greenUp.png"),
-                state = State.Waiting,
-                function = null,
-                label = LabelWp.WayToCave,
-                name = "greenUp.png"
-            });
-            listWaypointsToHunt.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "greenDown.png"),
-                state = State.Waiting,
-                function = new Function()
-                {
-                    action = EnumAction.MapZoomMax,
-                    bitCheck = new Bitmap(path + "greenDown.png")
-                },
-                label = LabelWp.WayToCave,
-                name = "greenDown.png"
-            });
-            listWaypointsToHunt.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "iconBank.png"),
-                state = State.Waiting,
-                function = new Function()
-                {
-                    action = EnumAction.MapZoomMin,
-                    bitCheck = new Bitmap(path + "iconBank.png")
-                },
-                label = LabelWp.WayToCave,
-                name = "iconBank.png"
-            });
-            listWaypointsToHunt.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "iconBank.png"),
-                state = State.Waiting,
-                function = new Function()
-                {
-                    action = EnumAction.ShovelToUp,
-                    bitCheck = new Bitmap(path + "iconRight.png")
-                },
-                label = LabelWp.WayToCave,
-                name = "iconBank.png"
-            });
-            listWaypointsToHunt.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "iconRight.png"),
-                state = State.Waiting,
-                function = new Function()
-                {
-                    action = EnumAction.CheckWp,
-                    bitCheck = new Bitmap(path + "iconRight.png")
-                },
-                label = LabelWp.WayToCave,
-                name = "iconRight.png"
-            });
+            //listWaypointsToHunt.Add(new Waypoints()
+            //{
+            //    bitIcon = new Bitmap(path + "iconUp.png"),
+            //    state = State.Waiting,
+            //    function = null,
+            //    label = LabelWp.WayToCave,
+            //    name = "iconUp.png"
+            //});
+            //listWaypointsToHunt.Add(new Waypoints()
+            //{
+            //    bitIcon = new Bitmap(path + "greenUp.png"),
+            //    state = State.Waiting,
+            //    function = null,
+            //    label = LabelWp.WayToCave,
+            //    name = "greenUp.png"
+            //});
+            //listWaypointsToHunt.Add(new Waypoints()
+            //{
+            //    bitIcon = new Bitmap(path + "greenDown.png"),
+            //    state = State.Waiting,
+            //    function = new Function()
+            //    {
+            //        action = EnumAction.MapZoomMax,
+            //        bitCheck = new Bitmap(path + "greenDown.png")
+            //    },
+            //    label = LabelWp.WayToCave,
+            //    name = "greenDown.png"
+            //});
+            //listWaypointsToHunt.Add(new Waypoints()
+            //{
+            //    bitIcon = new Bitmap(path + "iconBank.png"),
+            //    state = State.Waiting,
+            //    function = new Function()
+            //    {
+            //        action = EnumAction.MapZoomMin,
+            //        bitCheck = new Bitmap(path + "iconBank.png")
+            //    },
+            //    label = LabelWp.WayToCave,
+            //    name = "iconBank.png"
+            //});
+            //listWaypointsToHunt.Add(new Waypoints()
+            //{
+            //    bitIcon = new Bitmap(path + "iconBank.png"),
+            //    state = State.Waiting,
+            //    function = new Function()
+            //    {
+            //        action = EnumAction.ShovelToUp,
+            //        bitCheck = new Bitmap(path + "iconRight.png")
+            //    },
+            //    label = LabelWp.WayToCave,
+            //    name = "iconBank.png"
+            //});
+            //listWaypointsToHunt.Add(new Waypoints()
+            //{
+            //    bitIcon = new Bitmap(path + "iconRight.png"),
+            //    state = State.Waiting,
+            //    function = new Function()
+            //    {
+            //        action = EnumAction.CheckWp,
+            //        bitCheck = new Bitmap(path + "iconRight.png")
+            //    },
+            //    label = LabelWp.WayToCave,
+            //    name = "iconRight.png"
+            //});
 
             #endregion
 
             #region InHunt
 
-            listWaypointsInHunt.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "iconRight.png"),
-                state = State.Waiting,
-                function = null,
-                label = LabelWp.InCave,
-                name = "iconRight.png"
-            });
+            //listWaypointsInHunt.Add(new Waypoints()
+            //{
+            //    bitIcon = new Bitmap(path + "iconRight.png"),
+            //    state = State.Waiting,
+            //    function = null,
+            //    label = LabelWp.InCave,
+            //    name = "iconRight.png"
+            //});
 
-            listWaypointsInHunt.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "iconDown.png"),
-                state = State.Waiting,
-                function = null,
-                label = LabelWp.InCave,
-                name = "iconDown.png"
-            });
+            //listWaypointsInHunt.Add(new Waypoints()
+            //{
+            //    bitIcon = new Bitmap(path + "iconDown.png"),
+            //    state = State.Waiting,
+            //    function = null,
+            //    label = LabelWp.InCave,
+            //    name = "iconDown.png"
+            //});
 
-            listWaypointsInHunt.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "iconUp.png"),
-                state = State.Waiting,
-                function = null,
-                label = LabelWp.InCave,
-                name = "iconUp.png"
-            });
+            //listWaypointsInHunt.Add(new Waypoints()
+            //{
+            //    bitIcon = new Bitmap(path + "iconUp.png"),
+            //    state = State.Waiting,
+            //    function = null,
+            //    label = LabelWp.InCave,
+            //    name = "iconUp.png"
+            //});
 
-            listWaypointsInHunt.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "greenUp.png"),
-                state = State.Waiting,
-                function = null,
-                label = LabelWp.InCave,
-                name = "greenUp.png"
-            });
+            //listWaypointsInHunt.Add(new Waypoints()
+            //{
+            //    bitIcon = new Bitmap(path + "greenUp.png"),
+            //    state = State.Waiting,
+            //    function = null,
+            //    label = LabelWp.InCave,
+            //    name = "greenUp.png"
+            //});
 
-            listWaypointsInHunt.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "greenDown.png"),
-                state = State.Waiting,
-                function = null,
-                label = LabelWp.InCave,
-                name = "greenDown.png"
-            });
+            //listWaypointsInHunt.Add(new Waypoints()
+            //{
+            //    bitIcon = new Bitmap(path + "greenDown.png"),
+            //    state = State.Waiting,
+            //    function = null,
+            //    label = LabelWp.InCave,
+            //    name = "greenDown.png"
+            //});
 
-            listWaypointsInHunt.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "iconBank.png"),
-                state = State.Waiting,
-                function = null,
-                label = LabelWp.InCave,
-                name = "iconBank.png"
-            });
+            //listWaypointsInHunt.Add(new Waypoints()
+            //{
+            //    bitIcon = new Bitmap(path + "iconBank.png"),
+            //    state = State.Waiting,
+            //    function = null,
+            //    label = LabelWp.InCave,
+            //    name = "iconBank.png"
+            //});
 
-            listWaypointsInHunt.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "iconRight.png"),
-                state = State.Waiting,
-                function = new Function()
-                {
-                    action = EnumAction.CheckRefill,
-                    bitCheck = new Bitmap(path + "iconRight.png")
-                },
-                label = LabelWp.InCave,
-                name = "iconRight.png"
-            });
+            //listWaypointsInHunt.Add(new Waypoints()
+            //{
+            //    bitIcon = new Bitmap(path + "iconRight.png"),
+            //    state = State.Waiting,
+            //    function = new Function()
+            //    {
+            //        action = EnumAction.CheckRefill,
+            //        bitCheck = new Bitmap(path + "iconRight.png")
+            //    },
+            //    label = LabelWp.InCave,
+            //    name = "iconRight.png"
+            //});
 
             #endregion
 
             #region ToReffil
-            listWaypointsToReffil.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "iconRight.png"),
-                state = State.Waiting,
-                function = new Function()
-                {
-                    action = EnumAction.RopeCenter,
-                    bitCheck = new Bitmap(path + "iconBank.png")
-                },
-                label = LabelWp.WayToReffil,
-                name = "iconRight.png"
-            });
+            //listWaypointsToReffil.Add(new Waypoints()
+            //{
+            //    bitIcon = new Bitmap(path + "iconRight.png"),
+            //    state = State.Waiting,
+            //    function = new Function()
+            //    {
+            //        action = EnumAction.RopeCenter,
+            //        bitCheck = new Bitmap(path + "iconBank.png")
+            //    },
+            //    label = LabelWp.WayToReffil,
+            //    name = "iconRight.png"
+            //});
 
-            listWaypointsToReffil.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "greenDown.png"),
-                state = State.Waiting,
-                function = null,
-                label = LabelWp.WayToReffil,
-                name = "greenDown.png"
-            });
+            //listWaypointsToReffil.Add(new Waypoints()
+            //{
+            //    bitIcon = new Bitmap(path + "greenDown.png"),
+            //    state = State.Waiting,
+            //    function = null,
+            //    label = LabelWp.WayToReffil,
+            //    name = "greenDown.png"
+            //});
 
-            listWaypointsToReffil.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "greenUp.png"),
-                state = State.Waiting,
-                function = null,
-                label = LabelWp.WayToReffil,
-                name = "greenUp.png"
-            });
+            //listWaypointsToReffil.Add(new Waypoints()
+            //{
+            //    bitIcon = new Bitmap(path + "greenUp.png"),
+            //    state = State.Waiting,
+            //    function = null,
+            //    label = LabelWp.WayToReffil,
+            //    name = "greenUp.png"
+            //});
 
-            listWaypointsToReffil.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "iconUp.png"),
-                state = State.Waiting,
-                function = null,
-                label = LabelWp.WayToReffil,
-                name = "iconUp.png"
-            });
+            //listWaypointsToReffil.Add(new Waypoints()
+            //{
+            //    bitIcon = new Bitmap(path + "iconUp.png"),
+            //    state = State.Waiting,
+            //    function = null,
+            //    label = LabelWp.WayToReffil,
+            //    name = "iconUp.png"
+            //});
 
-            listWaypointsToReffil.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "iconDown.png"),
-                state = State.Waiting,
-                function = new Function()
-                {
-                    action = EnumAction.Depot,
-                },
-                label = LabelWp.WayToReffil,
-                name = "iconDown.png"
-            });
+            //listWaypointsToReffil.Add(new Waypoints()
+            //{
+            //    bitIcon = new Bitmap(path + "iconDown.png"),
+            //    state = State.Waiting,
+            //    function = new Function()
+            //    {
+            //        action = EnumAction.Depot,
+            //    },
+            //    label = LabelWp.WayToReffil,
+            //    name = "iconDown.png"
+            //});
 
             #endregion
 
             #region InReffil
 
-            listWaypointsInReffil.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "iconBank.png"),
-                state = State.Waiting,
-                function = new Function()
-                {
-                    action = EnumAction.Walk,
-                    bitCheck = new Bitmap(path + "iconBank.png")
-                },
-                label = LabelWp.Reffil,
-                name = "iconBank.png"
-            });
+            //listWaypointsInReffil.Add(new Waypoints()
+            //{
+            //    bitIcon = new Bitmap(path + "iconBank.png"),
+            //    state = State.Waiting,
+            //    function = new Function()
+            //    {
+            //        action = EnumAction.Walk,
+            //        bitCheck = new Bitmap(path + "iconBank.png")
+            //    },
+            //    label = LabelWp.Reffil,
+            //    name = "iconBank.png"
+            //});
 
-            listWaypointsInReffil.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "iconBank.png"),
-                state = State.Waiting,
-                function = new Function()
-                {
-                    action = EnumAction.BuyPots
-                },
-                label = LabelWp.Reffil,
-                name = "iconBank.png"
-            });
+            //listWaypointsInReffil.Add(new Waypoints()
+            //{
+            //    bitIcon = new Bitmap(path + "iconBank.png"),
+            //    state = State.Waiting,
+            //    function = new Function()
+            //    {
+            //        action = EnumAction.BuyPots
+            //    },
+            //    label = LabelWp.Reffil,
+            //    name = "iconBank.png"
+            //});
 
-            listWaypointsInReffil.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "iconBank.png"),
-                state = State.Waiting,
-                function = new Function()
-                {
-                    action = EnumAction.CheckWp
-                },
-                label = LabelWp.Reffil,
-                name = "iconBank.png"
-            });
+            //listWaypointsInReffil.Add(new Waypoints()
+            //{
+            //    bitIcon = new Bitmap(path + "iconBank.png"),
+            //    state = State.Waiting,
+            //    function = new Function()
+            //    {
+            //        action = EnumAction.CheckWp
+            //    },
+            //    label = LabelWp.Reffil,
+            //    name = "iconBank.png"
+            //});
 
             #endregion
 
@@ -454,7 +455,7 @@ namespace MouseMoveBot
             textBox5.Text = c.R.ToString();
             Bitmap bit = new Bitmap(pictureBox1.Width / zoom, pictureBox1.Height / zoom, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             g = Graphics.FromImage(bit);
-            //g.CopyFromScreen(Cursor.Position.X - pictureBox1.Width / (zoom * 2), Cursor.Position.Y - pictureBox1.Height / (zoom * 2), 0, 0, pictureBox1.Size, CopyPixelOperation.SourceCopy);
+            g.CopyFromScreen(Cursor.Position.X - pictureBox1.Width / (zoom * 2), Cursor.Position.Y - pictureBox1.Height / (zoom * 2), 0, 0, pictureBox1.Size, CopyPixelOperation.SourceCopy);
             pictureBox1.Image = bit;
         }
 
@@ -536,7 +537,7 @@ namespace MouseMoveBot
                     if (cbCavebot.Checked && currentWaypoint.state == State.Walking && (!battleIsNormal && currentWaypoint.label == LabelWp.InCave) && iconTibia == iconColor)
                         SendKeys.SendWait("{Esc}");
 
-                    if (cbCavebot.Checked && battleIsNormal && iconTibia == iconColor && currentWaypoint != null)
+                    if (cbCavebot.Checked && ((!battleIsNormal && currentWaypoint.label != LabelWp.InCave) || battleIsNormal) && iconTibia == iconColor && currentWaypoint != null)
                     {
                         if (currentWaypoint.state == State.Attacking && battleIsNormal)
                             currentWaypoint.state = State.Waiting;
@@ -1803,7 +1804,13 @@ namespace MouseMoveBot
             f3 = new Form3(this);
             this.Hide();
             f3.ShowDialog();
-            this.Show();
+        }
+
+        private void TargetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            f4 = new Form4(this);
+            this.Hide();
+            f4.ShowDialog();
         }
     }
 }

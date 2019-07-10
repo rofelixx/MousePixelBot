@@ -39,6 +39,8 @@ namespace MouseMoveBot
         };
 
         Form1 f1;
+        Form3 f3;
+        Form4 f4;
 
         public Form2(Form1 f)
         {
@@ -48,7 +50,7 @@ namespace MouseMoveBot
 
         private void Form2_Load(object sender, EventArgs e)
         {
-            this.checkBox1.Checked = f1.cbHealerLife.Checked;
+            this.cbHealthHealer.Checked = f1.cbHealerLife.Checked;
             this.comboBoxHealthMax.Text = f1.textboxMaxHealth.Text;
             this.comboBoxHealthMid.Text = f1.textboxMidHealth.Text;
             this.comboBoxHealthMin.Text = f1.textboxMinHealth.Text;
@@ -70,27 +72,34 @@ namespace MouseMoveBot
             this.comboBoxMana.Items.AddRange(ItemRange);
         }
 
-        private void CheckBox1_CheckedChanged(object sender, EventArgs e)
-        {
-            f1.cbHealerLife.Checked = this.checkBox1.Checked;
-        }
-
         private void HomeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Hide();
             f1.Show();
         }
-    
-        private void ComboBoxHealthMin_SelectedIndexChanged(object sender, EventArgs e)
+
+        private void CavebotToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            f1.textboxMinHealth.Text = this.comboBoxHealthMin.Text;
-            f1.keyMinHealerSelected = this.comboBoxHealthMin.Text;
+            f3 = new Form3(f1);
+            this.Hide();
+            f3.ShowDialog();
         }
 
-        private void ComboBoxHealthMid_SelectedIndexChanged(object sender, EventArgs e)
+        private void TargetToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            f1.textboxMidHealth.Text = this.comboBoxHealthMid.Text;
-            f1.keyMidHealerSelected = this.comboBoxHealthMid.Text;
+            f4 = new Form4(f1);
+            this.Hide();
+            f4.ShowDialog();
+        }
+
+        private void CheckBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            f1.cbHealerLife.Checked = this.cbHealthHealer.Checked;
+        }
+
+        private void CbManaHealer_CheckedChanged(object sender, EventArgs e)
+        {
+            f1.cbHealerMana.Checked = this.cbManaHealer.Checked;
         }
 
         private void ComboBoxHealthMax_SelectedIndexChanged(object sender, EventArgs e)
@@ -99,12 +108,19 @@ namespace MouseMoveBot
             f1.keyMaxHealerSelected = this.comboBoxHealthMax.Text;
         }
 
-        private void CheckBox2_CheckedChanged(object sender, EventArgs e)
+        private void ComboBoxHealthMid_SelectedIndexChanged(object sender, EventArgs e)
         {
-            f1.cbHealerMana.Checked = this.cbManaHealer.Checked;
+            f1.textboxMidHealth.Text = this.comboBoxHealthMid.Text;
+            f1.keyMidHealerSelected = this.comboBoxHealthMid.Text;
         }
 
-        private void ComboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        private void ComboBoxHealthMin_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            f1.textboxMinHealth.Text = this.comboBoxHealthMin.Text;
+            f1.keyMinHealerSelected = this.comboBoxHealthMin.Text;
+        }
+
+        private void ComboBoxMana_SelectedIndexChanged(object sender, EventArgs e)
         {
             f1.comboBoxManaKey.Text = this.comboBoxMana.Text;
             f1.keyManaSelected = this.comboBoxMana.Text;

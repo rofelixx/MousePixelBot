@@ -31,27 +31,25 @@ namespace MouseMoveBot
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.comboBoxHealthMax = new System.Windows.Forms.ComboBox();
-            this.comboBoxHealthMid = new System.Windows.Forms.ComboBox();
-            this.comboBoxHealthMin = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.menuStrip2 = new System.Windows.Forms.MenuStrip();
             this.homeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.healerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cavebotToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.targetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lootToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.comboBoxMana = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
             this.cbManaHealer = new System.Windows.Forms.CheckBox();
-            this.panel1.SuspendLayout();
+            this.comboBoxHealthMax = new System.Windows.Forms.ComboBox();
+            this.comboBoxHealthMid = new System.Windows.Forms.ComboBox();
+            this.comboBoxHealthMin = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.cbHealthHealer = new System.Windows.Forms.CheckBox();
             this.menuStrip2.SuspendLayout();
-            this.panel2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -62,85 +60,6 @@ namespace MouseMoveBot
             this.label1.Size = new System.Drawing.Size(38, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Healer";
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.comboBoxHealthMax);
-            this.panel1.Controls.Add(this.comboBoxHealthMid);
-            this.panel1.Controls.Add(this.comboBoxHealthMin);
-            this.panel1.Controls.Add(this.label4);
-            this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.checkBox1);
-            this.panel1.Location = new System.Drawing.Point(15, 39);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(544, 145);
-            this.panel1.TabIndex = 1;
-            // 
-            // comboBoxHealthMax
-            // 
-            this.comboBoxHealthMax.FormattingEnabled = true;
-            this.comboBoxHealthMax.Location = new System.Drawing.Point(344, 78);
-            this.comboBoxHealthMax.Name = "comboBoxHealthMax";
-            this.comboBoxHealthMax.Size = new System.Drawing.Size(95, 21);
-            this.comboBoxHealthMax.TabIndex = 26;
-            this.comboBoxHealthMax.SelectedIndexChanged += new System.EventHandler(this.ComboBoxHealthMax_SelectedIndexChanged);
-            // 
-            // comboBoxHealthMid
-            // 
-            this.comboBoxHealthMid.FormattingEnabled = true;
-            this.comboBoxHealthMid.Location = new System.Drawing.Point(172, 78);
-            this.comboBoxHealthMid.Name = "comboBoxHealthMid";
-            this.comboBoxHealthMid.Size = new System.Drawing.Size(95, 21);
-            this.comboBoxHealthMid.TabIndex = 25;
-            this.comboBoxHealthMid.SelectedIndexChanged += new System.EventHandler(this.ComboBoxHealthMid_SelectedIndexChanged);
-            // 
-            // comboBoxHealthMin
-            // 
-            this.comboBoxHealthMin.FormattingEnabled = true;
-            this.comboBoxHealthMin.Location = new System.Drawing.Point(12, 78);
-            this.comboBoxHealthMin.Name = "comboBoxHealthMin";
-            this.comboBoxHealthMin.Size = new System.Drawing.Size(95, 21);
-            this.comboBoxHealthMin.TabIndex = 24;
-            this.comboBoxHealthMin.SelectedIndexChanged += new System.EventHandler(this.ComboBoxHealthMin_SelectedIndexChanged);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(341, 46);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(79, 13);
-            this.label4.TabIndex = 23;
-            this.label4.Text = "Health <= 85 %";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(169, 46);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(79, 13);
-            this.label3.TabIndex = 21;
-            this.label3.Text = "Health <= 65 %";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(9, 46);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(79, 13);
-            this.label2.TabIndex = 19;
-            this.label2.Text = "Health <= 30 %";
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(12, 12);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(57, 17);
-            this.checkBox1.TabIndex = 17;
-            this.checkBox1.Text = "Health";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.CheckBox1_CheckedChanged);
             // 
             // menuStrip2
             // 
@@ -174,12 +93,14 @@ namespace MouseMoveBot
             this.cavebotToolStripMenuItem.Name = "cavebotToolStripMenuItem";
             this.cavebotToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
             this.cavebotToolStripMenuItem.Text = "Cavebot";
+            this.cavebotToolStripMenuItem.Click += new System.EventHandler(this.CavebotToolStripMenuItem_Click);
             // 
             // targetToolStripMenuItem
             // 
             this.targetToolStripMenuItem.Name = "targetToolStripMenuItem";
             this.targetToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
             this.targetToolStripMenuItem.Text = "Target";
+            this.targetToolStripMenuItem.Click += new System.EventHandler(this.TargetToolStripMenuItem_Click);
             // 
             // lootToolStripMenuItem
             // 
@@ -187,63 +108,134 @@ namespace MouseMoveBot
             this.lootToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.lootToolStripMenuItem.Text = "Loot";
             // 
-            // panel2
+            // groupBox1
             // 
-            this.panel2.Controls.Add(this.comboBoxMana);
-            this.panel2.Controls.Add(this.label7);
-            this.panel2.Controls.Add(this.cbManaHealer);
-            this.panel2.Location = new System.Drawing.Point(15, 190);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(544, 145);
-            this.panel2.TabIndex = 27;
+            this.groupBox1.Controls.Add(this.comboBoxMana);
+            this.groupBox1.Controls.Add(this.label7);
+            this.groupBox1.Controls.Add(this.cbManaHealer);
+            this.groupBox1.Controls.Add(this.comboBoxHealthMax);
+            this.groupBox1.Controls.Add(this.comboBoxHealthMid);
+            this.groupBox1.Controls.Add(this.comboBoxHealthMin);
+            this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.cbHealthHealer);
+            this.groupBox1.Location = new System.Drawing.Point(12, 38);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(541, 280);
+            this.groupBox1.TabIndex = 28;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Healer";
             // 
-            // comboBox3
+            // comboBoxMana
             // 
             this.comboBoxMana.FormattingEnabled = true;
-            this.comboBoxMana.Location = new System.Drawing.Point(12, 78);
-            this.comboBoxMana.Name = "comboBox3";
+            this.comboBoxMana.Location = new System.Drawing.Point(15, 237);
+            this.comboBoxMana.Name = "comboBoxMana";
             this.comboBoxMana.Size = new System.Drawing.Size(95, 21);
-            this.comboBoxMana.TabIndex = 24;
-            this.comboBoxMana.SelectedIndexChanged += new System.EventHandler(this.ComboBox3_SelectedIndexChanged);
+            this.comboBoxMana.TabIndex = 36;
+            this.comboBoxMana.SelectedIndexChanged += new System.EventHandler(this.ComboBoxMana_SelectedIndexChanged);
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(9, 46);
+            this.label7.Location = new System.Drawing.Point(12, 204);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(75, 13);
-            this.label7.TabIndex = 19;
+            this.label7.TabIndex = 35;
             this.label7.Text = "Mana <= 50 %";
             // 
-            // checkBox2
+            // cbManaHealer
             // 
             this.cbManaHealer.AutoSize = true;
-            this.cbManaHealer.Location = new System.Drawing.Point(12, 12);
-            this.cbManaHealer.Name = "checkBox2";
+            this.cbManaHealer.Location = new System.Drawing.Point(15, 170);
+            this.cbManaHealer.Name = "cbManaHealer";
             this.cbManaHealer.Size = new System.Drawing.Size(53, 17);
-            this.cbManaHealer.TabIndex = 17;
+            this.cbManaHealer.TabIndex = 34;
             this.cbManaHealer.Text = "Mana";
             this.cbManaHealer.UseVisualStyleBackColor = true;
-            this.cbManaHealer.CheckedChanged += new System.EventHandler(this.CheckBox2_CheckedChanged);
+            this.cbManaHealer.CheckedChanged += new System.EventHandler(this.CbManaHealer_CheckedChanged);
+            // 
+            // comboBoxHealthMax
+            // 
+            this.comboBoxHealthMax.FormattingEnabled = true;
+            this.comboBoxHealthMax.Location = new System.Drawing.Point(347, 109);
+            this.comboBoxHealthMax.Name = "comboBoxHealthMax";
+            this.comboBoxHealthMax.Size = new System.Drawing.Size(95, 21);
+            this.comboBoxHealthMax.TabIndex = 33;
+            this.comboBoxHealthMax.SelectedIndexChanged += new System.EventHandler(this.ComboBoxHealthMax_SelectedIndexChanged);
+            // 
+            // comboBoxHealthMid
+            // 
+            this.comboBoxHealthMid.FormattingEnabled = true;
+            this.comboBoxHealthMid.Location = new System.Drawing.Point(175, 109);
+            this.comboBoxHealthMid.Name = "comboBoxHealthMid";
+            this.comboBoxHealthMid.Size = new System.Drawing.Size(95, 21);
+            this.comboBoxHealthMid.TabIndex = 32;
+            this.comboBoxHealthMid.SelectedIndexChanged += new System.EventHandler(this.ComboBoxHealthMid_SelectedIndexChanged);
+            // 
+            // comboBoxHealthMin
+            // 
+            this.comboBoxHealthMin.FormattingEnabled = true;
+            this.comboBoxHealthMin.Location = new System.Drawing.Point(15, 109);
+            this.comboBoxHealthMin.Name = "comboBoxHealthMin";
+            this.comboBoxHealthMin.Size = new System.Drawing.Size(95, 21);
+            this.comboBoxHealthMin.TabIndex = 31;
+            this.comboBoxHealthMin.SelectedIndexChanged += new System.EventHandler(this.ComboBoxHealthMin_SelectedIndexChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(344, 77);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(79, 13);
+            this.label4.TabIndex = 30;
+            this.label4.Text = "Health <= 85 %";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(172, 77);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(79, 13);
+            this.label3.TabIndex = 29;
+            this.label3.Text = "Health <= 65 %";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(12, 77);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(79, 13);
+            this.label2.TabIndex = 28;
+            this.label2.Text = "Health <= 30 %";
+            // 
+            // cbHealthHealer
+            // 
+            this.cbHealthHealer.AutoSize = true;
+            this.cbHealthHealer.Location = new System.Drawing.Point(15, 43);
+            this.cbHealthHealer.Name = "cbHealthHealer";
+            this.cbHealthHealer.Size = new System.Drawing.Size(57, 17);
+            this.cbHealthHealer.TabIndex = 27;
+            this.cbHealthHealer.Text = "Health";
+            this.cbHealthHealer.UseVisualStyleBackColor = true;
+            this.cbHealthHealer.CheckedChanged += new System.EventHandler(this.CheckBox1_CheckedChanged);
             // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(571, 340);
-            this.Controls.Add(this.panel2);
             this.Controls.Add(this.menuStrip2);
-            this.Controls.Add(this.panel1);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.groupBox1);
             this.Name = "Form2";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Load += new System.EventHandler(this.Form2_Load);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.menuStrip2.ResumeLayout(false);
             this.menuStrip2.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -252,24 +244,23 @@ namespace MouseMoveBot
         #endregion
 
         public Label label1;
-        public Panel panel1;
-        public CheckBox checkBox1;
-        private Label label2;
-        private Label label4;
-        private Label label3;
         public MenuStrip menuStrip2;
         public ToolStripMenuItem homeToolStripMenuItem;
         public ToolStripMenuItem healerToolStripMenuItem;
         public ToolStripMenuItem cavebotToolStripMenuItem;
         public ToolStripMenuItem targetToolStripMenuItem;
         public ToolStripMenuItem lootToolStripMenuItem;
-        private ComboBox comboBoxHealthMax;
-        private ComboBox comboBoxHealthMid;
-        private ComboBox comboBoxHealthMin;
-        public Panel panel2;
+        private GroupBox groupBox1;
         public ComboBox comboBoxMana;
         private Label label7;
         public CheckBox cbManaHealer;
+        private ComboBox comboBoxHealthMax;
+        private ComboBox comboBoxHealthMid;
+        private ComboBox comboBoxHealthMin;
+        private Label label4;
+        private Label label3;
+        private Label label2;
+        public CheckBox cbHealthHealer;
     }
 }
 
