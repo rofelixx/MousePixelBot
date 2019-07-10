@@ -537,7 +537,7 @@ namespace MouseMoveBot
                     if (cbCavebot.Checked && currentWaypoint.state == State.Walking && (!battleIsNormal && currentWaypoint.label == LabelWp.InCave) && iconTibia == iconColor)
                         SendKeys.SendWait("{Esc}");
 
-                    if (cbCavebot.Checked && battleIsNormal && iconTibia == iconColor && currentWaypoint != null)
+                    if (cbCavebot.Checked && ((!battleIsNormal && currentWaypoint.label != LabelWp.InCave) || battleIsNormal) && iconTibia == iconColor && currentWaypoint != null)
                     {
                         if (currentWaypoint.state == State.Attacking && battleIsNormal)
                             currentWaypoint.state = State.Waiting;
