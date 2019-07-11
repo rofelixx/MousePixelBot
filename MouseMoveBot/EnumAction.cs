@@ -21,6 +21,6 @@
         Walk,
         CheckWp,
         MapZoomMax,
-        MapZoomMin
+        MapZoomMin,        
     }
 }

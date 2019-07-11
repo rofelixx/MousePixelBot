@@ -6,5 +6,6 @@ namespace MouseMoveBot
     {
         public EnumAction action { get; set; }
         public Bitmap bitCheck { get; set; }
+        public string exportBitCheck { get; set; }
     }
 }
