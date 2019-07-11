@@ -246,7 +246,7 @@ namespace MouseMoveBot
             {
                 EnumAction actionWp;
                 Enum.TryParse(this.listView1.SelectedItems[0].SubItems[3].Text, out actionWp);
-                newWp = newWp.Where(w => w.function.action == actionWp).ToList();
+                newWp = newWp.Where(w => w.function != null && w.function.action == actionWp).ToList();
             }
 
             switch (label)
@@ -291,24 +291,44 @@ namespace MouseMoveBot
             {
                 item.exportBitmap = ToBase64String(item.bitIcon, ImageFormat.Png);
                 item.bitIcon = null;
+                if (item.function != null && item.function.bitCheck != null)
+                {
+                    item.function.exportBitCheck = ToBase64String(item.function.bitCheck, ImageFormat.Png);
+                    item.function.bitCheck = null;
+                }
             }
 
             foreach (var item in f1.listWaypointsInHunt)
             {
                 item.exportBitmap = ToBase64String(item.bitIcon, ImageFormat.Png);
                 item.bitIcon = null;
+                if (item.function != null && item.function.bitCheck != null)
+                {
+                    item.function.exportBitCheck = ToBase64String(item.function.bitCheck, ImageFormat.Png);
+                    item.function.bitCheck = null;
+                }
             }
 
             foreach (var item in f1.listWaypointsToReffil)
             {
                 item.exportBitmap = ToBase64String(item.bitIcon, ImageFormat.Png);
                 item.bitIcon = null;
+                if (item.function != null && item.function.bitCheck != null)
+                {
+                    item.function.exportBitCheck = ToBase64String(item.function.bitCheck, ImageFormat.Png);
+                    item.function.bitCheck = null;
+                }
             }
 
             foreach (var item in f1.listWaypointsInReffil)
             {
                 item.exportBitmap = ToBase64String(item.bitIcon, ImageFormat.Png);
                 item.bitIcon = null;
+                if (item.function != null && item.function.bitCheck != null)
+                {
+                    item.function.exportBitCheck = ToBase64String(item.function.bitCheck, ImageFormat.Png);
+                    item.function.bitCheck = null;
+                }
             }
 
             var AllLists = new List<List<Waypoints>>()
@@ -359,7 +379,7 @@ namespace MouseMoveBot
 
             this.openFileDialog1.Multiselect = false;
             this.openFileDialog1.Title = "Selecionar Fotos";
-            openFileDialog1.InitialDirectory = @"C:\Users\ALM4CT\Desktop";
+            openFileDialog1.InitialDirectory = @"C:\Users\Guigo\Documents";
             openFileDialog1.Filter = "All files (*.*)|*.*";
             openFileDialog1.CheckFileExists = true;
             openFileDialog1.CheckPathExists = true;
@@ -383,6 +403,10 @@ namespace MouseMoveBot
 
                 foreach (var item in f1.listWaypointsToHunt)
                 {
+                    if (item.function != null && item.function.exportBitCheck != null)
+                    {
+                        item.function.bitCheck = Base64StringToBitmap(item.function.exportBitCheck);
+                    }
                     item.bitIcon = Base64StringToBitmap(item.exportBitmap);
                     string[] row = { item.name.ToString(), item.label.ToString(), item.state.ToString(), item.function == null ? "-" : item.function.action.ToString(), f1.currentWaypoint == item ? "true" : "" };
                     var lvItem = new ListViewItem(row);
@@ -391,6 +415,10 @@ namespace MouseMoveBot
 
                 foreach (var item in f1.listWaypointsInHunt)
                 {
+                    if (item.function != null && item.function.exportBitCheck != null)
+                    {
+                        item.function.bitCheck = Base64StringToBitmap(item.function.exportBitCheck);
+                    }
                     item.bitIcon = Base64StringToBitmap(item.exportBitmap);
                     string[] row = { item.name.ToString(), item.label.ToString(), item.state.ToString(), item.function == null ? "-" : item.function.action.ToString(), f1.currentWaypoint == item ? "true" : "" };
                     var lvItem = new ListViewItem(row);
@@ -399,6 +427,10 @@ namespace MouseMoveBot
 
                 foreach (var item in f1.listWaypointsToReffil)
                 {
+                    if (item.function != null && item.function.exportBitCheck != null)
+                    {
+                        item.function.bitCheck = Base64StringToBitmap(item.function.exportBitCheck);
+                    }
                     item.bitIcon = Base64StringToBitmap(item.exportBitmap);
                     string[] row = { item.name.ToString(), item.label.ToString(), item.state.ToString(), item.function == null ? "-" : item.function.action.ToString(), f1.currentWaypoint == item ? "true" : "" };
                     var lvItem = new ListViewItem(row);
@@ -407,6 +439,10 @@ namespace MouseMoveBot
 
                 foreach (var item in f1.listWaypointsInReffil)
                 {
+                    if (item.function != null && item.function.exportBitCheck != null)
+                    {
+                        item.function.bitCheck = Base64StringToBitmap(item.function.exportBitCheck);
+                    }
                     item.bitIcon = Base64StringToBitmap(item.exportBitmap);
                     string[] row = { item.name.ToString(), item.label.ToString(), item.state.ToString(), item.function == null ? "-" : item.function.action.ToString(), f1.currentWaypoint == item ? "true" : "" };
                     var lvItem = new ListViewItem(row);
