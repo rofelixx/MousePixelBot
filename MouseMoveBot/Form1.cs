@@ -136,6 +136,7 @@ namespace MouseMoveBot
             listWaypointsInReffil = new List<Waypoints>();
 
             #region waypoints Ek
+
             #region WayToHut
 
             listWaypointsToHunt.Add(new Waypoints()
@@ -259,6 +260,15 @@ namespace MouseMoveBot
                 function = null,
                 label = LabelWp.InCave,
                 name = "iconBank.png"
+            });
+
+            listWaypointsInHunt.Add(new Waypoints()
+            {
+                bitIcon = new Bitmap(path + "iconRight.png"),
+                state = State.Waiting,
+                function = null,
+                label = LabelWp.InCave,
+                name = "iconRight.png"
             });
 
             listWaypointsInHunt.Add(new Waypoints()
@@ -569,7 +579,6 @@ namespace MouseMoveBot
             g = Graphics.FromImage(bit);
             g.CopyFromScreen(Cursor.Position.X - pictureBox1.Width / (zoom * 2), Cursor.Position.Y - pictureBox1.Height / (zoom * 2), 0, 0, pictureBox1.Size, CopyPixelOperation.SourceCopy);
             pictureBox1.Image = bit;
-            paint();
         }
 
         private void paint()
@@ -579,11 +588,7 @@ namespace MouseMoveBot
 
         private Rectangle GetRectangle()
         {
-            var rect = new Rectangle();
-            rect.X = Math.Min(Cursor.Position.X, 21);
-            rect.Y = Math.Min(Cursor.Position.Y, 17);
-            rect.Width = Math.Abs(Cursor.Position.X - 21);
-            rect.Height = Math.Abs(Cursor.Position.Y - 17);
+            var rect = new Rectangle(Cursor.Position.X, Cursor.Position.Y, 21, 17);
             return rect;
         }
 
@@ -703,7 +708,7 @@ namespace MouseMoveBot
 
                             if (index == (listWaypoints.Count - 1) && listWaypoints[index].state == State.Concluded)
                             {
-                                createWaypoints();
+                                resetStateWaypoints();
                                 index = 0;
                                 Console.WriteLine("Resetou waypoints");
                             }
@@ -1035,9 +1040,17 @@ namespace MouseMoveBot
                 listWaypoints = listWaypointsToReffil;
             else
             {
-                createWaypoints();
+                resetStateWaypoints();
                 listWaypoints = listWaypointsInHunt;
             }
+        }
+
+        private void resetStateWaypoints()
+        {
+            listWaypointsInHunt.Select(c => { c.state = State.Waiting; return c; }).ToList();
+            listWaypointsInReffil.Select(c => { c.state = State.Waiting; return c; }).ToList();
+            listWaypointsToHunt.Select(c => { c.state = State.Waiting; return c; }).ToList();
+            listWaypointsToReffil.Select(c => { c.state = State.Waiting; return c; }).ToList();
         }
 
         private void moveTo()
