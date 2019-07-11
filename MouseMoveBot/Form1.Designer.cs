@@ -54,7 +54,9 @@ namespace MouseMoveBot
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.comboBoxAreaRune = new System.Windows.Forms.ComboBox();
             this.checkMaximized = new System.Windows.Forms.CheckBox();
+            this.cbAreaRune = new System.Windows.Forms.CheckBox();
             this.cbFollowMonster = new System.Windows.Forms.CheckBox();
             this.comboBoxSdKey = new System.Windows.Forms.ComboBox();
             this.cbAttackSd = new System.Windows.Forms.CheckBox();
@@ -260,7 +262,9 @@ namespace MouseMoveBot
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.comboBoxAreaRune);
             this.panel1.Controls.Add(this.checkMaximized);
+            this.panel1.Controls.Add(this.cbAreaRune);
             this.panel1.Controls.Add(this.cbFollowMonster);
             this.panel1.Controls.Add(this.comboBoxSdKey);
             this.panel1.Controls.Add(this.cbAttackSd);
@@ -276,6 +280,15 @@ namespace MouseMoveBot
             this.panel1.Size = new System.Drawing.Size(285, 226);
             this.panel1.TabIndex = 15;
             // 
+            // comboBoxAreaRune
+            // 
+            this.comboBoxAreaRune.FormattingEnabled = true;
+            this.comboBoxAreaRune.Location = new System.Drawing.Point(218, 86);
+            this.comboBoxAreaRune.Name = "comboBoxAreaRune";
+            this.comboBoxAreaRune.Size = new System.Drawing.Size(52, 21);
+            this.comboBoxAreaRune.TabIndex = 33;
+            this.comboBoxAreaRune.SelectedIndexChanged += new System.EventHandler(this.ComboBoxAreaRune_SelectedIndexChanged);
+            // 
             // checkMaximized
             // 
             this.checkMaximized.AutoSize = true;
@@ -285,6 +298,16 @@ namespace MouseMoveBot
             this.checkMaximized.TabIndex = 25;
             this.checkMaximized.Text = "Always Maximized";
             this.checkMaximized.UseVisualStyleBackColor = true;
+            // 
+            // cbAreaRune
+            // 
+            this.cbAreaRune.AutoSize = true;
+            this.cbAreaRune.Location = new System.Drawing.Point(101, 90);
+            this.cbAreaRune.Name = "cbAreaRune";
+            this.cbAreaRune.Size = new System.Drawing.Size(111, 17);
+            this.cbAreaRune.TabIndex = 32;
+            this.cbAreaRune.Text = "Attack Area Rune";
+            this.cbAreaRune.UseVisualStyleBackColor = true;
             // 
             // cbFollowMonster
             // 
@@ -516,6 +539,8 @@ namespace MouseMoveBot
         public TextBox textboxMaxHealth;
         private ToolStripMenuItem fileToolStripMenuItem;
         private ToolStripMenuItem openToolStripMenuItem;
+        private ComboBox comboBoxAreaRune;
+        public CheckBox cbAreaRune;
     }
 }
 

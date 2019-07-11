@@ -39,6 +39,8 @@
             this.comboBoxSdKey = new System.Windows.Forms.ComboBox();
             this.cbAttackSd = new System.Windows.Forms.CheckBox();
             this.cbTarget = new System.Windows.Forms.CheckBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.menuStrip2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -92,6 +94,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.comboBox1);
+            this.groupBox1.Controls.Add(this.checkBox1);
             this.groupBox1.Controls.Add(this.cbFollowMonster);
             this.groupBox1.Controls.Add(this.comboBoxSdKey);
             this.groupBox1.Controls.Add(this.cbAttackSd);
@@ -142,6 +146,24 @@
             this.cbTarget.UseVisualStyleBackColor = true;
             this.cbTarget.CheckedChanged += new System.EventHandler(this.CbTarget_CheckedChanged);
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(17, 136);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(111, 17);
+            this.checkBox1.TabIndex = 30;
+            this.checkBox1.Text = "Attack Area Rune";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(134, 132);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(52, 21);
+            this.comboBox1.TabIndex = 31;
+            // 
             // Form4
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -175,5 +197,7 @@
         private System.Windows.Forms.ComboBox comboBoxSdKey;
         public System.Windows.Forms.CheckBox cbAttackSd;
         public System.Windows.Forms.CheckBox cbTarget;
+        private System.Windows.Forms.ComboBox comboBox1;
+        public System.Windows.Forms.CheckBox checkBox1;
     }
 }

@@ -58,6 +58,7 @@ namespace MouseMoveBot
 
         public String keyManaSelected;
         public String keySdSelected;
+        public String keyAreaRuneSelected;
 
         System.Object[] ItemRange;
 
@@ -90,7 +91,7 @@ namespace MouseMoveBot
         Task taskHealerMana;
         Task taskCavebot;
         Task taskAttack;
-        Task taskAttackSd;
+        Task taskAttackRune;
         Task taskTimer;
         Task checkArriveWp;
         Task TaskCheckBattleList;
@@ -731,7 +732,7 @@ namespace MouseMoveBot
                 } while (true);
             });
 
-            taskAttackSd = Task.Factory.StartNew(() =>
+            taskAttackRune = Task.Factory.StartNew(() =>
             {
                 do
                 {
@@ -739,6 +740,10 @@ namespace MouseMoveBot
                     {
                         checkAttackSd();
                     }
+                    if (cbAreaRune.Checked && iconTibia == iconColor)
+                    {
+                        checkAttackAreaRune();
+                    }                    
                 } while (true);
             });
 
@@ -764,6 +769,11 @@ namespace MouseMoveBot
                     }
                 } while (true);
             });
+        }
+
+        private void checkAttackAreaRune()
+        {
+            throw new NotImplementedException();
         }
 
         private void checkFunctionToDo()
@@ -1960,6 +1970,11 @@ namespace MouseMoveBot
             f5 = new Form5(this);
             this.Hide();
             f5.ShowDialog();
+        }
+
+        private void ComboBoxAreaRune_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            keyAreaRuneSelected = this.comboBoxAreaRune.SelectedItem.ToString();
         }
     }
 }
