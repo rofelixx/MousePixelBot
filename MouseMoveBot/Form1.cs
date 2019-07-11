@@ -84,6 +84,7 @@ namespace MouseMoveBot
         Form2 f2;
         Form3 f3;
         Form4 f4;
+        Form5 f5;
 
         Task taskHealerLife;
         Task taskHealerMana;
@@ -457,6 +458,22 @@ namespace MouseMoveBot
             g = Graphics.FromImage(bit);
             g.CopyFromScreen(Cursor.Position.X - pictureBox1.Width / (zoom * 2), Cursor.Position.Y - pictureBox1.Height / (zoom * 2), 0, 0, pictureBox1.Size, CopyPixelOperation.SourceCopy);
             pictureBox1.Image = bit;
+            paint();
+        }
+
+        private void paint()
+        {
+            Graphics.FromHwnd(IntPtr.Zero).DrawRectangle(Pens.Red, GetRectangle());
+        }
+
+        private Rectangle GetRectangle()
+        {
+            var rect = new Rectangle();
+            rect.X = Math.Min(Cursor.Position.X, 21);
+            rect.Y = Math.Min(Cursor.Position.Y, 17);
+            rect.Width = Math.Abs(Cursor.Position.X - 21);
+            rect.Height = Math.Abs(Cursor.Position.Y - 17);
+            return rect;
         }
 
         public static System.Drawing.Color GetPixelAtCursor()
@@ -1811,6 +1828,13 @@ namespace MouseMoveBot
             f4 = new Form4(this);
             this.Hide();
             f4.ShowDialog();
+        }
+
+        private void FileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            f5 = new Form5(this);
+            this.Hide();
+            f5.ShowDialog();
         }
     }
 }

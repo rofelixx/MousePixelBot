@@ -69,6 +69,8 @@ namespace MouseMoveBot
             this.textboxMinHealth = new System.Windows.Forms.TextBox();
             this.textboxMidHealth = new System.Windows.Forms.TextBox();
             this.textboxMaxHealth = new System.Windows.Forms.TextBox();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.menuStrip2.SuspendLayout();
@@ -200,7 +202,8 @@ namespace MouseMoveBot
             this.healerToolStripMenuItem,
             this.cavebotToolStripMenuItem,
             this.targetToolStripMenuItem,
-            this.lootToolStripMenuItem});
+            this.lootToolStripMenuItem,
+            this.fileToolStripMenuItem});
             this.menuStrip2.Location = new System.Drawing.Point(0, 0);
             this.menuStrip2.Name = "menuStrip2";
             this.menuStrip2.Size = new System.Drawing.Size(571, 24);
@@ -415,6 +418,21 @@ namespace MouseMoveBot
             this.textboxMaxHealth.TabIndex = 21;
             this.textboxMaxHealth.Visible = false;
             // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "File";
+            this.fileToolStripMenuItem.Click += new System.EventHandler(this.FileToolStripMenuItem_Click);
+            // 
+            // openToolStripMenuItem
+            // 
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Text = "Open";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -496,6 +514,8 @@ namespace MouseMoveBot
         public TextBox textboxMinHealth;
         public TextBox textboxMidHealth;
         public TextBox textboxMaxHealth;
+        private ToolStripMenuItem fileToolStripMenuItem;
+        private ToolStripMenuItem openToolStripMenuItem;
     }
 }
 
