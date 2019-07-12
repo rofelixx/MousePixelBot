@@ -181,6 +181,7 @@
     <Content Include="Resources\iconLeft.png" />
     <Content Include="Resources\iconRight.png" />
     <Content Include="Resources\iconUp.png" />
+    <Content Include="Resources\killing.png" />
     <Content Include="Resources\menuStowAll.png" />
     <Content Include="Resources\ropebelt.png" />
     <Content Include="WePH.txt" />
