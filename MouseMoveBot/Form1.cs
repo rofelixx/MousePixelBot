@@ -57,8 +57,9 @@ namespace MouseMoveBot
         public String keyMinHealerSelected;
 
         public String keyManaSelected;
-        public String keySdSelected;
+        public String keyMissileRune;
         public String keyAreaRuneSelected;
+        public String keySpellAttack;
 
         System.Object[] ItemRange;
 
@@ -565,8 +566,6 @@ namespace MouseMoveBot
             }
             this.comboBoxLifeKey.Items.AddRange(ItemRange);
             this.comboBoxManaKey.Items.AddRange(ItemRange);
-            this.comboBoxSdKey.Items.AddRange(ItemRange);
-            this.comboBoxAreaRune.Items.AddRange(ItemRange);
         }
 
         private void Timer1_Tick(object sender, EventArgs e)
@@ -733,20 +732,16 @@ namespace MouseMoveBot
                 } while (true);
             });
 
-            taskAttackRune = Task.Factory.StartNew(() =>
+            taskAttackRune = Task.Factory.StartNew((Action)(() =>
             {
                 do
                 {
-                    if (cbAttackSd.Checked && iconTibia == iconColor)
+                    if ((this.checkAttackSpell.Checked || this.checkAttackMissileRune.Checked || this.checkAttackAreaRune.Checked ) && iconTibia == iconColor)
                     {
-                        checkAttackSd();
-                    }
-                    if (cbAreaRune.Checked && iconTibia == iconColor)
-                    {
-                        checkAttackAreaRune();
+                        checkAttackRunes();
                     }
                 } while (true);
-            });
+            }));
 
             checkArriveWp = Task.Factory.StartNew(() =>
             {
@@ -772,7 +767,7 @@ namespace MouseMoveBot
             });
         }
 
-        private void checkAttackAreaRune()
+        private void checkAttackRunes()
         {
             var countMonster = 0;
             var blackColor = Color.FromArgb(255, 0, 0, 0);
@@ -786,18 +781,55 @@ namespace MouseMoveBot
             var red = Color.FromArgb(255, 255, 0, 0);
             var bixoSelecionadoRed = GetColorAt(new Point(1756, 440));
 
-            if (countMonster >= 2 && this.cbAreaRune.Checked && keyAreaRuneSelected != null && bixoSelecionadoRed == red)
+            if (this.checkAttackAreaRune.Checked && this.checkAttackSpell.Checked)
             {
-                SendKeys.SendWait("{" + keyAreaRuneSelected + "}");
-                Console.WriteLine("Key area rune Pressed.");
-                Task.Delay(2000).Wait();
+                if (countMonster >= 2 && keyAreaRuneSelected != null && bixoSelecionadoRed == red)
+                {
+                    SendKeys.SendWait("{" + keyAreaRuneSelected + "}");
+                    Console.WriteLine("Key area rune Pressed.");
+                    Task.Delay(2100).Wait();
+                }
+                else if (countMonster < 2 && keySpellAttack != null && bixoSelecionadoRed == red)
+                {
+                    SendKeys.SendWait("{" + keySpellAttack + "}");
+                    Console.WriteLine("spell key.");
+                    Task.Delay(2100).Wait();
+                }
             }
-            else if (countMonster < 2 && this.cbAreaRune.Checked && bixoSelecionadoRed == red)
+            else if (!this.checkAttackAreaRune.Checked && this.checkAttackSpell.Checked)
             {
-                SendKeys.SendWait("{F11}");
-                Console.WriteLine("spell key.");
-                Task.Delay(2000).Wait();
+                if (keySpellAttack != null && bixoSelecionadoRed == red)
+                {
+                    SendKeys.SendWait("{" + keySpellAttack + "}");
+                    Console.WriteLine("spell key.");
+                    Task.Delay(2100).Wait();
+                }
             }
+
+            //if (this.checkAttackMissileRune.Checked && this.checkAttackSpell.Checked)
+            //{
+            //    if (countMonster >= 2 && keyAreaRuneSelected != null && bixoSelecionadoRed == red)
+            //    {
+            //        SendKeys.SendWait("{" + keyAreaRuneSelected + "}");
+            //        Console.WriteLine("Key area rune Pressed.");
+            //        Task.Delay(2100).Wait();
+            //    }
+            //    else if (countMonster < 2 && keySpellAttack != null && bixoSelecionadoRed == red)
+            //    {
+            //        SendKeys.SendWait("{" + keySpellAttack + "}");
+            //        Console.WriteLine("spell key.");
+            //        Task.Delay(2100).Wait();
+            //    }
+            //}
+            //else if (!this.checkAttackAreaRune.Checked && this.checkAttackSpell.Checked)
+            //{
+            //    if (keySpellAttack != null && bixoSelecionadoRed == red)
+            //    {
+            //        SendKeys.SendWait("{" + keySpellAttack + "}");
+            //        Console.WriteLine("spell key.");
+            //        Task.Delay(2100).Wait();
+            //    }
+            //}
         }
 
         private void checkFunctionToDo()
@@ -1448,9 +1480,9 @@ namespace MouseMoveBot
             var red = Color.FromArgb(255, 255, 0, 0);
             var bixoSelecionadoRed = GetColorAt(new Point(1756, 440));
 
-            if (this.cbAttackSd.Checked && keySdSelected != null && bixoSelecionadoRed == red)
+            if (this.checkAttackMissileRune.Checked && keyMissileRune != null && bixoSelecionadoRed == red)
             {
-                SendKeys.SendWait("{" + keySdSelected + "}");
+                SendKeys.SendWait("{" + keyMissileRune + "}");
                 Console.WriteLine("Key sd Pressed.");
                 Task.Delay(2000).Wait();
             }
@@ -1980,11 +2012,6 @@ namespace MouseMoveBot
             keyManaSelected = this.comboBoxManaKey.SelectedItem.ToString();
         }
 
-        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            keySdSelected = this.comboBoxSdKey.SelectedItem.ToString();
-        }
-
         private void CavebotToolStripMenuItem_Click(object sender, EventArgs e)
         {
             f3 = new Form3(this);
@@ -2004,11 +2031,6 @@ namespace MouseMoveBot
             f5 = new Form5(this);
             this.Hide();
             f5.ShowDialog();
-        }
-
-        private void ComboBoxAreaRune_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            keyAreaRuneSelected = this.comboBoxAreaRune.SelectedItem.ToString();
         }
     }
 }

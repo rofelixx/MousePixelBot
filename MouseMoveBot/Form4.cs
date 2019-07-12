@@ -45,11 +45,44 @@ namespace MouseMoveBot
         private void Form4_Load(object sender, EventArgs e)
         {
             this.cbTarget.Checked = f1.cbTarget.Checked;
+            this.checkAttackSpell.Checked = f1.checkAttackSpell.Checked;
+            this.checkAttackMissileRune.Checked = f1.checkAttackMissileRune.Checked;
+            this.checkAttackAreaRune.Checked = f1.checkAttackAreaRune.Checked;
         }
 
         private void CbTarget_CheckedChanged(object sender, EventArgs e)
         {
             f1.cbTarget.Checked = this.cbTarget.Checked;
+        }
+
+        private void CbAttackSpell_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            f1.keySpellAttack = this.cbAttackSpell.Text;
+        }
+
+        private void CbAttackMissile_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            f1.keyMissileRune = this.cbAttackMissile.Text;
+        }
+
+        private void CbAttackArea_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            f1.keyAreaRuneSelected = this.cbAttackArea.Text;
+        }
+
+        private void CheckAttackSpell_CheckedChanged(object sender, EventArgs e)
+        {
+            f1.checkAttackSpell.Checked = this.checkAttackSpell.Checked;
+        }
+
+        private void CbAttackMissileRune_CheckedChanged(object sender, EventArgs e)
+        {
+            f1.checkAttackMissileRune.Checked = this.checkAttackMissileRune.Checked;
+        }
+
+        private void CheckAreaRune_CheckedChanged(object sender, EventArgs e)
+        {
+            f1.checkAttackAreaRune.Checked = this.checkAttackAreaRune.Checked;
         }
     }
 }

@@ -54,13 +54,11 @@ namespace MouseMoveBot
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.comboBoxAreaRune = new System.Windows.Forms.ComboBox();
             this.checkMaximized = new System.Windows.Forms.CheckBox();
-            this.cbAreaRune = new System.Windows.Forms.CheckBox();
+            this.checkAttackSpell = new System.Windows.Forms.CheckBox();
             this.cbFollowMonster = new System.Windows.Forms.CheckBox();
-            this.comboBoxSdKey = new System.Windows.Forms.ComboBox();
-            this.cbAttackSd = new System.Windows.Forms.CheckBox();
             this.comboBoxManaKey = new System.Windows.Forms.ComboBox();
+            this.checkAttackMissileRune = new System.Windows.Forms.CheckBox();
             this.cbHealerMana = new System.Windows.Forms.CheckBox();
             this.comboBoxLifeKey = new System.Windows.Forms.ComboBox();
             this.cbLooter = new System.Windows.Forms.CheckBox();
@@ -73,6 +71,7 @@ namespace MouseMoveBot
             this.textboxMinHealth = new System.Windows.Forms.TextBox();
             this.textboxMidHealth = new System.Windows.Forms.TextBox();
             this.textboxMaxHealth = new System.Windows.Forms.TextBox();
+            this.checkAttackAreaRune = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.menuStrip2.SuspendLayout();
@@ -262,13 +261,12 @@ namespace MouseMoveBot
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.comboBoxAreaRune);
+            this.panel1.Controls.Add(this.checkAttackAreaRune);
             this.panel1.Controls.Add(this.checkMaximized);
-            this.panel1.Controls.Add(this.cbAreaRune);
+            this.panel1.Controls.Add(this.checkAttackSpell);
             this.panel1.Controls.Add(this.cbFollowMonster);
-            this.panel1.Controls.Add(this.comboBoxSdKey);
-            this.panel1.Controls.Add(this.cbAttackSd);
             this.panel1.Controls.Add(this.comboBoxManaKey);
+            this.panel1.Controls.Add(this.checkAttackMissileRune);
             this.panel1.Controls.Add(this.cbHealerMana);
             this.panel1.Controls.Add(this.comboBoxLifeKey);
             this.panel1.Controls.Add(this.cbLooter);
@@ -280,15 +278,6 @@ namespace MouseMoveBot
             this.panel1.Size = new System.Drawing.Size(285, 226);
             this.panel1.TabIndex = 15;
             // 
-            // comboBoxAreaRune
-            // 
-            this.comboBoxAreaRune.FormattingEnabled = true;
-            this.comboBoxAreaRune.Location = new System.Drawing.Point(218, 86);
-            this.comboBoxAreaRune.Name = "comboBoxAreaRune";
-            this.comboBoxAreaRune.Size = new System.Drawing.Size(52, 21);
-            this.comboBoxAreaRune.TabIndex = 33;
-            this.comboBoxAreaRune.SelectedIndexChanged += new System.EventHandler(this.ComboBoxAreaRune_SelectedIndexChanged);
-            // 
             // checkMaximized
             // 
             this.checkMaximized.AutoSize = true;
@@ -299,44 +288,25 @@ namespace MouseMoveBot
             this.checkMaximized.Text = "Always Maximized";
             this.checkMaximized.UseVisualStyleBackColor = true;
             // 
-            // cbAreaRune
+            // checkAttackSpell
             // 
-            this.cbAreaRune.AutoSize = true;
-            this.cbAreaRune.Location = new System.Drawing.Point(101, 90);
-            this.cbAreaRune.Name = "cbAreaRune";
-            this.cbAreaRune.Size = new System.Drawing.Size(111, 17);
-            this.cbAreaRune.TabIndex = 32;
-            this.cbAreaRune.Text = "Attack Area Rune";
-            this.cbAreaRune.UseVisualStyleBackColor = true;
+            this.checkAttackSpell.AutoSize = true;
+            this.checkAttackSpell.Location = new System.Drawing.Point(152, 90);
+            this.checkAttackSpell.Name = "checkAttackSpell";
+            this.checkAttackSpell.Size = new System.Drawing.Size(115, 17);
+            this.checkAttackSpell.TabIndex = 35;
+            this.checkAttackSpell.Text = "Attack Spell Magic";
+            this.checkAttackSpell.UseVisualStyleBackColor = true;
             // 
             // cbFollowMonster
             // 
             this.cbFollowMonster.AutoSize = true;
-            this.cbFollowMonster.Location = new System.Drawing.Point(137, 163);
+            this.cbFollowMonster.Location = new System.Drawing.Point(152, 203);
             this.cbFollowMonster.Name = "cbFollowMonster";
             this.cbFollowMonster.Size = new System.Drawing.Size(97, 17);
             this.cbFollowMonster.TabIndex = 24;
             this.cbFollowMonster.Text = "Follow Monster";
             this.cbFollowMonster.UseVisualStyleBackColor = true;
-            // 
-            // comboBoxSdKey
-            // 
-            this.comboBoxSdKey.FormattingEnabled = true;
-            this.comboBoxSdKey.Location = new System.Drawing.Point(218, 126);
-            this.comboBoxSdKey.Name = "comboBoxSdKey";
-            this.comboBoxSdKey.Size = new System.Drawing.Size(52, 21);
-            this.comboBoxSdKey.TabIndex = 23;
-            this.comboBoxSdKey.SelectedIndexChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged);
-            // 
-            // cbAttackSd
-            // 
-            this.cbAttackSd.AutoSize = true;
-            this.cbAttackSd.Location = new System.Drawing.Point(137, 128);
-            this.cbAttackSd.Name = "cbAttackSd";
-            this.cbAttackSd.Size = new System.Drawing.Size(75, 17);
-            this.cbAttackSd.TabIndex = 22;
-            this.cbAttackSd.Text = "Attack SD";
-            this.cbAttackSd.UseVisualStyleBackColor = true;
             // 
             // comboBoxManaKey
             // 
@@ -346,6 +316,16 @@ namespace MouseMoveBot
             this.comboBoxManaKey.Size = new System.Drawing.Size(121, 21);
             this.comboBoxManaKey.TabIndex = 21;
             this.comboBoxManaKey.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged_1);
+            // 
+            // checkAttackMissileRune
+            // 
+            this.checkAttackMissileRune.AutoSize = true;
+            this.checkAttackMissileRune.Location = new System.Drawing.Point(152, 128);
+            this.checkAttackMissileRune.Name = "checkAttackMissileRune";
+            this.checkAttackMissileRune.Size = new System.Drawing.Size(120, 17);
+            this.checkAttackMissileRune.TabIndex = 33;
+            this.checkAttackMissileRune.Text = "Attack Missile Rune";
+            this.checkAttackMissileRune.UseVisualStyleBackColor = true;
             // 
             // cbHealerMana
             // 
@@ -369,7 +349,7 @@ namespace MouseMoveBot
             // cbLooter
             // 
             this.cbLooter.AutoSize = true;
-            this.cbLooter.Location = new System.Drawing.Point(27, 163);
+            this.cbLooter.Location = new System.Drawing.Point(27, 167);
             this.cbLooter.Name = "cbLooter";
             this.cbLooter.Size = new System.Drawing.Size(47, 17);
             this.cbLooter.TabIndex = 18;
@@ -456,6 +436,16 @@ namespace MouseMoveBot
             this.textboxMaxHealth.TabIndex = 21;
             this.textboxMaxHealth.Visible = false;
             // 
+            // checkAreaRune
+            // 
+            this.checkAttackAreaRune.AutoSize = true;
+            this.checkAttackAreaRune.Location = new System.Drawing.Point(152, 167);
+            this.checkAttackAreaRune.Name = "checkAreaRune";
+            this.checkAttackAreaRune.Size = new System.Drawing.Size(111, 17);
+            this.checkAttackAreaRune.TabIndex = 31;
+            this.checkAttackAreaRune.Text = "Attack Area Rune";
+            this.checkAttackAreaRune.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -525,11 +515,9 @@ namespace MouseMoveBot
         public CheckBox cbHealerLife;
         public CheckBox cbCavebot;
         public CheckBox cbHealerMana;
-        public CheckBox cbAttackSd;
         private Button button2;
         public ComboBox comboBoxLifeKey;
         public ComboBox comboBoxManaKey;
-        private ComboBox comboBoxSdKey;
         public CheckBox cbFollowMonster;
         private Label label6;
         private TextBox capTextBox;
@@ -539,8 +527,9 @@ namespace MouseMoveBot
         public TextBox textboxMaxHealth;
         private ToolStripMenuItem fileToolStripMenuItem;
         private ToolStripMenuItem openToolStripMenuItem;
-        private ComboBox comboBoxAreaRune;
-        public CheckBox cbAreaRune;
+        public CheckBox checkAttackSpell;
+        public CheckBox checkAttackMissileRune;
+        public CheckBox checkAttackAreaRune;
     }
 }
 

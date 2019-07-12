@@ -35,12 +35,14 @@
             this.targetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lootToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cbAttackSpell = new System.Windows.Forms.ComboBox();
+            this.checkAttackSpell = new System.Windows.Forms.CheckBox();
+            this.cbAttackArea = new System.Windows.Forms.ComboBox();
+            this.checkAttackAreaRune = new System.Windows.Forms.CheckBox();
             this.cbFollowMonster = new System.Windows.Forms.CheckBox();
-            this.comboBoxSdKey = new System.Windows.Forms.ComboBox();
-            this.cbAttackSd = new System.Windows.Forms.CheckBox();
+            this.cbAttackMissile = new System.Windows.Forms.ComboBox();
+            this.checkAttackMissileRune = new System.Windows.Forms.CheckBox();
             this.cbTarget = new System.Windows.Forms.CheckBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.menuStrip2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -94,11 +96,13 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.comboBox1);
-            this.groupBox1.Controls.Add(this.checkBox1);
+            this.groupBox1.Controls.Add(this.cbAttackSpell);
+            this.groupBox1.Controls.Add(this.checkAttackSpell);
+            this.groupBox1.Controls.Add(this.cbAttackArea);
+            this.groupBox1.Controls.Add(this.checkAttackAreaRune);
             this.groupBox1.Controls.Add(this.cbFollowMonster);
-            this.groupBox1.Controls.Add(this.comboBoxSdKey);
-            this.groupBox1.Controls.Add(this.cbAttackSd);
+            this.groupBox1.Controls.Add(this.cbAttackMissile);
+            this.groupBox1.Controls.Add(this.checkAttackMissileRune);
             this.groupBox1.Controls.Add(this.cbTarget);
             this.groupBox1.Location = new System.Drawing.Point(12, 41);
             this.groupBox1.Name = "groupBox1";
@@ -107,33 +111,75 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Target";
             // 
+            // cbAttackSpell
+            // 
+            this.cbAttackSpell.FormattingEnabled = true;
+            this.cbAttackSpell.Location = new System.Drawing.Point(134, 100);
+            this.cbAttackSpell.Name = "cbAttackSpell";
+            this.cbAttackSpell.Size = new System.Drawing.Size(52, 21);
+            this.cbAttackSpell.TabIndex = 33;
+            this.cbAttackSpell.SelectedIndexChanged += new System.EventHandler(this.CbAttackSpell_SelectedIndexChanged);
+            // 
+            // checkAttackSpell
+            // 
+            this.checkAttackSpell.AutoSize = true;
+            this.checkAttackSpell.Location = new System.Drawing.Point(17, 102);
+            this.checkAttackSpell.Name = "checkAttackSpell";
+            this.checkAttackSpell.Size = new System.Drawing.Size(115, 17);
+            this.checkAttackSpell.TabIndex = 32;
+            this.checkAttackSpell.Text = "Attack Spell Magic";
+            this.checkAttackSpell.UseVisualStyleBackColor = true;
+            this.checkAttackSpell.CheckedChanged += new System.EventHandler(this.CheckAttackSpell_CheckedChanged);
+            // 
+            // cbAttackArea
+            // 
+            this.cbAttackArea.FormattingEnabled = true;
+            this.cbAttackArea.Location = new System.Drawing.Point(134, 175);
+            this.cbAttackArea.Name = "cbAttackArea";
+            this.cbAttackArea.Size = new System.Drawing.Size(52, 21);
+            this.cbAttackArea.TabIndex = 31;
+            this.cbAttackArea.SelectedIndexChanged += new System.EventHandler(this.CbAttackArea_SelectedIndexChanged);
+            // 
+            // checkAttackAreaRune
+            // 
+            this.checkAttackAreaRune.AutoSize = true;
+            this.checkAttackAreaRune.Location = new System.Drawing.Point(17, 179);
+            this.checkAttackAreaRune.Name = "checkAttackAreaRune";
+            this.checkAttackAreaRune.Size = new System.Drawing.Size(111, 17);
+            this.checkAttackAreaRune.TabIndex = 30;
+            this.checkAttackAreaRune.Text = "Attack Area Rune";
+            this.checkAttackAreaRune.UseVisualStyleBackColor = true;
+            this.checkAttackAreaRune.CheckedChanged += new System.EventHandler(this.CheckAreaRune_CheckedChanged);
+            // 
             // cbFollowMonster
             // 
             this.cbFollowMonster.AutoSize = true;
-            this.cbFollowMonster.Location = new System.Drawing.Point(17, 101);
+            this.cbFollowMonster.Location = new System.Drawing.Point(17, 64);
             this.cbFollowMonster.Name = "cbFollowMonster";
             this.cbFollowMonster.Size = new System.Drawing.Size(97, 17);
             this.cbFollowMonster.TabIndex = 29;
             this.cbFollowMonster.Text = "Follow Monster";
             this.cbFollowMonster.UseVisualStyleBackColor = true;
             // 
-            // comboBoxSdKey
+            // cbAttackMissile
             // 
-            this.comboBoxSdKey.FormattingEnabled = true;
-            this.comboBoxSdKey.Location = new System.Drawing.Point(98, 65);
-            this.comboBoxSdKey.Name = "comboBoxSdKey";
-            this.comboBoxSdKey.Size = new System.Drawing.Size(52, 21);
-            this.comboBoxSdKey.TabIndex = 28;
+            this.cbAttackMissile.FormattingEnabled = true;
+            this.cbAttackMissile.Location = new System.Drawing.Point(134, 138);
+            this.cbAttackMissile.Name = "cbAttackMissile";
+            this.cbAttackMissile.Size = new System.Drawing.Size(52, 21);
+            this.cbAttackMissile.TabIndex = 28;
+            this.cbAttackMissile.SelectedIndexChanged += new System.EventHandler(this.CbAttackMissile_SelectedIndexChanged);
             // 
-            // cbAttackSd
+            // checkAttackMissileRune
             // 
-            this.cbAttackSd.AutoSize = true;
-            this.cbAttackSd.Location = new System.Drawing.Point(17, 65);
-            this.cbAttackSd.Name = "cbAttackSd";
-            this.cbAttackSd.Size = new System.Drawing.Size(75, 17);
-            this.cbAttackSd.TabIndex = 27;
-            this.cbAttackSd.Text = "Attack SD";
-            this.cbAttackSd.UseVisualStyleBackColor = true;
+            this.checkAttackMissileRune.AutoSize = true;
+            this.checkAttackMissileRune.Location = new System.Drawing.Point(17, 140);
+            this.checkAttackMissileRune.Name = "checkAttackMissileRune";
+            this.checkAttackMissileRune.Size = new System.Drawing.Size(120, 17);
+            this.checkAttackMissileRune.TabIndex = 27;
+            this.checkAttackMissileRune.Text = "Attack Missile Rune";
+            this.checkAttackMissileRune.UseVisualStyleBackColor = true;
+            this.checkAttackMissileRune.CheckedChanged += new System.EventHandler(this.CbAttackMissileRune_CheckedChanged);
             // 
             // cbTarget
             // 
@@ -145,24 +191,6 @@
             this.cbTarget.Text = "Target";
             this.cbTarget.UseVisualStyleBackColor = true;
             this.cbTarget.CheckedChanged += new System.EventHandler(this.CbTarget_CheckedChanged);
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(17, 136);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(111, 17);
-            this.checkBox1.TabIndex = 30;
-            this.checkBox1.Text = "Attack Area Rune";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(134, 132);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(52, 21);
-            this.comboBox1.TabIndex = 31;
             // 
             // Form4
             // 
@@ -194,10 +222,12 @@
         public System.Windows.Forms.ToolStripMenuItem lootToolStripMenuItem;
         private System.Windows.Forms.GroupBox groupBox1;
         public System.Windows.Forms.CheckBox cbFollowMonster;
-        private System.Windows.Forms.ComboBox comboBoxSdKey;
-        public System.Windows.Forms.CheckBox cbAttackSd;
+        private System.Windows.Forms.ComboBox cbAttackMissile;
+        public System.Windows.Forms.CheckBox checkAttackMissileRune;
         public System.Windows.Forms.CheckBox cbTarget;
-        private System.Windows.Forms.ComboBox comboBox1;
-        public System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.ComboBox cbAttackArea;
+        public System.Windows.Forms.CheckBox checkAttackAreaRune;
+        private System.Windows.Forms.ComboBox cbAttackSpell;
+        public System.Windows.Forms.CheckBox checkAttackSpell;
     }
 }
