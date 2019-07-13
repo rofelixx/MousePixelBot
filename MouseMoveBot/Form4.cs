@@ -48,6 +48,19 @@ namespace MouseMoveBot
             this.checkAttackSpell.Checked = f1.checkAttackSpell.Checked;
             this.checkAttackMissileRune.Checked = f1.checkAttackMissileRune.Checked;
             this.checkAttackAreaRune.Checked = f1.checkAttackAreaRune.Checked;
+            IncluiItems();
+        }
+
+        private void IncluiItems()
+        {
+            var ItemRange = new System.Object[12];
+            for (int i = 0; i < 12; i++)
+            {
+                ItemRange[i] = "F" + (i + 1);
+            }
+            this.cbAttackArea.Items.AddRange(ItemRange);
+            this.cbAttackSpell.Items.AddRange(ItemRange);
+            this.cbAttackMissile.Items.AddRange(ItemRange);
         }
 
         private void CbTarget_CheckedChanged(object sender, EventArgs e)

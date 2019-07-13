@@ -778,18 +778,17 @@ namespace MouseMoveBot
                     countMonster++;
             }
 
-            var red = Color.FromArgb(255, 255, 0, 0);
-            var bixoSelecionadoRed = GetColorAt(new Point(1756, 440));
+            var areAttacking = checkAreAttacking();
 
             if (this.checkAttackAreaRune.Checked && this.checkAttackSpell.Checked)
             {
-                if (countMonster >= 2 && keyAreaRuneSelected != null && bixoSelecionadoRed == red)
+                if (countMonster >= 2 && keyAreaRuneSelected != null && areAttacking)
                 {
                     SendKeys.SendWait("{" + keyAreaRuneSelected + "}");
                     Console.WriteLine("Key area rune Pressed.");
                     Task.Delay(2100).Wait();
                 }
-                else if (countMonster < 2 && keySpellAttack != null && bixoSelecionadoRed == red)
+                else if (countMonster < 2 && keySpellAttack != null && areAttacking)
                 {
                     SendKeys.SendWait("{" + keySpellAttack + "}");
                     Console.WriteLine("spell key.");
@@ -798,9 +797,18 @@ namespace MouseMoveBot
             }
             else if (!this.checkAttackAreaRune.Checked && this.checkAttackSpell.Checked)
             {
-                if (keySpellAttack != null && bixoSelecionadoRed == red)
+                if (keySpellAttack != null && areAttacking)
                 {
                     SendKeys.SendWait("{" + keySpellAttack + "}");
+                    Console.WriteLine("spell key.");
+                    Task.Delay(2100).Wait();
+                }
+            }
+            else if (!this.checkAttackAreaRune.Checked && !this.checkAttackSpell.Checked && this.checkAttackMissileRune.Checked)
+            {
+                if (keyMissileRune != null && areAttacking)
+                {
+                    SendKeys.SendWait("{" + keyMissileRune + "}");
                     Console.WriteLine("spell key.");
                     Task.Delay(2100).Wait();
                 }
@@ -1417,20 +1425,13 @@ namespace MouseMoveBot
         {
             checkFollowMonster();
 
-            var red = Color.FromArgb(255, 255, 0, 0);
-            var bixoSelecionadoRed = GetColorAt(new Point(1756, 440));
+            var areAttacking = checkAreAttacking();
 
             InputSimulator sim = new InputSimulator();
 
-            if (sim.InputDeviceState.IsKeyDown(VirtualKeyCode.LMENU))
-                sim.Keyboard.KeyUp(VirtualKeyCode.LMENU);
-
-            //var foundIconColor = System.Drawing.Color.FromArgb(GetPixel(DesktopDC, 1000, 280));
-            //Color iconColor = Color.FromArgb(0, 197, 120, 14);
-
             this.Invoke((MethodInvoker)delegate
             {
-                if (!battleIsNormal && bixoSelecionadoRed != red)
+                if (!battleIsNormal && !areAttacking)
                 {
                     // Press M key
                     sim.Keyboard.KeyPress(VirtualKeyCode.VK_M);
@@ -1443,6 +1444,19 @@ namespace MouseMoveBot
                 }
             });
             Task.Delay(300).Wait();
+        }
+
+        private bool checkAreAttacking()
+        {
+            var red = Color.FromArgb(255, 255, 0, 0);
+
+            for (int i = 440; i < 600; i = i + 22)
+            {
+                var colorFound = GetColorAt(new Point(1767, i));
+                if (colorFound == red)
+                    return true;
+            }
+            return false;
         }
 
         private void checkFollowMonster()
