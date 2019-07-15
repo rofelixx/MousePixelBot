@@ -21,6 +21,8 @@
         Walk,
         CheckWp,
         MapZoomMax,
-        MapZoomMin,        
+        MapZoomMin,   
+        Conversation,
+        ActiveTarget
     }
 }

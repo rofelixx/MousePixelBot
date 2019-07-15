@@ -171,10 +171,13 @@
     <Content Include="Resources\battleNotClear.png" />
     <Content Include="Resources\boneEye.png" />
     <Content Include="Resources\cultRobe.png" />
+    <Content Include="Resources\depot.png" />
     <Content Include="Resources\egg.png" />
     <Content Include="Resources\emptyDepot.png" />
+    <Content Include="Resources\frostHeart.png" />
     <Content Include="Resources\greenDown.png" />
     <Content Include="Resources\greenUp.png" />
+    <Content Include="Resources\hungry.png" />
     <Content Include="Resources\iconBank.png" />
     <Content Include="Resources\iconCheck.png" />
     <Content Include="Resources\iconDown.png" />
@@ -182,8 +185,12 @@
     <Content Include="Resources\iconRight.png" />
     <Content Include="Resources\iconUp.png" />
     <Content Include="Resources\killing.png" />
+    <Content Include="Resources\mailDepot.png" />
     <Content Include="Resources\menuStowAll.png" />
+    <Content Include="Resources\poisoned.png" />
     <Content Include="Resources\ropebelt.png" />
+    <Content Include="Resources\spiderSilk.png" />
+    <Content Include="Resources\stash.png" />
     <Content Include="WePH.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

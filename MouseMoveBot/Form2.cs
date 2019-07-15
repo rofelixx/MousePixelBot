@@ -56,6 +56,8 @@ namespace MouseMoveBot
             this.comboBoxHealthMin.Text = f1.textboxMinHealth.Text;
             this.comboBoxMana.Text = f1.comboBoxManaKey.Text;
             this.cbManaHealer.Checked = f1.cbHealerMana.Checked;
+            this.checkHungry.Checked = f1.checkHungry.Checked;
+            this.checkPoisoned.Checked = f1.checkPoisoned.Checked;
             CriaComboBox();
         }
 
@@ -69,6 +71,8 @@ namespace MouseMoveBot
             this.comboBoxHealthMax.Items.AddRange(ItemRange);
             this.comboBoxHealthMid.Items.AddRange(ItemRange);
             this.comboBoxHealthMin.Items.AddRange(ItemRange);
+            this.cbCurePoison.Items.AddRange(ItemRange);
+            this.cbEatFood.Items.AddRange(ItemRange);
             this.comboBoxMana.Items.AddRange(ItemRange);
         }
 
@@ -124,6 +128,26 @@ namespace MouseMoveBot
         {
             f1.comboBoxManaKey.Text = this.comboBoxMana.Text;
             f1.keyManaSelected = this.comboBoxMana.Text;
+        }
+
+        private void cbCurePoison_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            f1.keyCurePoison = this.cbCurePoison.Text;
+        }
+
+        private void checkHungry_CheckedChanged(object sender, EventArgs e)
+        {
+            f1.checkHungry.Checked = this.checkHungry.Checked;
+        }
+
+        private void cbEatFood_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            f1.keyEatFood = this.cbEatFood.Text;
+        }
+
+        private void checkPoisoned_CheckedChanged(object sender, EventArgs e)
+        {
+            f1.checkPoisoned.Checked = this.checkPoisoned.Checked;
         }
     }
 }

@@ -60,6 +60,8 @@ namespace MouseMoveBot
         public String keyMissileRune;
         public String keyAreaRuneSelected;
         public String keySpellAttack;
+        public String keyCurePoison;
+        public String keyEatFood;
 
         System.Object[] ItemRange;
 
@@ -67,14 +69,14 @@ namespace MouseMoveBot
 
         List<Point> listLootRange = new List<Point>()
         {
-            new Point(784, 433),
-            new Point(806, 379),
-            new Point(871, 378),
-            new Point(935, 382),
-            new Point(928, 452),
-            new Point(937, 512),
-            new Point(871, 509),
-            new Point(806, 514),
+            new Point(785,380),
+            new Point(785,520),
+            new Point(715,450),
+            new Point(850,450),
+            new Point(850,510),
+            new Point(850,380),
+            new Point(720,380),
+            new Point(720,510),
         };
 
         public List<Waypoints> listWaypoints = new List<Waypoints>();
@@ -97,6 +99,8 @@ namespace MouseMoveBot
         Task checkArriveWp;
         Task TaskCheckBattleList;
         Task taskCheckTibiaAreInFront;
+        Task taskCheckPoison;
+        Task taskCheckEatFood;
 
         bool battleIsNormal = false;
 
@@ -139,274 +143,84 @@ namespace MouseMoveBot
 
             #region waypoints Ek
 
-            #region WayToHut
+            //#region WayToHut
 
-            listWaypointsToHunt.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "iconUp.png"),
-                state = State.Waiting,
-                function = null,
-                label = LabelWp.WayToCave,
-                name = "iconUp.png"
-            });
-            listWaypointsToHunt.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "greenUp.png"),
-                state = State.Waiting,
-                function = null,
-                label = LabelWp.WayToCave,
-                name = "greenUp.png"
-            });
-            listWaypointsToHunt.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "greenDown.png"),
-                state = State.Waiting,
-                function = new Function()
-                {
-                    action = EnumAction.MapZoomMax,
-                    bitCheck = new Bitmap(path + "greenDown.png")
-                },
-                label = LabelWp.WayToCave,
-                name = "greenDown.png"
-            });
-            listWaypointsToHunt.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "iconBank.png"),
-                state = State.Waiting,
-                function = new Function()
-                {
-                    action = EnumAction.MapZoomMin,
-                    bitCheck = new Bitmap(path + "iconBank.png")
-                },
-                label = LabelWp.WayToCave,
-                name = "iconBank.png"
-            });
-            listWaypointsToHunt.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "iconBank.png"),
-                state = State.Waiting,
-                function = new Function()
-                {
-                    action = EnumAction.ShovelToUp,
-                    bitCheck = new Bitmap(path + "iconRight.png")
-                },
-                label = LabelWp.WayToCave,
-                name = "iconBank.png"
-            });
-            listWaypointsToHunt.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "iconRight.png"),
-                state = State.Waiting,
-                function = new Function()
-                {
-                    action = EnumAction.CheckWp,
-                    bitCheck = new Bitmap(path + "iconRight.png")
-                },
-                label = LabelWp.WayToCave,
-                name = "iconRight.png"
-            });
+            //listWaypointsToHunt.Add(new Waypoints()
+            //{
+            //    bitIcon = new Bitmap(path + "iconUp.png"),
+            //    state = State.Waiting,
+            //    function = null,
+            //    label = LabelWp.WayToCave,
+            //    name = "iconUp.png"
+            //});
+            //listWaypointsToHunt.Add(new Waypoints()
+            //{
+            //    bitIcon = new Bitmap(path + "greenUp.png"),
+            //    state = State.Waiting,
+            //    function = null,
+            //    label = LabelWp.WayToCave,
+            //    name = "greenUp.png"
+            //});
+            //listWaypointsToHunt.Add(new Waypoints()
+            //{
+            //    bitIcon = new Bitmap(path + "greenDown.png"),
+            //    state = State.Waiting,
+            //    function = new Function()
+            //    {
+            //        action = EnumAction.MapZoomMax,
+            //        bitCheck = new Bitmap(path + "greenDown.png")
+            //    },
+            //    label = LabelWp.WayToCave,
+            //    name = "greenDown.png"
+            //});
+            //listWaypointsToHunt.Add(new Waypoints()
+            //{
+            //    bitIcon = new Bitmap(path + "iconBank.png"),
+            //    state = State.Waiting,
+            //    function = new Function()
+            //    {
+            //        action = EnumAction.MapZoomMin,
+            //        bitCheck = new Bitmap(path + "iconBank.png")
+            //    },
+            //    label = LabelWp.WayToCave,
+            //    name = "iconBank.png"
+            //});
+            //listWaypointsToHunt.Add(new Waypoints()
+            //{
+            //    bitIcon = new Bitmap(path + "iconBank.png"),
+            //    state = State.Waiting,
+            //    function = new Function()
+            //    {
+            //        action = EnumAction.ShovelToUp,
+            //        bitCheck = new Bitmap(path + "iconRight.png")
+            //    },
+            //    label = LabelWp.WayToCave,
+            //    name = "iconBank.png"
+            //});
+            //listWaypointsToHunt.Add(new Waypoints()
+            //{
+            //    bitIcon = new Bitmap(path + "iconRight.png"),
+            //    state = State.Waiting,
+            //    function = new Function()
+            //    {
+            //        action = EnumAction.CheckWp,
+            //        bitCheck = new Bitmap(path + "iconRight.png")
+            //    },
+            //    label = LabelWp.WayToCave,
+            //    name = "iconRight.png"
+            //});
 
-            #endregion
-
-            #region InHunt
-
-            listWaypointsInHunt.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "iconRight.png"),
-                state = State.Waiting,
-                function = null,
-                label = LabelWp.InCave,
-                name = "iconRight.png"
-            });
-
-            listWaypointsInHunt.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "iconDown.png"),
-                state = State.Waiting,
-                function = null,
-                label = LabelWp.InCave,
-                name = "iconDown.png"
-            });
-
-            listWaypointsInHunt.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "iconUp.png"),
-                state = State.Waiting,
-                function = null,
-                label = LabelWp.InCave,
-                name = "iconUp.png"
-            });
-
-            listWaypointsInHunt.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "greenUp.png"),
-                state = State.Waiting,
-                function = null,
-                label = LabelWp.InCave,
-                name = "greenUp.png"
-            });
-
-            listWaypointsInHunt.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "greenDown.png"),
-                state = State.Waiting,
-                function = null,
-                label = LabelWp.InCave,
-                name = "greenDown.png"
-            });
-
-            listWaypointsInHunt.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "iconBank.png"),
-                state = State.Waiting,
-                function = null,
-                label = LabelWp.InCave,
-                name = "iconBank.png"
-            });
-
-            listWaypointsInHunt.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "iconRight.png"),
-                state = State.Waiting,
-                function = null,
-                label = LabelWp.InCave,
-                name = "iconRight.png"
-            });
-
-            listWaypointsInHunt.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "iconRight.png"),
-                state = State.Waiting,
-                function = new Function()
-                {
-                    action = EnumAction.CheckRefill,
-                    bitCheck = new Bitmap(path + "iconRight.png")
-                },
-                label = LabelWp.InCave,
-                name = "iconRight.png"
-            });
-
-            #endregion
-
-            #region ToReffil
-            listWaypointsToReffil.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "iconRight.png"),
-                state = State.Waiting,
-                function = new Function()
-                {
-                    action = EnumAction.RopeCenter,
-                    bitCheck = new Bitmap(path + "iconBank.png")
-                },
-                label = LabelWp.WayToReffil,
-                name = "iconRight.png"
-            });
-
-            listWaypointsToReffil.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "greenDown.png"),
-                state = State.Waiting,
-                function = null,
-                label = LabelWp.WayToReffil,
-                name = "greenDown.png"
-            });
-
-            listWaypointsToReffil.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "greenUp.png"),
-                state = State.Waiting,
-                function = null,
-                label = LabelWp.WayToReffil,
-                name = "greenUp.png"
-            });
-
-            listWaypointsToReffil.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "iconUp.png"),
-                state = State.Waiting,
-                function = null,
-                label = LabelWp.WayToReffil,
-                name = "iconUp.png"
-            });
-
-            listWaypointsToReffil.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "iconDown.png"),
-                state = State.Waiting,
-                function = null,
-                label = LabelWp.WayToReffil,
-                name = "iconDown.png"
-            });
-
-            listWaypointsToReffil.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "iconDown.png"),
-                state = State.Waiting,
-                function = new Function()
-                {
-                    action = EnumAction.Depot,
-                },
-                label = LabelWp.WayToReffil,
-                name = "iconDown.png"
-            });
-
-            #endregion
-
-            #region InReffil
-
-            listWaypointsInReffil.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "iconBank.png"),
-                state = State.Waiting,
-                function = new Function()
-                {
-                    action = EnumAction.Walk,
-                    bitCheck = new Bitmap(path + "iconBank.png")
-                },
-                label = LabelWp.Reffil,
-                name = "iconBank.png"
-            });
-
-            listWaypointsInReffil.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "iconBank.png"),
-                state = State.Waiting,
-                function = new Function()
-                {
-                    action = EnumAction.BuyPots
-                },
-                label = LabelWp.Reffil,
-                name = "iconBank.png"
-            });
-
-            listWaypointsInReffil.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "iconBank.png"),
-                state = State.Waiting,
-                function = new Function()
-                {
-                    action = EnumAction.CheckWp
-                },
-                label = LabelWp.Reffil,
-                name = "iconBank.png"
-            });
-
-            #endregion
-
-            #endregion
-
-            #region WaypointsMs
-
+            //#endregion
 
             //#region InHunt
 
             //listWaypointsInHunt.Add(new Waypoints()
             //{
-            //    bitIcon = new Bitmap(path + "iconUp.png"),
+            //    bitIcon = new Bitmap(path + "iconRight.png"),
             //    state = State.Waiting,
             //    function = null,
             //    label = LabelWp.InCave,
-            //    name = "iconUp.png"
+            //    name = "iconRight.png"
             //});
 
             //listWaypointsInHunt.Add(new Waypoints()
@@ -420,20 +234,20 @@ namespace MouseMoveBot
 
             //listWaypointsInHunt.Add(new Waypoints()
             //{
-            //    bitIcon = new Bitmap(path + "iconRight.png"),
+            //    bitIcon = new Bitmap(path + "iconUp.png"),
             //    state = State.Waiting,
             //    function = null,
             //    label = LabelWp.InCave,
-            //    name = "iconRight.png"
+            //    name = "iconUp.png"
             //});
 
             //listWaypointsInHunt.Add(new Waypoints()
             //{
-            //    bitIcon = new Bitmap(path + "iconLeft.png"),
+            //    bitIcon = new Bitmap(path + "greenUp.png"),
             //    state = State.Waiting,
             //    function = null,
             //    label = LabelWp.InCave,
-            //    name = "iconLeft.png"
+            //    name = "greenUp.png"
             //});
 
             //listWaypointsInHunt.Add(new Waypoints()
@@ -447,15 +261,33 @@ namespace MouseMoveBot
 
             //listWaypointsInHunt.Add(new Waypoints()
             //{
-            //    bitIcon = new Bitmap(path + "iconUp.png"),
+            //    bitIcon = new Bitmap(path + "iconBank.png"),
+            //    state = State.Waiting,
+            //    function = null,
+            //    label = LabelWp.InCave,
+            //    name = "iconBank.png"
+            //});
+
+            //listWaypointsInHunt.Add(new Waypoints()
+            //{
+            //    bitIcon = new Bitmap(path + "iconRight.png"),
+            //    state = State.Waiting,
+            //    function = null,
+            //    label = LabelWp.InCave,
+            //    name = "iconRight.png"
+            //});
+
+            //listWaypointsInHunt.Add(new Waypoints()
+            //{
+            //    bitIcon = new Bitmap(path + "iconRight.png"),
             //    state = State.Waiting,
             //    function = new Function()
             //    {
             //        action = EnumAction.CheckRefill,
-            //        bitCheck = new Bitmap(path + "iconUp.png")
+            //        bitCheck = new Bitmap(path + "iconRight.png")
             //    },
             //    label = LabelWp.InCave,
-            //    name = "iconUp.png"
+            //    name = "iconRight.png"
             //});
 
             //#endregion
@@ -499,6 +331,15 @@ namespace MouseMoveBot
             //    function = null,
             //    label = LabelWp.WayToReffil,
             //    name = "iconUp.png"
+            //});
+
+            //listWaypointsToReffil.Add(new Waypoints()
+            //{
+            //    bitIcon = new Bitmap(path + "iconDown.png"),
+            //    state = State.Waiting,
+            //    function = null,
+            //    label = LabelWp.WayToReffil,
+            //    name = "iconDown.png"
             //});
 
             //listWaypointsToReffil.Add(new Waypoints()
@@ -555,6 +396,358 @@ namespace MouseMoveBot
             //});
 
             //#endregion
+
+            #endregion
+
+            #region WaypointsMs
+
+
+            #region InHunt
+
+            listWaypointsInHunt.Add(new Waypoints()
+            {
+                bitIcon = new Bitmap(path + "iconDown.png"),
+                state = State.Waiting,
+                function = null,
+                label = LabelWp.InCave,
+                name = "iconDown.png"
+            });
+
+            listWaypointsInHunt.Add(new Waypoints()
+            {
+                bitIcon = new Bitmap(path + "iconDown.png"),
+                state = State.Waiting,
+                function = null,
+                label = LabelWp.InCave,
+                name = "iconDown.png"
+            });
+
+            listWaypointsInHunt.Add(new Waypoints()
+            {
+                bitIcon = new Bitmap(path + "iconUp.png"),
+                state = State.Waiting,
+                function = null,
+                label = LabelWp.InCave,
+                name = "iconUp.png"
+            });
+
+            listWaypointsInHunt.Add(new Waypoints()
+            {
+                bitIcon = new Bitmap(path + "iconRight.png"),
+                state = State.Waiting,
+                function = null,
+                label = LabelWp.InCave,
+                name = "iconRight.png"
+            });
+
+            listWaypointsInHunt.Add(new Waypoints()
+            {
+                bitIcon = new Bitmap(path + "greenUp.png"),
+                state = State.Waiting,
+                function = null,
+                label = LabelWp.InCave,
+                name = "greenUp.png"
+            });
+
+            listWaypointsInHunt.Add(new Waypoints()
+            {
+                bitIcon = new Bitmap(path + "iconBank.png"),
+                state = State.Waiting,
+                function = null,
+                label = LabelWp.InCave,
+                name = "iconBank.png"
+            });
+
+            listWaypointsInHunt.Add(new Waypoints()
+            {
+                bitIcon = new Bitmap(path + "greenDown.png"),
+                state = State.Waiting,
+                function = null,
+                label = LabelWp.InCave,
+                name = "greenDown.png"
+            });
+
+            listWaypointsInHunt.Add(new Waypoints()
+            {
+                bitIcon = new Bitmap(path + "iconCheck.png"),
+                state = State.Waiting,
+                function = null,
+                label = LabelWp.InCave,
+                name = "iconCheck.png"
+            });
+
+            listWaypointsInHunt.Add(new Waypoints()
+            {
+                bitIcon = new Bitmap(path + "iconCheck.png"),
+                state = State.Waiting,
+                function = new Function()
+                {
+                    action = EnumAction.CheckRefill,
+                    bitCheck = new Bitmap(path + "iconCheck.png")
+                },
+                label = LabelWp.InCave,
+                name = "iconCheck.png"
+            });
+
+            #endregion
+
+            #region ToReffil
+
+            listWaypointsToReffil.Add(new Waypoints()
+            {
+                bitIcon = new Bitmap(path + "iconCheck.png"),
+                state = State.Waiting,
+                function = new Function()
+                {
+                    action = EnumAction.ToLeft,
+                    bitCheck = new Bitmap(path + "iconDown.png")
+                },
+                label = LabelWp.WayToReffil,
+                name = "iconCheck.png"
+            });
+
+            listWaypointsToReffil.Add(new Waypoints()
+            {
+                bitIcon = new Bitmap(path + "iconLeft.png"),
+                state = State.Waiting,
+                function = null,
+                label = LabelWp.WayToReffil,
+                name = "iconLeft.png"
+            });
+
+            listWaypointsToReffil.Add(new Waypoints()
+            {
+                bitIcon = new Bitmap(path + "iconLeft.png"),
+                state = State.Waiting,
+                function = new Function()
+                {
+                    action = EnumAction.ToLeft,
+                    bitCheck = new Bitmap(path + "iconLeft.png")
+                },
+                label = LabelWp.WayToReffil,
+                name = "iconCheck.png"
+            });
+
+            listWaypointsToReffil.Add(new Waypoints()
+            {
+                bitIcon = new Bitmap(path + "iconBank.png"),
+                state = State.Waiting,
+                function = null,
+                label = LabelWp.WayToReffil,
+                name = "iconBank.png"
+            });
+
+            listWaypointsToReffil.Add(new Waypoints()
+            {
+                bitIcon = new Bitmap(path + "iconBank.png"),
+                state = State.Waiting,
+                function = new Function()
+                {
+                    action = EnumAction.Conversation,
+                    bitCheck = new Bitmap(path + "greenDown.png")
+                },
+                label = LabelWp.WayToReffil,
+                name = "iconBank.png"
+            });
+
+            listWaypointsToReffil.Add(new Waypoints()
+            {
+                bitIcon = new Bitmap(path + "iconUp.png"),
+                state = State.Waiting,
+                function = null,
+                label = LabelWp.WayToReffil,
+                name = "iconUp.png"
+            });
+
+            listWaypointsToReffil.Add(new Waypoints()
+            {
+                bitIcon = new Bitmap(path + "greenUp.png"),
+                state = State.Waiting,
+                function = null,
+                label = LabelWp.WayToReffil,
+                name = "greenUp.png"
+            });
+
+            listWaypointsToReffil.Add(new Waypoints()
+            {
+                bitIcon = new Bitmap(path + "greenUp.png"),
+                state = State.Waiting,
+                function = new Function()
+                {
+                    action = EnumAction.Depot,
+                    bitCheck = new Bitmap(path + "greenUp.png")
+                },
+                label = LabelWp.WayToReffil,
+                name = "greenUp.png"
+            });
+
+            listWaypointsToReffil.Add(new Waypoints()
+            {
+                bitIcon = new Bitmap(path + "greenUp.png"),
+                state = State.Waiting,
+                function = new Function()
+                {
+                    action = EnumAction.CheckWp,
+                    bitCheck = new Bitmap(path + "greenUp.png")
+                },
+                label = LabelWp.WayToReffil,
+                name = "greenUp.png"
+            });
+
+            #endregion
+
+            #region InReffil
+
+            listWaypointsInReffil.Add(new Waypoints()
+            {
+                bitIcon = new Bitmap(path + "iconCheck.png"),
+                state = State.Waiting,
+                function = new Function()
+                {
+                    action = EnumAction.Walk,
+                    bitCheck = new Bitmap(path + "iconCheck.png")
+                },
+                label = LabelWp.Reffil,
+                name = "iconCheck.png"
+            });
+
+            listWaypointsInReffil.Add(new Waypoints()
+            {
+                bitIcon = new Bitmap(path + "iconCheck.png"),
+                state = State.Waiting,
+                function = new Function()
+                {
+                    action = EnumAction.BuyPots
+                },
+                label = LabelWp.Reffil,
+                name = "iconCheck.png"
+            });
+
+            listWaypointsInReffil.Add(new Waypoints()
+            {
+                bitIcon = new Bitmap(path + "iconCheck.png"),
+                state = State.Waiting,
+                function = new Function()
+                {
+                    action = EnumAction.CheckWp
+                },
+                label = LabelWp.Reffil,
+                name = "iconCheck.png"
+            });
+
+            #endregion
+
+            #region WayToHut
+
+            listWaypointsToHunt.Add(new Waypoints()
+            {
+                bitIcon = new Bitmap(path + "iconDown.png"),
+                state = State.Waiting,
+                function = null,
+                label = LabelWp.WayToCave,
+                name = "iconDown.png"
+            });
+
+            listWaypointsToHunt.Add(new Waypoints()
+            {
+                bitIcon = new Bitmap(path + "iconRight.png"),
+                state = State.Waiting,
+                function = null,
+                label = LabelWp.WayToCave,
+                name = "iconRight.png"
+            });
+
+            listWaypointsToHunt.Add(new Waypoints()
+            {
+                bitIcon = new Bitmap(path + "iconRight.png"),
+                state = State.Waiting,
+                function = new Function()
+                {
+                    action = EnumAction.Conversation,
+                    bitCheck = new Bitmap(path + "iconCheck.png"),
+                },
+                label = LabelWp.WayToCave,
+                name = "iconRight.png"
+            });
+
+            listWaypointsToHunt.Add(new Waypoints()
+            {
+                bitIcon = new Bitmap(path + "iconDown.png"),
+                state = State.Waiting,
+                function = new Function()
+                {
+                    action = EnumAction.Walk,
+                    bitCheck = new Bitmap(path + "iconDown.png"),
+                },
+                label = LabelWp.WayToCave,
+                name = "iconDown.png"
+            });
+
+            listWaypointsToHunt.Add(new Waypoints()
+            {
+                bitIcon = new Bitmap(path + "iconLeft.png"),
+                state = State.Waiting,
+                function = new Function()
+                {
+                    action = EnumAction.Walk,
+                    bitCheck = new Bitmap(path + "iconLeft.png"),
+                },
+                label = LabelWp.WayToCave,
+                name = "iconLeft.png"
+            });
+
+            listWaypointsToHunt.Add(new Waypoints()
+            {
+                bitIcon = new Bitmap(path + "iconLeft.png"),
+                state = State.Waiting,
+                function = new Function()
+                {
+                    action = EnumAction.ToLeft,
+                    bitCheck = null
+                },
+                label = LabelWp.WayToCave,
+                name = "iconLeft.png"
+            });
+
+            listWaypointsToHunt.Add(new Waypoints()
+            {
+                bitIcon = new Bitmap(path + "iconBank.png"),
+                state = State.Waiting,
+                function = new Function()
+                {
+                    action = EnumAction.Walk,
+                    bitCheck = new Bitmap(path + "iconBank.png"),
+                },
+                label = LabelWp.WayToCave,
+                name = "iconBank.png"
+            });
+
+            listWaypointsToHunt.Add(new Waypoints()
+            {
+                bitIcon = new Bitmap(path + "iconBank.png"),
+                state = State.Waiting,
+                function = new Function()
+                {
+                    action = EnumAction.ToLeft,
+                    bitCheck = new Bitmap(path + "iconCheck.png"),
+                },
+                label = LabelWp.WayToCave,
+                name = "iconBank.png"
+            });
+
+            listWaypointsToHunt.Add(new Waypoints()
+            {
+                bitIcon = new Bitmap(path + "iconCheck.png"),
+                state = State.Waiting,
+                function = new Function()
+                {
+                    action = EnumAction.CheckWp
+                },
+                label = LabelWp.WayToCave,
+                name = "iconCheck.png"
+            });
+
+            #endregion
 
             #endregion
 
@@ -655,7 +848,7 @@ namespace MouseMoveBot
             {
                 do
                 {
-                    if (this.cbCavebot.Checked && iconTibia == iconColor)
+                    if (iconTibia == iconColor)
                     {
                         checkBattleList();
                     }
@@ -734,7 +927,7 @@ namespace MouseMoveBot
             {
                 do
                 {
-                    if (cbTarget.Checked && iconTibia == iconColor)
+                    if (cbTarget.Checked && iconTibia == iconColor && currentWaypoint.label == LabelWp.InCave)
                     {
                         checkAttack();
                     }
@@ -745,7 +938,7 @@ namespace MouseMoveBot
             {
                 do
                 {
-                    if ((this.checkAttackSpell.Checked || this.checkAttackMissileRune.Checked || this.checkAttackAreaRune.Checked ) && iconTibia == iconColor)
+                    if ((this.checkAttackSpell.Checked || this.checkAttackMissileRune.Checked || this.checkAttackAreaRune.Checked) && iconTibia == iconColor && currentWaypoint.label == LabelWp.InCave)
                     {
                         checkAttackRunes();
                     }
@@ -774,6 +967,65 @@ namespace MouseMoveBot
                     }
                 } while (true);
             });
+
+            taskCheckPoison = Task.Factory.StartNew(() =>
+            {
+                do
+                {
+                    if (iconTibia == iconColor)
+                    {
+                        CheckArePoisoned();
+                    }
+                } while (true);
+            });
+
+            taskCheckEatFood = Task.Factory.StartNew(() =>
+            {
+                do
+                {
+                    if (iconTibia == iconColor)
+                    {
+                        CheckAreHungry();
+                    }
+                } while (true);
+            });
+
+        }
+
+        private void CheckArePoisoned()
+        {
+
+            Rectangle rect = new Rectangle(1752, 313, 108, 13);
+            Bitmap areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            Graphics g = Graphics.FromImage(areaIcon);
+            g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
+
+            var poisoned = CheckFindBattle(new Bitmap(path + "poisoned.png"), areaIcon);
+
+            if (battleIsNormal && poisoned && keyCurePoison != null)
+            {
+                SendKeys.SendWait("{" + keyCurePoison + "}");
+                Console.WriteLine("Cure Poison.");
+                Task.Delay(200).Wait();
+            }
+        }
+
+        private void CheckAreHungry()
+        {
+
+            Rectangle rect = new Rectangle(1752, 313, 108, 13);
+            Bitmap areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            Graphics g = Graphics.FromImage(areaIcon);
+            g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
+
+            var hungry = CheckFindBattle(new Bitmap(path + "hungry.png"), areaIcon);
+
+            if (battleIsNormal && hungry && keyEatFood != null)
+            {
+                SendKeys.SendWait("{" + keyEatFood + "}");
+                Console.WriteLine("Eat Food.");
+                Task.Delay(200).Wait();
+            }
         }
 
         private void checkAttackRunes()
@@ -888,6 +1140,12 @@ namespace MouseMoveBot
                 case EnumAction.BuyPots:
                     buyPots();
                     break;
+                case EnumAction.Conversation:
+                    conversation();
+                    break;
+                case EnumAction.ActiveTarget:
+                    activeTarget();
+                    break;
                 default:
                     break;
             }
@@ -909,29 +1167,61 @@ namespace MouseMoveBot
             }
         }
 
+        private void activeTarget()
+        {
+            if (cbTarget.Checked)
+            {
+                this.cbTarget.Checked = false;
+            }
+            else
+            {
+                this.cbTarget.Checked = true;
+            }
+            return;
+        }
+
+        private void conversation()
+        {
+            Task.Delay(1000).Wait();
+            InputSimulator sim = new InputSimulator();
+            SendKeys.SendWait("hi");
+            Task.Delay(500).Wait();
+            SendKeys.SendWait("{ENTER}");
+            Task.Delay(1000).Wait();
+            SendKeys.SendWait("passage");
+            Task.Delay(500).Wait();
+            SendKeys.SendWait("{ENTER}");
+            Task.Delay(1000).Wait();
+            SendKeys.SendWait("yes");
+            Task.Delay(500).Wait();
+            SendKeys.SendWait("{ENTER}");
+            Task.Delay(1000).Wait();
+        }
+
         private void buyPots()
         {
             InputSimulator sim = new InputSimulator();
-            sim.Keyboard.KeyPress(VirtualKeyCode.F10);
-            Task.Delay(1000).Wait();
-            sim.Keyboard.KeyPress(VirtualKeyCode.F10);
-            Task.Delay(1000).Wait();
-            Cursor.Position = new Point(1908, 826);
+            Cursor.Position = new Point(610, 840);
+            Task.Delay(500).Wait();
             sim.Mouse.LeftButtonClick();
             Task.Delay(1000).Wait();
-            Cursor.Position = new Point(1800, 826);
             sim.Mouse.LeftButtonClick();
             Task.Delay(500).Wait();
-            Cursor.Position = new Point(1848, 885);
+
+            Cursor.Position = new Point(1730, 783);
+            Task.Delay(500).Wait();
             sim.Mouse.LeftButtonClick();
             Task.Delay(500).Wait();
-            Cursor.Position = new Point(1890, 928);
+            Cursor.Position = new Point(1630, 783);
+            Task.Delay(500).Wait();
             sim.Mouse.LeftButtonClick();
             Task.Delay(500).Wait();
-            Cursor.Position = new Point(1890, 928);
+            Cursor.Position = new Point(1670, 905);
             sim.Mouse.LeftButtonClick();
             Task.Delay(500).Wait();
-            Cursor.Position = new Point(1890, 928);
+            Cursor.Position = new Point(1715, 945);
+            sim.Mouse.LeftButtonClick();
+            Task.Delay(500).Wait();
             sim.Mouse.LeftButtonClick();
             Task.Delay(500).Wait();
         }
@@ -965,6 +1255,8 @@ namespace MouseMoveBot
                 new Bitmap(path + "cultRobe.png"),
                 new Bitmap(path + "boneEye.png"),
                 new Bitmap(path + "egg.png"),
+                new Bitmap(path + "spiderSilk.png"),
+                new Bitmap(path + "frostHeart.png"),
             };
 
             foreach (var item in listaItems)
@@ -991,6 +1283,62 @@ namespace MouseMoveBot
                 }
                 Task.Delay(500).Wait();
             }
+            pickItemsFromDepot();
+        }
+
+        private void pickItemsFromDepot()
+        {
+            InputSimulator sim = new InputSimulator();
+            Cursor.Position = new Point(785, 380);
+            sim.Mouse.LeftButtonClick();
+
+            Bitmap screenCapture = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+
+            Graphics g = Graphics.FromImage(screenCapture);
+
+            g.CopyFromScreen(Screen.PrimaryScreen.Bounds.X,
+                             Screen.PrimaryScreen.Bounds.Y,
+                             0, 0,
+                             screenCapture.Size,
+                             CopyPixelOperation.SourceCopy);
+
+            Bitmap myPic = new Bitmap(path + "mailDepot.png");
+            var contain = CheckFindDepot(myPic, screenCapture);
+
+            if (contain != null)
+            {
+                Cursor.Position = contain.Value;
+                sim.Mouse.LeftButtonClick();
+            }
+            else
+            {
+                Cursor.Position = new Point(785, 520);
+                sim.Mouse.LeftButtonClick();
+
+                Bitmap screenCapture2 = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+
+                Graphics g2 = Graphics.FromImage(screenCapture2);
+
+                g2.CopyFromScreen(Screen.PrimaryScreen.Bounds.X,
+                                 Screen.PrimaryScreen.Bounds.Y,
+                                 0, 0,
+                                 screenCapture2.Size,
+                                 CopyPixelOperation.SourceCopy);
+
+                Bitmap myPic2 = new Bitmap(path + "mailDepot.png");
+                var contain2 = CheckFindDepot(myPic2, screenCapture2);
+
+                if (contain2 != null)
+                {
+                    Cursor.Position = contain.Value;
+                    sim.Mouse.LeftButtonClick();
+                }
+            }
+
+
+
+
+
         }
 
         private void stowItem()
@@ -1140,7 +1488,7 @@ namespace MouseMoveBot
         {
             InputSimulator sim = new InputSimulator();
 
-            //// Center of xar 870, 470 in screen            
+            //// Center of xar 785, 450 in screen 
             if (currentWaypoint.function.action == EnumAction.ToUp)
             {
                 //Cursor.Position = new Point(870, 410);
@@ -1183,28 +1531,28 @@ namespace MouseMoveBot
             //// Center of xar 870, 470 in screen            
             if (currentWaypoint.function.action == EnumAction.ShovelToUp)
             {
-                Cursor.Position = new Point(870, 410);
+                Cursor.Position = new Point(785, 380);
                 sim.Mouse.LeftButtonClick();
                 return;
             }
 
             if (currentWaypoint.function.action == EnumAction.ShovelToDown)
             {
-                Cursor.Position = new Point(870, 530);
+                Cursor.Position = new Point(785, 520);
                 sim.Mouse.LeftButtonClick();
                 return;
             }
 
             if (currentWaypoint.function.action == EnumAction.ShovelToLeft)
             {
-                Cursor.Position = new Point(800, 470);
+                Cursor.Position = new Point(715, 450);
                 sim.Mouse.LeftButtonClick();
                 return;
             }
 
             if (currentWaypoint.function.action == EnumAction.ShovelToRight)
             {
-                Cursor.Position = new Point(930, 470);
+                Cursor.Position = new Point(850, 450);
                 sim.Mouse.LeftButtonClick();
                 return;
             }
@@ -1215,38 +1563,38 @@ namespace MouseMoveBot
             InputSimulator sim = new InputSimulator();
             sim.Keyboard.KeyPress(VirtualKeyCode.F12);
 
-            //// Center of xar 870, 470 in screen 
+            //// Center of xar 785, 450 in screen 
             if (currentWaypoint.function.action == EnumAction.RopeCenter)
             {
-                Cursor.Position = new Point(870, 470);
+                Cursor.Position = new Point(785, 450);
                 sim.Mouse.LeftButtonClick();
                 return;
             }
 
             if (currentWaypoint.function.action == EnumAction.RopeToUp)
             {
-                Cursor.Position = new Point(870, 410);
+                Cursor.Position = new Point(785, 380);
                 sim.Mouse.LeftButtonClick();
                 return;
             }
 
             if (currentWaypoint.function.action == EnumAction.RopeToDown)
             {
-                Cursor.Position = new Point(870, 530);
+                Cursor.Position = new Point(785, 520);
                 sim.Mouse.LeftButtonClick();
                 return;
             }
 
             if (currentWaypoint.function.action == EnumAction.RopeToLeft)
             {
-                Cursor.Position = new Point(800, 470);
+                Cursor.Position = new Point(715, 450);
                 sim.Mouse.LeftButtonClick();
                 return;
             }
 
             if (currentWaypoint.function.action == EnumAction.RopeToRight)
             {
-                Cursor.Position = new Point(930, 470);
+                Cursor.Position = new Point(850, 450);
                 sim.Mouse.LeftButtonClick();
                 return;
             }
@@ -1384,7 +1732,7 @@ namespace MouseMoveBot
             Color healthColor = Color.FromArgb(255, 167, 51, 51);
 
             var percent90 = GetColorAt(new Point(1845, 145)) == healthColor;
-            var percent70 = GetColorAt(new Point(1830, 145)) == healthColor;
+            var percent70 = GetColorAt(new Point(1840, 145)) == healthColor;
             var percent30 = GetColorAt(new Point(1795, 145)) == healthColor;
 
             if (!percent90 && percent70 && percent30 && keyMaxHealerSelected != null)
@@ -1715,57 +2063,57 @@ namespace MouseMoveBot
 
 
 
-            var casa1 = false;
-            var casa2 = false;
-            var casa3 = false;
+            //var casa1 = false;
+            //var casa2 = false;
+            //var casa3 = false;
 
-            Rectangle rect = new Rectangle(40, 849, 7, 8);
-            Bitmap areaIcon = null;
-            Graphics g = null;
+            //Rectangle rect = new Rectangle(40, 849, 7, 8);
+            //Bitmap areaIcon = null;
+            //Graphics g = null;
 
-            var n1 = 0;
-            var n2 = 0;
-            var n3 = 0;
+            //var n1 = 0;
+            //var n2 = 0;
+            //var n3 = 0;
 
-            var listNumbers = new List<Bitmap>()
-            {
-                new Bitmap(path + "0.png"),
-                new Bitmap(path + "1.png"),
-                new Bitmap(path + "2.png"),
-                new Bitmap(path + "3.png"),
-                new Bitmap(path + "4.png"),
-                new Bitmap(path + "5.png"),
-                new Bitmap(path + "6.png"),
-                new Bitmap(path + "7.png"),
-                new Bitmap(path + "8.png"),
-                new Bitmap(path + "9.png"),
-            };
+            //var listNumbers = new List<Bitmap>()
+            //{
+            //    new Bitmap(path + "0.png"),
+            //    new Bitmap(path + "1.png"),
+            //    new Bitmap(path + "2.png"),
+            //    new Bitmap(path + "3.png"),
+            //    new Bitmap(path + "4.png"),
+            //    new Bitmap(path + "5.png"),
+            //    new Bitmap(path + "6.png"),
+            //    new Bitmap(path + "7.png"),
+            //    new Bitmap(path + "8.png"),
+            //    new Bitmap(path + "9.png"),
+            //};
 
-            foreach (var item in listNumbers)
-            {
-                if (!casa2)
-                {
-                    rect = new Rectangle(40, 849, 7, 8);
-                    areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-                    g = Graphics.FromImage(areaIcon);
-                    g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
+            //foreach (var item in listNumbers)
+            //{
+            //    if (!casa2)
+            //    {
+            //        rect = new Rectangle(40, 849, 7, 8);
+            //        areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            //        g = Graphics.FromImage(areaIcon);
+            //        g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
 
-                    casa2 = CheckFindBattle(item, areaIcon);
-                    n2 = casa2 ? listNumbers.IndexOf(item) : 0;
-                }
+            //        casa2 = CheckFindBattle(item, areaIcon);
+            //        n2 = casa2 ? listNumbers.IndexOf(item) : 0;
+            //    }
 
-                if (!casa3)
-                {
-                    rect = new Rectangle(45, 849, 7, 8);
-                    areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-                    g = Graphics.FromImage(areaIcon);
-                    g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
-                    casa3 = CheckFindBattle(item, areaIcon);
-                    n3 = casa3 ? listNumbers.IndexOf(item) : 0;
-                }
-            }
+            //    if (!casa3)
+            //    {
+            //        rect = new Rectangle(45, 849, 7, 8);
+            //        areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            //        g = Graphics.FromImage(areaIcon);
+            //        g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
+            //        casa3 = CheckFindBattle(item, areaIcon);
+            //        n3 = casa3 ? listNumbers.IndexOf(item) : 0;
+            //    }
+            //}
 
-            MessageBox.Show(n1 + "" + n2 + "" + n3);
+            //MessageBox.Show(n1 + "" + n2 + "" + n3);
 
             //var countMonster = 0;
             //var blackColor = Color.FromArgb(255, 0, 0, 0);
@@ -1777,6 +2125,19 @@ namespace MouseMoveBot
             //}
 
             //MessageBox.Show(countMonster.ToString());
+
+            Rectangle rect = new Rectangle(1752, 313, 108, 13);
+            Bitmap areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            Graphics g = Graphics.FromImage(areaIcon);
+            g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
+
+            var poisoned = CheckFindBattle(new Bitmap(path + "poisoned.png"), areaIcon);
+
+            if (poisoned)
+                MessageBox.Show("Poisoned");
+            else
+                MessageBox.Show("Sem Poison");
+
         }
 
         private bool compareTwoImages(Bitmap img1, Bitmap img2)
@@ -2054,6 +2415,11 @@ namespace MouseMoveBot
             f5 = new Form5(this);
             this.Hide();
             f5.ShowDialog();
+        }
+
+        private void cbTarget_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

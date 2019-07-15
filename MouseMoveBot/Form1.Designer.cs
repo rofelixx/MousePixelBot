@@ -54,6 +54,7 @@ namespace MouseMoveBot
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.checkAttackAreaRune = new System.Windows.Forms.CheckBox();
             this.checkMaximized = new System.Windows.Forms.CheckBox();
             this.checkAttackSpell = new System.Windows.Forms.CheckBox();
             this.cbFollowMonster = new System.Windows.Forms.CheckBox();
@@ -71,7 +72,8 @@ namespace MouseMoveBot
             this.textboxMinHealth = new System.Windows.Forms.TextBox();
             this.textboxMidHealth = new System.Windows.Forms.TextBox();
             this.textboxMaxHealth = new System.Windows.Forms.TextBox();
-            this.checkAttackAreaRune = new System.Windows.Forms.CheckBox();
+            this.checkHungry = new System.Windows.Forms.CheckBox();
+            this.checkPoisoned = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.menuStrip2.SuspendLayout();
@@ -278,6 +280,16 @@ namespace MouseMoveBot
             this.panel1.Size = new System.Drawing.Size(285, 226);
             this.panel1.TabIndex = 15;
             // 
+            // checkAttackAreaRune
+            // 
+            this.checkAttackAreaRune.AutoSize = true;
+            this.checkAttackAreaRune.Location = new System.Drawing.Point(152, 167);
+            this.checkAttackAreaRune.Name = "checkAttackAreaRune";
+            this.checkAttackAreaRune.Size = new System.Drawing.Size(111, 17);
+            this.checkAttackAreaRune.TabIndex = 31;
+            this.checkAttackAreaRune.Text = "Attack Area Rune";
+            this.checkAttackAreaRune.UseVisualStyleBackColor = true;
+            // 
             // checkMaximized
             // 
             this.checkMaximized.AutoSize = true;
@@ -365,6 +377,7 @@ namespace MouseMoveBot
             this.cbTarget.TabIndex = 17;
             this.cbTarget.Text = "Target";
             this.cbTarget.UseVisualStyleBackColor = true;
+            this.cbTarget.CheckedChanged += new System.EventHandler(this.cbTarget_CheckedChanged);
             // 
             // cbHealerLife
             // 
@@ -436,21 +449,33 @@ namespace MouseMoveBot
             this.textboxMaxHealth.TabIndex = 21;
             this.textboxMaxHealth.Visible = false;
             // 
-            // checkAreaRune
+            // checkHungry
             // 
-            this.checkAttackAreaRune.AutoSize = true;
-            this.checkAttackAreaRune.Location = new System.Drawing.Point(152, 167);
-            this.checkAttackAreaRune.Name = "checkAreaRune";
-            this.checkAttackAreaRune.Size = new System.Drawing.Size(111, 17);
-            this.checkAttackAreaRune.TabIndex = 31;
-            this.checkAttackAreaRune.Text = "Attack Area Rune";
-            this.checkAttackAreaRune.UseVisualStyleBackColor = true;
+            this.checkHungry.AutoSize = true;
+            this.checkHungry.Location = new System.Drawing.Point(301, 311);
+            this.checkHungry.Name = "checkHungry";
+            this.checkHungry.Size = new System.Drawing.Size(69, 17);
+            this.checkHungry.TabIndex = 41;
+            this.checkHungry.Text = "Eat Food";
+            this.checkHungry.UseVisualStyleBackColor = true;
+            // 
+            // checkPoisoned
+            // 
+            this.checkPoisoned.AutoSize = true;
+            this.checkPoisoned.Location = new System.Drawing.Point(301, 275);
+            this.checkPoisoned.Name = "checkPoisoned";
+            this.checkPoisoned.Size = new System.Drawing.Size(83, 17);
+            this.checkPoisoned.TabIndex = 40;
+            this.checkPoisoned.Text = "Cure Poison";
+            this.checkPoisoned.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(571, 340);
+            this.Controls.Add(this.checkHungry);
+            this.Controls.Add(this.checkPoisoned);
             this.Controls.Add(this.capTextBox);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.button2);
@@ -530,6 +555,8 @@ namespace MouseMoveBot
         public CheckBox checkAttackSpell;
         public CheckBox checkAttackMissileRune;
         public CheckBox checkAttackAreaRune;
+        public CheckBox checkHungry;
+        public CheckBox checkPoisoned;
     }
 }
 
