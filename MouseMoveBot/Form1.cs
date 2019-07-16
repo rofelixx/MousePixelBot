@@ -62,6 +62,7 @@ namespace MouseMoveBot
         public String keySpellAttack;
         public String keyCurePoison;
         public String keyEatFood;
+        public String keyCureParalyze;
 
         System.Object[] ItemRange;
 
@@ -101,6 +102,7 @@ namespace MouseMoveBot
         Task taskCheckTibiaAreInFront;
         Task taskCheckPoison;
         Task taskCheckEatFood;
+        Task taskCheckParalyze;
 
         bool battleIsNormal = false;
 
@@ -499,8 +501,8 @@ namespace MouseMoveBot
                 state = State.Waiting,
                 function = new Function()
                 {
-                    action = EnumAction.ToLeft,
-                    bitCheck = new Bitmap(path + "iconDown.png")
+                    action = EnumAction.ToRight,
+                    bitCheck = new Bitmap(path + "iconBank.png")
                 },
                 label = LabelWp.WayToReffil,
                 name = "iconCheck.png"
@@ -521,8 +523,7 @@ namespace MouseMoveBot
                 state = State.Waiting,
                 function = new Function()
                 {
-                    action = EnumAction.ToLeft,
-                    bitCheck = new Bitmap(path + "iconLeft.png")
+                    action = EnumAction.ToLeft
                 },
                 label = LabelWp.WayToReffil,
                 name = "iconCheck.png"
@@ -574,19 +575,6 @@ namespace MouseMoveBot
                 state = State.Waiting,
                 function = new Function()
                 {
-                    action = EnumAction.Depot,
-                    bitCheck = new Bitmap(path + "greenUp.png")
-                },
-                label = LabelWp.WayToReffil,
-                name = "greenUp.png"
-            });
-
-            listWaypointsToReffil.Add(new Waypoints()
-            {
-                bitIcon = new Bitmap(path + "greenUp.png"),
-                state = State.Waiting,
-                function = new Function()
-                {
                     action = EnumAction.CheckWp,
                     bitCheck = new Bitmap(path + "greenUp.png")
                 },
@@ -597,6 +585,19 @@ namespace MouseMoveBot
             #endregion
 
             #region InReffil
+
+            listWaypointsInReffil.Add(new Waypoints()
+            {
+                bitIcon = new Bitmap(path + "greenUp.png"),
+                state = State.Waiting,
+                function = new Function()
+                {
+                    action = EnumAction.Depot,
+                    bitCheck = new Bitmap(path + "greenUp.png")
+                },
+                label = LabelWp.Reffil,
+                name = "greenUp.png"
+            });
 
             listWaypointsInReffil.Add(new Waypoints()
             {
@@ -641,11 +642,11 @@ namespace MouseMoveBot
 
             listWaypointsToHunt.Add(new Waypoints()
             {
-                bitIcon = new Bitmap(path + "iconDown.png"),
+                bitIcon = new Bitmap(path + "iconUp.png"),
                 state = State.Waiting,
                 function = null,
                 label = LabelWp.WayToCave,
-                name = "iconDown.png"
+                name = "iconUp.png"
             });
 
             listWaypointsToHunt.Add(new Waypoints()
@@ -751,7 +752,7 @@ namespace MouseMoveBot
 
             #endregion
 
-            listWaypoints = listWaypointsInHunt;
+            listWaypoints = listWaypointsToHunt;
         }
 
         private void CriaComboBox()
@@ -820,6 +821,7 @@ namespace MouseMoveBot
 
             taskHealerLife = Task.Factory.StartNew(() =>
             {
+                Thread.CurrentThread.Priority = ThreadPriority.Highest;
                 do
                 {
                     if (this.cbHealerLife.Checked && iconTibia == iconColor)
@@ -827,7 +829,7 @@ namespace MouseMoveBot
                         checkHealer();
                     }
 
-                    Task.Delay(200).Wait();
+                    Task.Delay(100).Wait();
                 } while (true);
             });
 
@@ -949,7 +951,7 @@ namespace MouseMoveBot
             {
                 do
                 {
-                    if (cbCavebot.Checked && iconTibia == iconColor && currentWaypoint.bitIcon != null && currentWaypoint.state != State.Attacking)
+                    if (cbCavebot.Checked && iconTibia == iconColor && currentWaypoint.bitIcon != null && currentWaypoint.state != State.Attacking && currentWaypoint.label != LabelWp.Reffil)
                     {
                         checkArrivedWaypoint();
                     }
@@ -961,7 +963,7 @@ namespace MouseMoveBot
             {
                 do
                 {
-                    if (cbCavebot.Checked && iconTibia == iconColor && currentWaypoint.state == State.Walking && (battleIsNormal || !battleIsNormal))
+                    if (cbCavebot.Checked && iconTibia == iconColor && currentWaypoint.state == State.Walking && (battleIsNormal || !battleIsNormal) && currentWaypoint.label != LabelWp.Reffil)
                     {
                         checkIfStopped();
                     }
@@ -979,6 +981,17 @@ namespace MouseMoveBot
                 } while (true);
             });
 
+            taskCheckParalyze = Task.Factory.StartNew(() =>
+            {
+                do
+                {
+                    if (iconTibia == iconColor)
+                    {
+                        checkAreParalyzed();
+                    }
+                } while (true);
+            });
+
             taskCheckEatFood = Task.Factory.StartNew(() =>
             {
                 do
@@ -990,6 +1003,23 @@ namespace MouseMoveBot
                 } while (true);
             });
 
+        }
+
+        private void checkAreParalyzed()
+        {
+            Rectangle rect = new Rectangle(1752, 313, 108, 13);
+            Bitmap areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            Graphics g = Graphics.FromImage(areaIcon);
+            g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
+
+            var paralyzed = CheckFindBattle(new Bitmap(path + "paralyzed.png"), areaIcon);
+
+            if (battleIsNormal && paralyzed && keyCureParalyze != null)
+            {
+                SendKeys.SendWait("{" + keyCureParalyze + "}");
+                Console.WriteLine("Cure Paralyze.");
+                Task.Delay(200).Wait();
+            }
         }
 
         private void CheckArePoisoned()
@@ -1202,9 +1232,9 @@ namespace MouseMoveBot
         {
             InputSimulator sim = new InputSimulator();
             Cursor.Position = new Point(610, 840);
-            Task.Delay(500).Wait();
-            sim.Mouse.LeftButtonClick();
             Task.Delay(1000).Wait();
+            sim.Mouse.LeftButtonClick();
+            Task.Delay(1500).Wait();
             sim.Mouse.LeftButtonClick();
             Task.Delay(500).Wait();
 
@@ -1242,9 +1272,9 @@ namespace MouseMoveBot
             var depot = CheckFindDepot(myPic, screenCapture);
             Cursor.Position = depot.Value;
             DoMouseClick();
-            Task.Delay(3000).Wait();
+            Task.Delay(1000).Wait();
             DepositItems();
-            listWaypoints = listWaypointsInReffil;
+            currentWaypoint.state = State.Concluded;
         }
 
         private void DepositItems()
@@ -1257,6 +1287,7 @@ namespace MouseMoveBot
                 new Bitmap(path + "egg.png"),
                 new Bitmap(path + "spiderSilk.png"),
                 new Bitmap(path + "frostHeart.png"),
+                new Bitmap(path + "vialUp.png"),
             };
 
             foreach (var item in listaItems)
@@ -1291,6 +1322,7 @@ namespace MouseMoveBot
             InputSimulator sim = new InputSimulator();
             Cursor.Position = new Point(785, 380);
             sim.Mouse.LeftButtonClick();
+            Task.Delay(500).Wait();
 
             Bitmap screenCapture = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
 
@@ -1302,8 +1334,9 @@ namespace MouseMoveBot
                              screenCapture.Size,
                              CopyPixelOperation.SourceCopy);
 
-            Bitmap myPic = new Bitmap(path + "mailDepot.png");
+            Bitmap myPic = new Bitmap(path + "depot.png");
             var contain = CheckFindDepot(myPic, screenCapture);
+            Task.Delay(500).Wait();
 
             if (contain != null)
             {
@@ -1312,6 +1345,9 @@ namespace MouseMoveBot
             }
             else
             {
+                Task.Delay(1000).Wait();
+                sim.Keyboard.KeyPress(VirtualKeyCode.DOWN);
+                Task.Delay(1000).Wait();
                 Cursor.Position = new Point(785, 520);
                 sim.Mouse.LeftButtonClick();
 
@@ -1325,7 +1361,7 @@ namespace MouseMoveBot
                                  screenCapture2.Size,
                                  CopyPixelOperation.SourceCopy);
 
-                Bitmap myPic2 = new Bitmap(path + "mailDepot.png");
+                Bitmap myPic2 = new Bitmap(path + "depot.png");
                 var contain2 = CheckFindDepot(myPic2, screenCapture2);
 
                 if (contain2 != null)
@@ -1335,10 +1371,21 @@ namespace MouseMoveBot
                 }
             }
 
-
-
-
-
+            for (int i = 0; i < 3; i++)
+            {
+                Task.Delay(500).Wait();
+                Cursor.Position = new Point(1770, 860);
+                DoMouseClick();
+                Task.Delay(500).Wait();
+                Cursor.Position = new Point(1770, 860);
+                sim.Mouse.LeftButtonClick();
+                Task.Delay(500).Wait();
+                mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
+                Task.Delay(500).Wait();
+                Cursor.Position = new Point(1770, 800);
+                mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
+                Task.Delay(500).Wait();
+            }
         }
 
         private void stowItem()
@@ -1368,6 +1415,9 @@ namespace MouseMoveBot
         {
             switch (currentWaypoint.label)
             {
+                case LabelWp.WayToReffil:
+                    listWaypoints = listWaypointsInReffil;
+                    break;
                 case LabelWp.WayToCave:
                     listWaypoints = listWaypointsInHunt;
                     break;
@@ -1741,24 +1791,17 @@ namespace MouseMoveBot
                 Console.WriteLine("Key Healer Pressed.");
             }
 
-            if (!percent70 && !percent90 && percent30 && keyMidHealerSelected != null)
+            if (!percent70 && percent30 && keyMidHealerSelected != null)
             {
                 SendKeys.SendWait("{" + keyMidHealerSelected + "}");
                 Console.WriteLine("Key Healer Pressed.");
             }
 
-            if (!percent30 && !percent70 && !percent90 && keyMinHealerSelected != null)
+            if (!percent30 && keyMinHealerSelected != null)
             {
                 SendKeys.SendWait("{" + keyMinHealerSelected + "}");
                 Console.WriteLine("Key Healer Pressed.");
             }
-
-
-            //if (keyMaxHealerSelected != null && iconColor != lifeBar)
-            //{
-            //    SendKeys.SendWait("{" + keyMaxHealerSelected + "}");
-            //    Console.WriteLine("Key Healer Pressed.");
-            //}
             Console.WriteLine("Healer.");
 
         }
@@ -2137,7 +2180,6 @@ namespace MouseMoveBot
                 MessageBox.Show("Poisoned");
             else
                 MessageBox.Show("Sem Poison");
-
         }
 
         private bool compareTwoImages(Bitmap img1, Bitmap img2)

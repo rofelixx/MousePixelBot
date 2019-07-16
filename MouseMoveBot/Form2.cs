@@ -58,6 +58,10 @@ namespace MouseMoveBot
             this.cbManaHealer.Checked = f1.cbHealerMana.Checked;
             this.checkHungry.Checked = f1.checkHungry.Checked;
             this.checkPoisoned.Checked = f1.checkPoisoned.Checked;
+            this.cbCurePoison.Text = f1.keyCurePoison;
+            this.cbEatFood.Text = f1.keyEatFood;
+            this.cbCureParalyze.Text = f1.keyCureParalyze;
+            this.checkParalyze.Checked = f1.checkParalyze.Checked;
             CriaComboBox();
         }
 
@@ -74,6 +78,7 @@ namespace MouseMoveBot
             this.cbCurePoison.Items.AddRange(ItemRange);
             this.cbEatFood.Items.AddRange(ItemRange);
             this.comboBoxMana.Items.AddRange(ItemRange);
+            this.cbCureParalyze.Items.AddRange(ItemRange);
         }
 
         private void HomeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -148,6 +153,16 @@ namespace MouseMoveBot
         private void checkPoisoned_CheckedChanged(object sender, EventArgs e)
         {
             f1.checkPoisoned.Checked = this.checkPoisoned.Checked;
+        }
+
+        private void cbCureParalyze_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            f1.keyCureParalyze = this.cbCureParalyze.Text;
+        }
+
+        private void checkParalyze_CheckedChanged(object sender, EventArgs e)
+        {
+            f1.checkParalyze.Checked = this.checkParalyze.Checked;
         }
     }
 }

@@ -49,6 +49,9 @@ namespace MouseMoveBot
             this.checkAttackMissileRune.Checked = f1.checkAttackMissileRune.Checked;
             this.checkAttackAreaRune.Checked = f1.checkAttackAreaRune.Checked;
             IncluiItems();
+            this.cbAttackSpell.Text = f1.keySpellAttack;
+            this.cbAttackMissile.Text = f1.keyMissileRune;
+            this.cbAttackArea.Text = f1.keyAreaRuneSelected;
         }
 
         private void IncluiItems()

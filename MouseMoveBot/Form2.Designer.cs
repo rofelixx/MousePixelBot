@@ -38,6 +38,10 @@ namespace MouseMoveBot
             this.targetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lootToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cbEatFood = new System.Windows.Forms.ComboBox();
+            this.checkHungry = new System.Windows.Forms.CheckBox();
+            this.cbCurePoison = new System.Windows.Forms.ComboBox();
+            this.checkPoisoned = new System.Windows.Forms.CheckBox();
             this.comboBoxMana = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
             this.cbManaHealer = new System.Windows.Forms.CheckBox();
@@ -48,10 +52,8 @@ namespace MouseMoveBot
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.cbHealthHealer = new System.Windows.Forms.CheckBox();
-            this.checkPoisoned = new System.Windows.Forms.CheckBox();
-            this.cbCurePoison = new System.Windows.Forms.ComboBox();
-            this.cbEatFood = new System.Windows.Forms.ComboBox();
-            this.checkHungry = new System.Windows.Forms.CheckBox();
+            this.cbCureParalyze = new System.Windows.Forms.ComboBox();
+            this.checkParalyze = new System.Windows.Forms.CheckBox();
             this.menuStrip2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -114,6 +116,8 @@ namespace MouseMoveBot
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cbCureParalyze);
+            this.groupBox1.Controls.Add(this.checkParalyze);
             this.groupBox1.Controls.Add(this.cbEatFood);
             this.groupBox1.Controls.Add(this.checkHungry);
             this.groupBox1.Controls.Add(this.cbCurePoison);
@@ -134,6 +138,46 @@ namespace MouseMoveBot
             this.groupBox1.TabIndex = 28;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Healer";
+            // 
+            // cbEatFood
+            // 
+            this.cbEatFood.FormattingEnabled = true;
+            this.cbEatFood.Location = new System.Drawing.Point(436, 216);
+            this.cbEatFood.Name = "cbEatFood";
+            this.cbEatFood.Size = new System.Drawing.Size(53, 21);
+            this.cbEatFood.TabIndex = 40;
+            this.cbEatFood.SelectedIndexChanged += new System.EventHandler(this.cbEatFood_SelectedIndexChanged);
+            // 
+            // checkHungry
+            // 
+            this.checkHungry.AutoSize = true;
+            this.checkHungry.Location = new System.Drawing.Point(347, 216);
+            this.checkHungry.Name = "checkHungry";
+            this.checkHungry.Size = new System.Drawing.Size(69, 17);
+            this.checkHungry.TabIndex = 39;
+            this.checkHungry.Text = "Eat Food";
+            this.checkHungry.UseVisualStyleBackColor = true;
+            this.checkHungry.CheckedChanged += new System.EventHandler(this.checkHungry_CheckedChanged);
+            // 
+            // cbCurePoison
+            // 
+            this.cbCurePoison.FormattingEnabled = true;
+            this.cbCurePoison.Location = new System.Drawing.Point(436, 180);
+            this.cbCurePoison.Name = "cbCurePoison";
+            this.cbCurePoison.Size = new System.Drawing.Size(53, 21);
+            this.cbCurePoison.TabIndex = 38;
+            this.cbCurePoison.SelectedIndexChanged += new System.EventHandler(this.cbCurePoison_SelectedIndexChanged);
+            // 
+            // checkPoisoned
+            // 
+            this.checkPoisoned.AutoSize = true;
+            this.checkPoisoned.Location = new System.Drawing.Point(347, 180);
+            this.checkPoisoned.Name = "checkPoisoned";
+            this.checkPoisoned.Size = new System.Drawing.Size(83, 17);
+            this.checkPoisoned.TabIndex = 37;
+            this.checkPoisoned.Text = "Cure Poison";
+            this.checkPoisoned.UseVisualStyleBackColor = true;
+            this.checkPoisoned.CheckedChanged += new System.EventHandler(this.checkPoisoned_CheckedChanged);
             // 
             // comboBoxMana
             // 
@@ -229,45 +273,25 @@ namespace MouseMoveBot
             this.cbHealthHealer.UseVisualStyleBackColor = true;
             this.cbHealthHealer.CheckedChanged += new System.EventHandler(this.CheckBox1_CheckedChanged);
             // 
-            // checkPoisoned
+            // cbCureParalyze
             // 
-            this.checkPoisoned.AutoSize = true;
-            this.checkPoisoned.Location = new System.Drawing.Point(347, 180);
-            this.checkPoisoned.Name = "checkPoisoned";
-            this.checkPoisoned.Size = new System.Drawing.Size(83, 17);
-            this.checkPoisoned.TabIndex = 37;
-            this.checkPoisoned.Text = "Cure Poison";
-            this.checkPoisoned.UseVisualStyleBackColor = true;
-            this.checkPoisoned.CheckedChanged += new System.EventHandler(this.checkPoisoned_CheckedChanged);
+            this.cbCureParalyze.FormattingEnabled = true;
+            this.cbCureParalyze.Location = new System.Drawing.Point(436, 253);
+            this.cbCureParalyze.Name = "cbCureParalyze";
+            this.cbCureParalyze.Size = new System.Drawing.Size(53, 21);
+            this.cbCureParalyze.TabIndex = 42;
+            this.cbCureParalyze.SelectedIndexChanged += new System.EventHandler(this.cbCureParalyze_SelectedIndexChanged);
             // 
-            // cbCurePoison
+            // checkParalyze
             // 
-            this.cbCurePoison.FormattingEnabled = true;
-            this.cbCurePoison.Location = new System.Drawing.Point(436, 180);
-            this.cbCurePoison.Name = "cbCurePoison";
-            this.cbCurePoison.Size = new System.Drawing.Size(53, 21);
-            this.cbCurePoison.TabIndex = 38;
-            this.cbCurePoison.SelectedIndexChanged += new System.EventHandler(this.cbCurePoison_SelectedIndexChanged);
-            // 
-            // cbEatFood
-            // 
-            this.cbEatFood.FormattingEnabled = true;
-            this.cbEatFood.Location = new System.Drawing.Point(436, 216);
-            this.cbEatFood.Name = "cbEatFood";
-            this.cbEatFood.Size = new System.Drawing.Size(53, 21);
-            this.cbEatFood.TabIndex = 40;
-            this.cbEatFood.SelectedIndexChanged += new System.EventHandler(this.cbEatFood_SelectedIndexChanged);
-            // 
-            // checkHungry
-            // 
-            this.checkHungry.AutoSize = true;
-            this.checkHungry.Location = new System.Drawing.Point(347, 216);
-            this.checkHungry.Name = "checkHungry";
-            this.checkHungry.Size = new System.Drawing.Size(69, 17);
-            this.checkHungry.TabIndex = 39;
-            this.checkHungry.Text = "Eat Food";
-            this.checkHungry.UseVisualStyleBackColor = true;
-            this.checkHungry.CheckedChanged += new System.EventHandler(this.checkHungry_CheckedChanged);
+            this.checkParalyze.AutoSize = true;
+            this.checkParalyze.Location = new System.Drawing.Point(347, 253);
+            this.checkParalyze.Name = "checkParalyze";
+            this.checkParalyze.Size = new System.Drawing.Size(91, 17);
+            this.checkParalyze.TabIndex = 41;
+            this.checkParalyze.Text = "Cure Paralyze";
+            this.checkParalyze.UseVisualStyleBackColor = true;
+            this.checkParalyze.CheckedChanged += new System.EventHandler(this.checkParalyze_CheckedChanged);
             // 
             // Form2
             // 
@@ -313,6 +337,8 @@ namespace MouseMoveBot
         private ComboBox cbCurePoison;
         private ComboBox cbEatFood;
         public CheckBox checkHungry;
+        private ComboBox cbCureParalyze;
+        public CheckBox checkParalyze;
     }
 }
 

@@ -187,10 +187,12 @@
     <Content Include="Resources\killing.png" />
     <Content Include="Resources\mailDepot.png" />
     <Content Include="Resources\menuStowAll.png" />
+    <Content Include="Resources\paralyzed.png" />
     <Content Include="Resources\poisoned.png" />
     <Content Include="Resources\ropebelt.png" />
     <Content Include="Resources\spiderSilk.png" />
     <Content Include="Resources\stash.png" />
+    <Content Include="Resources\vialUp.png" />
     <Content Include="WePH.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

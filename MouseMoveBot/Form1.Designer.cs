@@ -74,6 +74,7 @@ namespace MouseMoveBot
             this.textboxMaxHealth = new System.Windows.Forms.TextBox();
             this.checkHungry = new System.Windows.Forms.CheckBox();
             this.checkPoisoned = new System.Windows.Forms.CheckBox();
+            this.checkParalyze = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.menuStrip2.SuspendLayout();
@@ -469,11 +470,22 @@ namespace MouseMoveBot
             this.checkPoisoned.Text = "Cure Poison";
             this.checkPoisoned.UseVisualStyleBackColor = true;
             // 
+            // checkParalyze
+            // 
+            this.checkParalyze.AutoSize = true;
+            this.checkParalyze.Location = new System.Drawing.Point(426, 275);
+            this.checkParalyze.Name = "checkParalyze";
+            this.checkParalyze.Size = new System.Drawing.Size(91, 17);
+            this.checkParalyze.TabIndex = 43;
+            this.checkParalyze.Text = "Cure Paralyze";
+            this.checkParalyze.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(571, 340);
+            this.Controls.Add(this.checkParalyze);
             this.Controls.Add(this.checkHungry);
             this.Controls.Add(this.checkPoisoned);
             this.Controls.Add(this.capTextBox);
@@ -557,6 +569,7 @@ namespace MouseMoveBot
         public CheckBox checkAttackAreaRune;
         public CheckBox checkHungry;
         public CheckBox checkPoisoned;
+        public CheckBox checkParalyze;
     }
 }
 
