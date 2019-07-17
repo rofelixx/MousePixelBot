@@ -62,6 +62,8 @@ namespace MouseMoveBot
             this.cbEatFood.Text = f1.keyEatFood;
             this.cbCureParalyze.Text = f1.keyCureParalyze;
             this.checkParalyze.Checked = f1.checkParalyze.Checked;
+            this.checkUseEnergyRing.Checked = f1.checkUseEnergyRing.Checked;
+            this.cbUseEnergyRing.Text = f1.keyUseEnergyRing;
             CriaComboBox();
         }
 
@@ -79,6 +81,7 @@ namespace MouseMoveBot
             this.cbEatFood.Items.AddRange(ItemRange);
             this.comboBoxMana.Items.AddRange(ItemRange);
             this.cbCureParalyze.Items.AddRange(ItemRange);
+            this.cbUseEnergyRing.Items.AddRange(ItemRange);
         }
 
         private void HomeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -163,6 +166,16 @@ namespace MouseMoveBot
         private void checkParalyze_CheckedChanged(object sender, EventArgs e)
         {
             f1.checkParalyze.Checked = this.checkParalyze.Checked;
+        }
+
+        private void cbUseEnergyRing_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            f1.keyUseEnergyRing = this.cbUseEnergyRing.Text;            
+        }
+
+        private void checkUseEnergyRing_CheckedChanged(object sender, EventArgs e)
+        {
+            f1.checkUseEnergyRing.Checked = this.checkUseEnergyRing.Checked;
         }
     }
 }

@@ -186,6 +186,7 @@
     <Content Include="Resources\iconUp.png" />
     <Content Include="Resources\killing.png" />
     <Content Include="Resources\mailDepot.png" />
+    <Content Include="Resources\manaShield.png" />
     <Content Include="Resources\menuStowAll.png" />
     <Content Include="Resources\paralyzed.png" />
     <Content Include="Resources\poisoned.png" />

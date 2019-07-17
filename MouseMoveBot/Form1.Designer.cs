@@ -67,14 +67,15 @@ namespace MouseMoveBot
             this.cbHealerLife = new System.Windows.Forms.CheckBox();
             this.cbCavebot = new System.Windows.Forms.CheckBox();
             this.button2 = new System.Windows.Forms.Button();
-            this.label6 = new System.Windows.Forms.Label();
-            this.capTextBox = new System.Windows.Forms.TextBox();
             this.textboxMinHealth = new System.Windows.Forms.TextBox();
             this.textboxMidHealth = new System.Windows.Forms.TextBox();
             this.textboxMaxHealth = new System.Windows.Forms.TextBox();
             this.checkHungry = new System.Windows.Forms.CheckBox();
             this.checkPoisoned = new System.Windows.Forms.CheckBox();
             this.checkParalyze = new System.Windows.Forms.CheckBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.capTextBox = new System.Windows.Forms.TextBox();
+            this.checkUseEnergyRing = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.menuStrip2.SuspendLayout();
@@ -410,22 +411,6 @@ namespace MouseMoveBot
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.Button2_Click);
             // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(423, 311);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(26, 13);
-            this.label6.TabIndex = 17;
-            this.label6.Text = "Cap";
-            // 
-            // capTextBox
-            // 
-            this.capTextBox.Location = new System.Drawing.Point(459, 308);
-            this.capTextBox.Name = "capTextBox";
-            this.capTextBox.Size = new System.Drawing.Size(100, 20);
-            this.capTextBox.TabIndex = 18;
-            // 
             // textboxMinHealth
             // 
             this.textboxMinHealth.Location = new System.Drawing.Point(0, 0);
@@ -480,11 +465,38 @@ namespace MouseMoveBot
             this.checkParalyze.Text = "Cure Paralyze";
             this.checkParalyze.UseVisualStyleBackColor = true;
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(16, 311);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(26, 13);
+            this.label6.TabIndex = 17;
+            this.label6.Text = "Cap";
+            // 
+            // capTextBox
+            // 
+            this.capTextBox.Location = new System.Drawing.Point(52, 308);
+            this.capTextBox.Name = "capTextBox";
+            this.capTextBox.Size = new System.Drawing.Size(100, 20);
+            this.capTextBox.TabIndex = 18;
+            // 
+            // checkUseEnergyRing
+            // 
+            this.checkUseEnergyRing.AutoSize = true;
+            this.checkUseEnergyRing.Location = new System.Drawing.Point(426, 311);
+            this.checkUseEnergyRing.Name = "checkUseEnergyRing";
+            this.checkUseEnergyRing.Size = new System.Drawing.Size(103, 17);
+            this.checkUseEnergyRing.TabIndex = 44;
+            this.checkUseEnergyRing.Text = "Use EnergyRing";
+            this.checkUseEnergyRing.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(571, 340);
+            this.Controls.Add(this.checkUseEnergyRing);
             this.Controls.Add(this.checkParalyze);
             this.Controls.Add(this.checkHungry);
             this.Controls.Add(this.checkPoisoned);
@@ -556,8 +568,6 @@ namespace MouseMoveBot
         public ComboBox comboBoxLifeKey;
         public ComboBox comboBoxManaKey;
         public CheckBox cbFollowMonster;
-        private Label label6;
-        private TextBox capTextBox;
         private CheckBox checkMaximized;
         public TextBox textboxMinHealth;
         public TextBox textboxMidHealth;
@@ -570,6 +580,9 @@ namespace MouseMoveBot
         public CheckBox checkHungry;
         public CheckBox checkPoisoned;
         public CheckBox checkParalyze;
+        private Label label6;
+        private TextBox capTextBox;
+        public CheckBox checkUseEnergyRing;
     }
 }
 

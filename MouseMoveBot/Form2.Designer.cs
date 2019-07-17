@@ -38,6 +38,8 @@ namespace MouseMoveBot
             this.targetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lootToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cbCureParalyze = new System.Windows.Forms.ComboBox();
+            this.checkParalyze = new System.Windows.Forms.CheckBox();
             this.cbEatFood = new System.Windows.Forms.ComboBox();
             this.checkHungry = new System.Windows.Forms.CheckBox();
             this.cbCurePoison = new System.Windows.Forms.ComboBox();
@@ -52,8 +54,8 @@ namespace MouseMoveBot
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.cbHealthHealer = new System.Windows.Forms.CheckBox();
-            this.cbCureParalyze = new System.Windows.Forms.ComboBox();
-            this.checkParalyze = new System.Windows.Forms.CheckBox();
+            this.cbUseEnergyRing = new System.Windows.Forms.ComboBox();
+            this.checkUseEnergyRing = new System.Windows.Forms.CheckBox();
             this.menuStrip2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -116,6 +118,8 @@ namespace MouseMoveBot
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cbUseEnergyRing);
+            this.groupBox1.Controls.Add(this.checkUseEnergyRing);
             this.groupBox1.Controls.Add(this.cbCureParalyze);
             this.groupBox1.Controls.Add(this.checkParalyze);
             this.groupBox1.Controls.Add(this.cbEatFood);
@@ -139,10 +143,30 @@ namespace MouseMoveBot
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Healer";
             // 
+            // cbCureParalyze
+            // 
+            this.cbCureParalyze.FormattingEnabled = true;
+            this.cbCureParalyze.Location = new System.Drawing.Point(434, 224);
+            this.cbCureParalyze.Name = "cbCureParalyze";
+            this.cbCureParalyze.Size = new System.Drawing.Size(53, 21);
+            this.cbCureParalyze.TabIndex = 42;
+            this.cbCureParalyze.SelectedIndexChanged += new System.EventHandler(this.cbCureParalyze_SelectedIndexChanged);
+            // 
+            // checkParalyze
+            // 
+            this.checkParalyze.AutoSize = true;
+            this.checkParalyze.Location = new System.Drawing.Point(345, 224);
+            this.checkParalyze.Name = "checkParalyze";
+            this.checkParalyze.Size = new System.Drawing.Size(91, 17);
+            this.checkParalyze.TabIndex = 41;
+            this.checkParalyze.Text = "Cure Paralyze";
+            this.checkParalyze.UseVisualStyleBackColor = true;
+            this.checkParalyze.CheckedChanged += new System.EventHandler(this.checkParalyze_CheckedChanged);
+            // 
             // cbEatFood
             // 
             this.cbEatFood.FormattingEnabled = true;
-            this.cbEatFood.Location = new System.Drawing.Point(436, 216);
+            this.cbEatFood.Location = new System.Drawing.Point(434, 187);
             this.cbEatFood.Name = "cbEatFood";
             this.cbEatFood.Size = new System.Drawing.Size(53, 21);
             this.cbEatFood.TabIndex = 40;
@@ -151,7 +175,7 @@ namespace MouseMoveBot
             // checkHungry
             // 
             this.checkHungry.AutoSize = true;
-            this.checkHungry.Location = new System.Drawing.Point(347, 216);
+            this.checkHungry.Location = new System.Drawing.Point(345, 187);
             this.checkHungry.Name = "checkHungry";
             this.checkHungry.Size = new System.Drawing.Size(69, 17);
             this.checkHungry.TabIndex = 39;
@@ -162,7 +186,7 @@ namespace MouseMoveBot
             // cbCurePoison
             // 
             this.cbCurePoison.FormattingEnabled = true;
-            this.cbCurePoison.Location = new System.Drawing.Point(436, 180);
+            this.cbCurePoison.Location = new System.Drawing.Point(434, 151);
             this.cbCurePoison.Name = "cbCurePoison";
             this.cbCurePoison.Size = new System.Drawing.Size(53, 21);
             this.cbCurePoison.TabIndex = 38;
@@ -171,7 +195,7 @@ namespace MouseMoveBot
             // checkPoisoned
             // 
             this.checkPoisoned.AutoSize = true;
-            this.checkPoisoned.Location = new System.Drawing.Point(347, 180);
+            this.checkPoisoned.Location = new System.Drawing.Point(345, 151);
             this.checkPoisoned.Name = "checkPoisoned";
             this.checkPoisoned.Size = new System.Drawing.Size(83, 17);
             this.checkPoisoned.TabIndex = 37;
@@ -273,25 +297,25 @@ namespace MouseMoveBot
             this.cbHealthHealer.UseVisualStyleBackColor = true;
             this.cbHealthHealer.CheckedChanged += new System.EventHandler(this.CheckBox1_CheckedChanged);
             // 
-            // cbCureParalyze
+            // cbUseEnergyRing
             // 
-            this.cbCureParalyze.FormattingEnabled = true;
-            this.cbCureParalyze.Location = new System.Drawing.Point(436, 253);
-            this.cbCureParalyze.Name = "cbCureParalyze";
-            this.cbCureParalyze.Size = new System.Drawing.Size(53, 21);
-            this.cbCureParalyze.TabIndex = 42;
-            this.cbCureParalyze.SelectedIndexChanged += new System.EventHandler(this.cbCureParalyze_SelectedIndexChanged);
+            this.cbUseEnergyRing.FormattingEnabled = true;
+            this.cbUseEnergyRing.Location = new System.Drawing.Point(454, 255);
+            this.cbUseEnergyRing.Name = "cbUseEnergyRing";
+            this.cbUseEnergyRing.Size = new System.Drawing.Size(53, 21);
+            this.cbUseEnergyRing.TabIndex = 44;
+            this.cbUseEnergyRing.SelectedIndexChanged += new System.EventHandler(this.cbUseEnergyRing_SelectedIndexChanged);
             // 
-            // checkParalyze
+            // checkUseEnergyRing
             // 
-            this.checkParalyze.AutoSize = true;
-            this.checkParalyze.Location = new System.Drawing.Point(347, 253);
-            this.checkParalyze.Name = "checkParalyze";
-            this.checkParalyze.Size = new System.Drawing.Size(91, 17);
-            this.checkParalyze.TabIndex = 41;
-            this.checkParalyze.Text = "Cure Paralyze";
-            this.checkParalyze.UseVisualStyleBackColor = true;
-            this.checkParalyze.CheckedChanged += new System.EventHandler(this.checkParalyze_CheckedChanged);
+            this.checkUseEnergyRing.AutoSize = true;
+            this.checkUseEnergyRing.Location = new System.Drawing.Point(345, 257);
+            this.checkUseEnergyRing.Name = "checkUseEnergyRing";
+            this.checkUseEnergyRing.Size = new System.Drawing.Size(103, 17);
+            this.checkUseEnergyRing.TabIndex = 43;
+            this.checkUseEnergyRing.Text = "Use EnergyRing";
+            this.checkUseEnergyRing.UseVisualStyleBackColor = true;
+            this.checkUseEnergyRing.CheckedChanged += new System.EventHandler(this.checkUseEnergyRing_CheckedChanged);
             // 
             // Form2
             // 
@@ -339,6 +363,8 @@ namespace MouseMoveBot
         public CheckBox checkHungry;
         private ComboBox cbCureParalyze;
         public CheckBox checkParalyze;
+        private ComboBox cbUseEnergyRing;
+        public CheckBox checkUseEnergyRing;
     }
 }
 

@@ -63,6 +63,7 @@ namespace MouseMoveBot
         public String keyCurePoison;
         public String keyEatFood;
         public String keyCureParalyze;
+        public String keyUseEnergyRing;
 
         System.Object[] ItemRange;
 
@@ -103,6 +104,7 @@ namespace MouseMoveBot
         Task taskCheckPoison;
         Task taskCheckEatFood;
         Task taskCheckParalyze;
+        Task taskCheckUseEnergyRing;
 
         bool battleIsNormal = false;
 
@@ -1003,6 +1005,44 @@ namespace MouseMoveBot
                 } while (true);
             });
 
+            taskCheckUseEnergyRing = Task.Factory.StartNew(() =>
+            {
+                do
+                {
+                    if (iconTibia == iconColor && currentWaypoint.label == LabelWp.InCave)
+                    {
+                        checkEquipEnergyRing();
+                    }
+                } while (true);
+            });
+        }
+
+        private void checkEquipEnergyRing()
+        {
+            var countMonster = countMonsterInBattle();
+
+            Rectangle rect = new Rectangle(1752, 313, 108, 13);
+            Bitmap areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            Graphics g = Graphics.FromImage(areaIcon);
+            g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
+
+            var manaShield = CheckFindBattle(new Bitmap(path + "manaShield.png"), areaIcon);
+
+            if (this.checkUseEnergyRing.Checked && countMonster >= 3 && !manaShield)
+            {
+                SendKeys.SendWait("{" + keyUseEnergyRing + "}");
+                Console.WriteLine("Use energy ring.");
+                Task.Delay(1000).Wait();
+            }
+
+
+
+            if (manaShield && countMonster < 3)
+            {
+                SendKeys.SendWait("{" + keyUseEnergyRing + "}");
+                Console.WriteLine("Use energy ring.");
+                Task.Delay(200).Wait();
+            }
         }
 
         private void checkAreParalyzed()
@@ -1060,14 +1100,7 @@ namespace MouseMoveBot
 
         private void checkAttackRunes()
         {
-            var countMonster = 0;
-            var blackColor = Color.FromArgb(255, 0, 0, 0);
-            for (int i = 456; i < 550; i = i + 22)
-            {
-                var colorFound = GetColorAt(new Point(1770, i));
-                if (colorFound == blackColor)
-                    countMonster++;
-            }
+            var countMonster = countMonsterInBattle();
 
             var areAttacking = checkAreAttacking();
 
@@ -1129,6 +1162,19 @@ namespace MouseMoveBot
             //        Task.Delay(2100).Wait();
             //    }
             //}
+        }
+
+        private int countMonsterInBattle()
+        {
+            var blackColor = Color.FromArgb(255, 0, 0, 0);
+            var countMonster = 0;
+            for (int i = 477; i < 600; i = i + 22)
+            {
+                var colorFound = GetColorAt(new Point(1770, i));
+                if (colorFound == blackColor)
+                    countMonster++;
+            }
+            return countMonster; 
         }
 
         private void checkFunctionToDo()
