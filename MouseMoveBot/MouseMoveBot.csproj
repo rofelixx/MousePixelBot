@@ -158,10 +158,13 @@
     <Content Include="License-LGPL.txt" />
     <Content Include="Resources\0.png" />
     <Content Include="Resources\1.png" />
+    <Content Include="Resources\1Cap.png" />
     <Content Include="Resources\2.png" />
     <Content Include="Resources\3.png" />
+    <Content Include="Resources\3Cap.png" />
     <Content Include="Resources\4.png" />
     <Content Include="Resources\5.png" />
+    <Content Include="Resources\5Cap.png" />
     <Content Include="Resources\6.png" />
     <Content Include="Resources\7.png" />
     <Content Include="Resources\8.png" />
