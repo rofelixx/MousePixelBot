@@ -1563,13 +1563,83 @@ namespace MouseMoveBot
 
             var totalHp = (n1 * 100) + (n2 * 10) + n3;
 
-            if (totalHp < 50)
+            var totalRunes = checkTotalRunes();
+
+            if (totalHp < 50 || ((this.checkAttackAreaRune.Checked || this.checkAttackMissileRune.Checked) && totalRunes < 100))
                 listWaypoints = listWaypointsToReffil;
             else
             {
                 resetStateWaypoints();
                 listWaypoints = listWaypointsInHunt;
             }
+        }
+
+        private int checkTotalRunes()
+        {
+            var casa1 = false;
+            var casa2 = false;
+            var casa3 = false;
+
+            Rectangle rect = new Rectangle(40, 849, 7, 8);
+            Bitmap areaIcon = null;
+            Graphics g = null;
+
+            var n1 = 0;
+            var n2 = 0;
+            var n3 = 0;
+
+            var listNumbers = new List<Bitmap>()
+            {
+                new Bitmap(path + "0.png"),
+                new Bitmap(path + "1.png"),
+                new Bitmap(path + "2.png"),
+                new Bitmap(path + "3.png"),
+                new Bitmap(path + "4.png"),
+                new Bitmap(path + "5.png"),
+                new Bitmap(path + "6.png"),
+                new Bitmap(path + "7.png"),
+                new Bitmap(path + "8.png"),
+                new Bitmap(path + "9.png"),
+            };
+
+            foreach (var item in listNumbers)
+            {
+                if (!casa1)
+                {
+                    rect = new Rectangle(358, 849, 7, 8);
+                    areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                    g = Graphics.FromImage(areaIcon);
+                    g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
+
+                    casa1 = CheckFindBattle(item, areaIcon);
+                    n1 = casa1 ? listNumbers.IndexOf(item) : 0;
+                }
+
+                if (!casa2)
+                {
+                    rect = new Rectangle(364, 849, 7, 8);
+                    areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                    g = Graphics.FromImage(areaIcon);
+                    g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
+
+                    casa2 = CheckFindBattle(item, areaIcon);
+                    n2 = casa2 ? listNumbers.IndexOf(item) : 0;
+                }
+
+                if (!casa3)
+                {
+                    rect = new Rectangle(369, 849, 7, 8);
+                    areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                    g = Graphics.FromImage(areaIcon);
+                    g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
+                    casa3 = CheckFindBattle(item, areaIcon);
+                    n3 = casa3 ? listNumbers.IndexOf(item) : 0;
+                }
+            }
+
+            var totalRunes = (n1 * 100) + (n2 * 10) + n3;
+
+            return totalRunes;
         }
 
         private void resetStateWaypoints()
@@ -2215,17 +2285,150 @@ namespace MouseMoveBot
 
             //MessageBox.Show(countMonster.ToString());
 
-            Rectangle rect = new Rectangle(1752, 313, 108, 13);
-            Bitmap areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            Graphics g = Graphics.FromImage(areaIcon);
-            g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
+            //Rectangle rect = new Rectangle(1752, 313, 108, 13);
+            //Bitmap areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            //Graphics g = Graphics.FromImage(areaIcon);
+            //g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
 
-            var poisoned = CheckFindBattle(new Bitmap(path + "poisoned.png"), areaIcon);
+            //var poisoned = CheckFindBattle(new Bitmap(path + "poisoned.png"), areaIcon);
 
-            if (poisoned)
-                MessageBox.Show("Poisoned");
-            else
-                MessageBox.Show("Sem Poison");
+            //if (poisoned)
+            //    MessageBox.Show("Poisoned");
+            //else
+            //    MessageBox.Show("Sem Poison");
+
+
+            // ----------------------- Check Cap --------------------
+
+            //var casa1 = false;
+            //var casa2 = false;
+            //var casa3 = false;
+
+            //Rectangle rect = new Rectangle(40, 849, 7, 8);
+            //Bitmap areaIcon = null;
+            //Graphics g = null;
+
+            //var n1 = 0;
+            //var n2 = 0;
+            //var n3 = 0;
+
+            //var listNumbers = new List<Bitmap>()
+            //{
+            //    new Bitmap(path + "0.png"),
+            //    new Bitmap(path + "1Cap.png"),
+            //    new Bitmap(path + "2.png"),
+            //    new Bitmap(path + "3Cap.png"),
+            //    new Bitmap(path + "4.png"),
+            //    new Bitmap(path + "5Cap.png"),
+            //    new Bitmap(path + "6.png"),
+            //    new Bitmap(path + "7.png"),
+            //    new Bitmap(path + "8.png"),
+            //    new Bitmap(path + "9.png"),
+            //};
+
+            //foreach (var item in listNumbers)
+            //{
+            //    if (!casa1)
+            //    {
+            //        rect = new Rectangle(1835, 203, 5, 8);
+            //        areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            //        g = Graphics.FromImage(areaIcon);
+            //        g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
+
+            //        casa1 = CheckFindBattle(item, areaIcon);
+            //        n1 = casa1 ? listNumbers.IndexOf(item) : 0;
+            //    }
+
+            //    if (!casa2)
+            //    {
+            //        rect = new Rectangle(1841, 203, 5, 8);
+            //        areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            //        g = Graphics.FromImage(areaIcon);
+            //        g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
+
+            //        casa2 = CheckFindBattle(item, areaIcon);
+            //        n2 = casa2 ? listNumbers.IndexOf(item) : 0;
+            //    }
+
+            //    if (!casa3)
+            //    {
+            //        rect = new Rectangle(1847, 203, 5, 8);
+            //        areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            //        g = Graphics.FromImage(areaIcon);
+            //        g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
+            //        casa3 = CheckFindBattle(item, areaIcon);
+            //        n3 = casa3 ? listNumbers.IndexOf(item) : 0;
+            //    }
+            //}
+
+            //MessageBox.Show(n1 + "" + n2 + "" + n3);
+
+            // ------------------------ Check Runes 
+
+            var casa1 = false;
+            var casa2 = false;
+            var casa3 = false;
+
+            Rectangle rect = new Rectangle(40, 849, 7, 8);
+            Bitmap areaIcon = null;
+            Graphics g = null;
+
+            var n1 = 0;
+            var n2 = 0;
+            var n3 = 0;
+
+            var listNumbers = new List<Bitmap>()
+            {
+                new Bitmap(path + "0.png"),
+                new Bitmap(path + "1.png"),
+                new Bitmap(path + "2.png"),
+                new Bitmap(path + "3.png"),
+                new Bitmap(path + "4.png"),
+                new Bitmap(path + "5.png"),
+                new Bitmap(path + "6.png"),
+                new Bitmap(path + "7.png"),
+                new Bitmap(path + "8.png"),
+                new Bitmap(path + "9.png"),
+            };
+
+            foreach (var item in listNumbers)
+            {
+                if (!casa1)
+                {
+                    rect = new Rectangle(358, 849-644, 7, 8);
+                    areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                    g = Graphics.FromImage(areaIcon);
+                    g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
+
+                    casa1 = CheckFindBattle(item, areaIcon);
+                    n1 = casa1 ? listNumbers.IndexOf(item) : 0;
+                }
+
+                if (!casa2)
+                {
+                    rect = new Rectangle(364, 849 - 644, 7, 8);
+                    areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                    g = Graphics.FromImage(areaIcon);
+                    g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
+
+                    casa2 = CheckFindBattle(item, areaIcon);
+                    n2 = casa2 ? listNumbers.IndexOf(item) : 0;
+                }
+
+                if (!casa3)
+                {
+                    rect = new Rectangle(369, 849 - 644, 7, 8);
+                    areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                    g = Graphics.FromImage(areaIcon);
+                    g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
+                    casa3 = CheckFindBattle(item, areaIcon);
+                    n3 = casa3 ? listNumbers.IndexOf(item) : 0;
+                }
+            }
+
+            var totalHp = (n1 * 100) + (n2 * 10) + n3;
+
+            MessageBox.Show(totalHp.ToString());
         }
 
         private bool compareTwoImages(Bitmap img1, Bitmap img2)
