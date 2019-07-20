@@ -439,7 +439,11 @@ namespace MouseMoveBot
             {
                 bitIcon = new Bitmap(path + "iconRight.png"),
                 state = State.Waiting,
-                function = null,
+                function = new Function()
+                {
+                    action = EnumAction.Walk,
+                    bitCheck = new Bitmap(path + "iconRight.png")
+                },
                 label = LabelWp.InCave,
                 name = "iconRight.png"
             });
@@ -448,7 +452,11 @@ namespace MouseMoveBot
             {
                 bitIcon = new Bitmap(path + "greenUp.png"),
                 state = State.Waiting,
-                function = null,
+                function = new Function()
+                {
+                    action = EnumAction.Walk,
+                    bitCheck = new Bitmap(path + "greenUp.png")
+                },
                 label = LabelWp.InCave,
                 name = "greenUp.png"
             });
@@ -457,7 +465,11 @@ namespace MouseMoveBot
             {
                 bitIcon = new Bitmap(path + "iconBank.png"),
                 state = State.Waiting,
-                function = null,
+                function = new Function()
+                {
+                    action = EnumAction.Walk,
+                    bitCheck = new Bitmap(path + "iconBank.png")
+                },
                 label = LabelWp.InCave,
                 name = "iconBank.png"
             });
@@ -466,7 +478,11 @@ namespace MouseMoveBot
             {
                 bitIcon = new Bitmap(path + "greenDown.png"),
                 state = State.Waiting,
-                function = null,
+                function = new Function()
+                {
+                    action = EnumAction.Walk,
+                    bitCheck = new Bitmap(path + "greenDown.png")
+                },
                 label = LabelWp.InCave,
                 name = "greenDown.png"
             });
@@ -475,7 +491,11 @@ namespace MouseMoveBot
             {
                 bitIcon = new Bitmap(path + "iconCheck.png"),
                 state = State.Waiting,
-                function = null,
+                function = new Function()
+                {
+                    action = EnumAction.Walk,
+                    bitCheck = new Bitmap(path + "iconCheck.png")
+                },
                 label = LabelWp.InCave,
                 name = "iconCheck.png"
             });
@@ -980,6 +1000,7 @@ namespace MouseMoveBot
                     {
                         CheckArePoisoned();
                     }
+                    Task.Delay(1000).Wait();
                 } while (true);
             });
 
@@ -991,6 +1012,7 @@ namespace MouseMoveBot
                     {
                         checkAreParalyzed();
                     }
+                    Task.Delay(1100).Wait();
                 } while (true);
             });
 
@@ -1002,19 +1024,20 @@ namespace MouseMoveBot
                     {
                         CheckAreHungry();
                     }
+                    Task.Delay(1200).Wait();
                 } while (true);
             });
 
-            taskCheckUseEnergyRing = Task.Factory.StartNew(() =>
-            {
-                do
-                {
-                    if (iconTibia == iconColor && currentWaypoint.label == LabelWp.InCave)
-                    {
-                        checkEquipEnergyRing();
-                    }
-                } while (true);
-            });
+            //taskCheckUseEnergyRing = Task.Factory.StartNew(() =>
+            //{
+            //    do
+            //    {
+            //        if (iconTibia == iconColor && currentWaypoint.label == LabelWp.InCave)
+            //        {
+            //            checkEquipEnergyRing();
+            //        }
+            //    } while (true);
+            //});
         }
 
         private void checkEquipEnergyRing()
@@ -2395,7 +2418,7 @@ namespace MouseMoveBot
             {
                 if (!casa1)
                 {
-                    rect = new Rectangle(358, 849-644, 7, 8);
+                    rect = new Rectangle(358, 849, 7, 8);
                     areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
                     g = Graphics.FromImage(areaIcon);
                     g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
@@ -2406,7 +2429,7 @@ namespace MouseMoveBot
 
                 if (!casa2)
                 {
-                    rect = new Rectangle(364, 849 - 644, 7, 8);
+                    rect = new Rectangle(364, 849, 7, 8);
                     areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
                     g = Graphics.FromImage(areaIcon);
                     g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
@@ -2417,7 +2440,7 @@ namespace MouseMoveBot
 
                 if (!casa3)
                 {
-                    rect = new Rectangle(369, 849 - 644, 7, 8);
+                    rect = new Rectangle(369, 849, 7, 8);
                     areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
                     g = Graphics.FromImage(areaIcon);
                     g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
