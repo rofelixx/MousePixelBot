@@ -953,7 +953,7 @@ namespace MouseMoveBot
             {
                 do
                 {
-                    if (cbCavebot.Checked && iconTibia == iconColor && currentWaypoint.bitIcon != null && currentWaypoint.state != State.Attacking && currentWaypoint.label != LabelWp.Reffil)
+                    if (cbCavebot.Checked && iconTibia == iconColor && currentWaypoint.bitIcon != null && currentWaypoint.state != State.Attacking)
                     {
                         checkArrivedWaypoint();
                     }
@@ -1028,7 +1028,7 @@ namespace MouseMoveBot
 
             var manaShield = CheckFindBattle(new Bitmap(path + "manaShield.png"), areaIcon);
 
-            if (this.checkUseEnergyRing.Checked && countMonster >= 3 && !manaShield)
+            if (this.checkUseEnergyRing.Checked && countMonster > 3 && !manaShield)
             {
                 SendKeys.SendWait("{" + keyUseEnergyRing + "}");
                 Console.WriteLine("Use energy ring.");
@@ -1168,7 +1168,7 @@ namespace MouseMoveBot
         {
             var blackColor = Color.FromArgb(255, 0, 0, 0);
             var countMonster = 0;
-            for (int i = 477; i < 600; i = i + 22)
+            for (int i = 457; i < 600; i = i + 22)
             {
                 var colorFound = GetColorAt(new Point(1770, i));
                 if (colorFound == blackColor)
