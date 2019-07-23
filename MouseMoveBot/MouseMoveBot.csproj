@@ -188,12 +188,14 @@
     <Content Include="Resources\iconRight.png" />
     <Content Include="Resources\iconUp.png" />
     <Content Include="Resources\killing.png" />
+    <Content Include="Resources\kLegs.png" />
     <Content Include="Resources\mailDepot.png" />
     <Content Include="Resources\manaShield.png" />
     <Content Include="Resources\menuStowAll.png" />
     <Content Include="Resources\paralyzed.png" />
     <Content Include="Resources\poisoned.png" />
     <Content Include="Resources\ropebelt.png" />
+    <Content Include="Resources\shard.png" />
     <Content Include="Resources\spiderSilk.png" />
     <Content Include="Resources\stash.png" />
     <Content Include="Resources\vialUp.png" />

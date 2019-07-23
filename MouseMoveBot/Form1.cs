@@ -726,7 +726,7 @@ namespace MouseMoveBot
                 function = new Function()
                 {
                     action = EnumAction.ToLeft,
-                    bitCheck = null
+                    bitCheck = new Bitmap(path + "iconRight.png"),
                 },
                 label = LabelWp.WayToCave,
                 name = "iconLeft.png"
@@ -774,7 +774,7 @@ namespace MouseMoveBot
 
             #endregion
 
-            listWaypoints = listWaypointsToHunt;
+            listWaypoints = listWaypointsInHunt;
         }
 
         private void CriaComboBox()
@@ -829,17 +829,17 @@ namespace MouseMoveBot
             //var iconGoogle = System.Drawing.Color.FromArgb(GetPixel(DesktopDC, 830, 291));
             //var iconGoogleColor = Color.FromArgb(0, 244, 133, 66);           
 
-            taskCheckTibiaAreInFront = Task.Factory.StartNew(() =>
-            {
-                do
-                {
-                    checkIconTibia();
-                    if (checkMaximized.Checked)
-                        checkTibiaAreInFront();
+            //taskCheckTibiaAreInFront = Task.Factory.StartNew(() =>
+            //{
+            //    do
+            //    {
+            //        checkIconTibia();
+            //        if (checkMaximized.Checked)
+            //            checkTibiaAreInFront();
 
-                    Task.Delay(100).Wait();
-                } while (true);
-            });
+            //        Task.Delay(100).Wait();
+            //    } while (true);
+            //});
 
             taskHealerLife = Task.Factory.StartNew(() =>
             {
@@ -864,7 +864,7 @@ namespace MouseMoveBot
                         checkMana();
                     }
 
-                    Task.Delay(1000).Wait();
+                    Task.Delay(500).Wait();
                 } while (true);
             });
 
@@ -877,7 +877,7 @@ namespace MouseMoveBot
                         checkBattleList();
                     }
 
-                    Task.Delay(200).Wait();
+                    Task.Delay(300).Wait();
                 } while (true);
             });
 
@@ -888,7 +888,7 @@ namespace MouseMoveBot
                     //var corBattle = Color.FromArgb(255, 71, 71, 71);
                     //var corPixelBattle = GetColorAt(new Point(1755, 417));
 
-                    if (cbCavebot.Checked && currentWaypoint.state == State.Attacking && iconTibia == iconColor)
+                    if (cbCavebot.Checked && cbLooter.Checked && currentWaypoint.state == State.Attacking && iconTibia == iconColor)
                     {
                         looting();
                         Task.Delay(1000).Wait();
@@ -977,7 +977,7 @@ namespace MouseMoveBot
                     {
                         checkArrivedWaypoint();
                     }
-                    Task.Delay(500).Wait();
+                    Task.Delay(1000).Wait();
                 } while (true);
             });
 
