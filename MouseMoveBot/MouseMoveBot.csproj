@@ -177,6 +177,7 @@
     <Content Include="Resources\depot.png" />
     <Content Include="Resources\egg.png" />
     <Content Include="Resources\emptyDepot.png" />
+    <Content Include="Resources\emptySlot.png" />
     <Content Include="Resources\frostHeart.png" />
     <Content Include="Resources\greenDown.png" />
     <Content Include="Resources\greenUp.png" />
@@ -187,6 +188,7 @@
     <Content Include="Resources\iconLeft.png" />
     <Content Include="Resources\iconRight.png" />
     <Content Include="Resources\iconUp.png" />
+    <Content Include="Resources\jewelledBp.png" />
     <Content Include="Resources\killing.png" />
     <Content Include="Resources\kLegs.png" />
     <Content Include="Resources\mailDepot.png" />

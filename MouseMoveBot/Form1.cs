@@ -1197,7 +1197,7 @@ namespace MouseMoveBot
                 if (colorFound == blackColor)
                     countMonster++;
             }
-            return countMonster; 
+            return countMonster;
         }
 
         private void checkFunctionToDo()
@@ -1357,6 +1357,7 @@ namespace MouseMoveBot
                 new Bitmap(path + "spiderSilk.png"),
                 new Bitmap(path + "frostHeart.png"),
                 new Bitmap(path + "vialUp.png"),
+                new Bitmap(path + "shard.png"),
             };
 
             foreach (var item in listaItems)
@@ -1440,11 +1441,10 @@ namespace MouseMoveBot
                 }
             }
 
+            depositNonStackableItems();
+
             for (int i = 0; i < 3; i++)
             {
-                Task.Delay(500).Wait();
-                Cursor.Position = new Point(1770, 860);
-                DoMouseClick();
                 Task.Delay(500).Wait();
                 Cursor.Position = new Point(1770, 860);
                 sim.Mouse.LeftButtonClick();
@@ -1455,6 +1455,62 @@ namespace MouseMoveBot
                 mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
                 Task.Delay(500).Wait();
             }
+        }
+
+        private void depositNonStackableItems()
+        {
+            InputSimulator sim = new InputSimulator();
+
+            Cursor.Position = new Point(1840, 850);
+            sim.Mouse.LeftButtonClick();
+
+            Bitmap screenCapture = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+
+            Graphics g = Graphics.FromImage(screenCapture);
+
+            g.CopyFromScreen(Screen.PrimaryScreen.Bounds.X,
+                             Screen.PrimaryScreen.Bounds.Y,
+                             0, 0,
+                             screenCapture.Size,
+                             CopyPixelOperation.SourceCopy);
+
+            Bitmap myPic = new Bitmap(path + "jewelledBp.png");
+
+            var contain = CheckFindDepot(myPic, screenCapture);
+
+            Task.Delay(500).Wait();
+
+            if (contain != null)
+            {
+                Cursor.Position = contain.Value;
+                sim.Mouse.LeftButtonClick();
+            }
+
+            Rectangle rect = new Rectangle(1755, 712, 33, 33);
+            Bitmap areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            g = Graphics.FromImage(areaIcon);
+            g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
+
+            do
+            {
+                Task.Delay(500).Wait();
+                Cursor.Position = new Point(1770, 730);
+                sim.Mouse.LeftButtonClick();
+                Task.Delay(500).Wait();
+                mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
+                Task.Delay(500).Wait();
+                Cursor.Position = new Point(1770, 850);
+                mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
+                Task.Delay(500).Wait();
+            } while (!CheckFindBattle(new Bitmap(path + "emptySlot.png"), areaIcon));
+
+            Task.Delay(1000).Wait();
+            Cursor.Position = new Point(1885, 830);
+            sim.Mouse.LeftButtonClick();
+
+            Cursor.Position = new Point(1885, 703);
+            sim.Mouse.LeftButtonClick();
+            Task.Delay(500).Wait();
         }
 
         private void stowItem()
