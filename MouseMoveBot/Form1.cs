@@ -1392,7 +1392,7 @@ namespace MouseMoveBot
             InputSimulator sim = new InputSimulator();
             Cursor.Position = new Point(785, 380);
             sim.Mouse.LeftButtonClick();
-            Task.Delay(500).Wait();
+            Task.Delay(1500).Wait();
 
             Bitmap screenCapture = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
 
@@ -1406,37 +1406,41 @@ namespace MouseMoveBot
 
             Bitmap myPic = new Bitmap(path + "depot.png");
             var contain = CheckFindDepot(myPic, screenCapture);
-            Task.Delay(500).Wait();
+            Task.Delay(1000).Wait();
 
             if (contain != null)
             {
+                Task.Delay(500).Wait();
                 Cursor.Position = contain.Value;
                 sim.Mouse.LeftButtonClick();
             }
             else
             {
-                Task.Delay(1000).Wait();
+                Task.Delay(500).Wait();
                 sim.Keyboard.KeyPress(VirtualKeyCode.DOWN);
-                Task.Delay(1000).Wait();
+                Task.Delay(500).Wait();
                 Cursor.Position = new Point(785, 520);
                 sim.Mouse.LeftButtonClick();
+                Task.Delay(1500).Wait();
 
-                Bitmap screenCapture2 = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+                screenCapture = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
 
-                Graphics g2 = Graphics.FromImage(screenCapture2);
+                g = Graphics.FromImage(screenCapture);
 
-                g2.CopyFromScreen(Screen.PrimaryScreen.Bounds.X,
+                g.CopyFromScreen(Screen.PrimaryScreen.Bounds.X,
                                  Screen.PrimaryScreen.Bounds.Y,
                                  0, 0,
-                                 screenCapture2.Size,
+                                 screenCapture.Size,
                                  CopyPixelOperation.SourceCopy);
 
                 Bitmap myPic2 = new Bitmap(path + "depot.png");
-                var contain2 = CheckFindDepot(myPic2, screenCapture2);
+
+                var contain2 = CheckFindDepot(myPic2, screenCapture);
 
                 if (contain2 != null)
                 {
-                    Cursor.Position = contain.Value;
+                    Task.Delay(500).Wait();
+                    Cursor.Position = contain2.Value;
                     sim.Mouse.LeftButtonClick();
                 }
             }
@@ -1447,7 +1451,6 @@ namespace MouseMoveBot
             {
                 Task.Delay(500).Wait();
                 Cursor.Position = new Point(1770, 860);
-                sim.Mouse.LeftButtonClick();
                 Task.Delay(500).Wait();
                 mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
                 Task.Delay(500).Wait();
@@ -1460,6 +1463,11 @@ namespace MouseMoveBot
         private void depositNonStackableItems()
         {
             InputSimulator sim = new InputSimulator();
+
+            Cursor.Position = new Point(1770, 860);
+            sim.Mouse.LeftButtonClick();
+
+            Task.Delay(500).Wait();
 
             Cursor.Position = new Point(1840, 850);
             sim.Mouse.LeftButtonClick();
@@ -1486,31 +1494,38 @@ namespace MouseMoveBot
                 sim.Mouse.LeftButtonClick();
             }
 
-            Rectangle rect = new Rectangle(1755, 712, 33, 33);
-            Bitmap areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            g = Graphics.FromImage(areaIcon);
-            g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
-
+            var emptySlot = false;
             do
             {
+                Rectangle rect = new Rectangle(1755, 711, 34, 34);
+                Bitmap areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                g = Graphics.FromImage(areaIcon);
+                g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
+                emptySlot = CheckFindBattle(new Bitmap(path + "emptySlot.png"), areaIcon);
                 Task.Delay(500).Wait();
                 Cursor.Position = new Point(1770, 730);
-                sim.Mouse.LeftButtonClick();
                 Task.Delay(500).Wait();
                 mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
                 Task.Delay(500).Wait();
                 Cursor.Position = new Point(1770, 850);
                 mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
-                Task.Delay(500).Wait();
-            } while (!CheckFindBattle(new Bitmap(path + "emptySlot.png"), areaIcon));
+                Task.Delay(1000).Wait();
+            } while (!emptySlot);
 
-            Task.Delay(1000).Wait();
+            // MoveUp loot bp
             Cursor.Position = new Point(1885, 830);
             sim.Mouse.LeftButtonClick();
+            Task.Delay(1000).Wait();
 
+            // back to menu depot
             Cursor.Position = new Point(1885, 703);
             sim.Mouse.LeftButtonClick();
-            Task.Delay(500).Wait();
+            Task.Delay(1000).Wait();
+
+            // click in depot
+            Cursor.Position = new Point(1770, 860);
+            sim.Mouse.LeftButtonClick();
+            Task.Delay(1000).Wait();
         }
 
         private void stowItem()
