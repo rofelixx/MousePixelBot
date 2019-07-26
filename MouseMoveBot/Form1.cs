@@ -532,7 +532,7 @@ namespace MouseMoveBot
 
             listWaypointsToReffil.Add(new Waypoints()
             {
-                bitIcon = new Bitmap(path + "iconLeft.png"),
+                bitIcon = new Bitmap(path + "greenUp.png"),
                 state = State.Waiting,
                 function = null,
                 label = LabelWp.WayToReffil,
@@ -541,7 +541,7 @@ namespace MouseMoveBot
 
             listWaypointsToReffil.Add(new Waypoints()
             {
-                bitIcon = new Bitmap(path + "iconLeft.png"),
+                bitIcon = new Bitmap(path + "greenUp.png"),
                 state = State.Waiting,
                 function = new Function()
                 {
@@ -726,7 +726,7 @@ namespace MouseMoveBot
                 function = new Function()
                 {
                     action = EnumAction.ToLeft,
-                    bitCheck = new Bitmap(path + "iconRight.png"),
+                    bitCheck = new Bitmap(path + "greenUp.png"),
                 },
                 label = LabelWp.WayToCave,
                 name = "iconLeft.png"
