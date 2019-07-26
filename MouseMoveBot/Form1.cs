@@ -545,7 +545,8 @@ namespace MouseMoveBot
                 state = State.Waiting,
                 function = new Function()
                 {
-                    action = EnumAction.ToLeft
+                    action = EnumAction.ToLeft,
+                    bitCheck = new Bitmap(path + "iconLeft.png")
                 },
                 label = LabelWp.WayToReffil,
                 name = "iconCheck.png"
@@ -774,7 +775,7 @@ namespace MouseMoveBot
 
             #endregion
 
-            listWaypoints = listWaypointsInHunt;
+            listWaypoints = listWaypointsToHunt;
         }
 
         private void CriaComboBox()
