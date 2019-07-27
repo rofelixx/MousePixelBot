@@ -185,6 +185,7 @@
     <Content Include="Resources\iconBank.png" />
     <Content Include="Resources\iconCheck.png" />
     <Content Include="Resources\iconDown.png" />
+    <Content Include="Resources\iconFlag.png" />
     <Content Include="Resources\iconLeft.png" />
     <Content Include="Resources\iconRight.png" />
     <Content Include="Resources\iconUp.png" />

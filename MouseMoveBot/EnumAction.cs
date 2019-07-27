@@ -23,6 +23,7 @@
         MapZoomMax,
         MapZoomMin,   
         Conversation,
-        ActiveTarget
+        ActiveTarget,
+        CheckBuyedPots
     }
 }

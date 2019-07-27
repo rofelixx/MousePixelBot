@@ -524,7 +524,7 @@ namespace MouseMoveBot
                 function = new Function()
                 {
                     action = EnumAction.ToRight,
-                    bitCheck = new Bitmap(path + "iconBank.png")
+                    bitCheck = new Bitmap(path + "iconFlag.png")
                 },
                 label = LabelWp.WayToReffil,
                 name = "iconCheck.png"
@@ -653,6 +653,18 @@ namespace MouseMoveBot
                 state = State.Waiting,
                 function = new Function()
                 {
+                    action = EnumAction.CheckBuyedPots
+                },
+                label = LabelWp.Reffil,
+                name = "iconCheck.png"
+            });
+
+            listWaypointsInReffil.Add(new Waypoints()
+            {
+                bitIcon = new Bitmap(path + "iconCheck.png"),
+                state = State.Waiting,
+                function = new Function()
+                {
                     action = EnumAction.CheckWp
                 },
                 label = LabelWp.Reffil,
@@ -696,19 +708,6 @@ namespace MouseMoveBot
 
             listWaypointsToHunt.Add(new Waypoints()
             {
-                bitIcon = new Bitmap(path + "iconDown.png"),
-                state = State.Waiting,
-                function = new Function()
-                {
-                    action = EnumAction.Walk,
-                    bitCheck = new Bitmap(path + "iconDown.png"),
-                },
-                label = LabelWp.WayToCave,
-                name = "iconDown.png"
-            });
-
-            listWaypointsToHunt.Add(new Waypoints()
-            {
                 bitIcon = new Bitmap(path + "iconLeft.png"),
                 state = State.Waiting,
                 function = new Function()
@@ -735,20 +734,20 @@ namespace MouseMoveBot
 
             listWaypointsToHunt.Add(new Waypoints()
             {
-                bitIcon = new Bitmap(path + "iconBank.png"),
+                bitIcon = new Bitmap(path + "iconFlag.png"),
                 state = State.Waiting,
                 function = new Function()
                 {
                     action = EnumAction.Walk,
-                    bitCheck = new Bitmap(path + "iconBank.png"),
+                    bitCheck = new Bitmap(path + "iconFlag.png"),
                 },
                 label = LabelWp.WayToCave,
-                name = "iconBank.png"
+                name = "iconFlag.png"
             });
 
             listWaypointsToHunt.Add(new Waypoints()
             {
-                bitIcon = new Bitmap(path + "iconBank.png"),
+                bitIcon = new Bitmap(path + "iconFlag.png"),
                 state = State.Waiting,
                 function = new Function()
                 {
@@ -756,7 +755,7 @@ namespace MouseMoveBot
                     bitCheck = new Bitmap(path + "iconCheck.png"),
                 },
                 label = LabelWp.WayToCave,
-                name = "iconBank.png"
+                name = "iconDown.png"
             });
 
             listWaypointsToHunt.Add(new Waypoints()
@@ -775,7 +774,7 @@ namespace MouseMoveBot
 
             #endregion
 
-            listWaypoints = listWaypointsToHunt;
+            listWaypoints = listWaypointsInReffil;
         }
 
         private void CriaComboBox()
@@ -1246,6 +1245,9 @@ namespace MouseMoveBot
                 case EnumAction.ActiveTarget:
                     activeTarget();
                     break;
+                case EnumAction.CheckBuyedPots:
+                    checkBuyedPots();
+                    break; 
                 default:
                     break;
             }
@@ -1264,6 +1266,17 @@ namespace MouseMoveBot
             else
             {
                 currentWaypoint.state = State.Concluded;
+            }
+        }
+
+        private void checkBuyedPots()
+        {
+            var totalMp = checkTotalMp();
+
+            if (totalMp < 60)
+            {
+                var index = listWaypoints.IndexOf(currentWaypoint);
+                currentWaypoint = listWaypoints[index - 2];
             }
         }
 
@@ -1595,6 +1608,21 @@ namespace MouseMoveBot
 
         private void checkPotAndCap()
         {
+            var totalMp= checkTotalMp();
+
+            var totalRunes = checkTotalRunes();
+
+            if (totalMp < 60 || ((this.checkAttackAreaRune.Checked || this.checkAttackMissileRune.Checked) && totalRunes < 100))
+                listWaypoints = listWaypointsToReffil;
+            else
+            {
+                resetStateWaypoints();
+                listWaypoints = listWaypointsInHunt;
+            }
+        }
+
+        private int checkTotalMp()
+        {
             var casa1 = false;
             var casa2 = false;
             var casa3 = false;
@@ -1656,17 +1684,9 @@ namespace MouseMoveBot
                 }
             }
 
-            var totalHp = (n1 * 100) + (n2 * 10) + n3;
+            var totalMp = (n1 * 100) + (n2 * 10) + n3;
 
-            var totalRunes = checkTotalRunes();
-
-            if (totalHp < 50 || ((this.checkAttackAreaRune.Checked || this.checkAttackMissileRune.Checked) && totalRunes < 100))
-                listWaypoints = listWaypointsToReffil;
-            else
-            {
-                resetStateWaypoints();
-                listWaypoints = listWaypointsInHunt;
-            }
+            return totalMp;
         }
 
         private int checkTotalRunes()
