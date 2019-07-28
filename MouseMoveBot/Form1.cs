@@ -615,8 +615,7 @@ namespace MouseMoveBot
                 state = State.Waiting,
                 function = new Function()
                 {
-                    action = EnumAction.Depot,
-                    bitCheck = new Bitmap(path + "greenUp.png")
+                    action = EnumAction.Depot
                 },
                 label = LabelWp.Reffil,
                 name = "greenUp.png"
@@ -1261,6 +1260,12 @@ namespace MouseMoveBot
                 if (arrived)
                 {
                     currentWaypoint.state = State.Concluded;
+                }
+                else
+                {
+                    var index = listWaypoints.IndexOf(currentWaypoint);
+                    currentWaypoint = listWaypoints[index - 1];
+                    currentWaypoint.state = State.Waiting;
                 }
             }
             else
@@ -2118,6 +2123,7 @@ namespace MouseMoveBot
             }
             if (sim.InputDeviceState.IsKeyDown(VirtualKeyCode.LMENU))
                 sim.Keyboard.KeyUp(VirtualKeyCode.LMENU);
+            sim.Keyboard.KeyUp(VirtualKeyCode.LMENU);
         }
 
         private void checkAttackSd()
