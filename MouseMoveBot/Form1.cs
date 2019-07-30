@@ -1516,7 +1516,8 @@ namespace MouseMoveBot
             var emptySlot = false;
             do
             {
-                Rectangle rect = new Rectangle(1755, 711, 34, 34);
+                Task.Delay(1000).Wait();
+                Rectangle rect = new Rectangle(1755, 710, 34, 34);
                 Bitmap areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
                 g = Graphics.FromImage(areaIcon);
                 g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
