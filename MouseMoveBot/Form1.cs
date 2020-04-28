@@ -893,8 +893,8 @@ namespace MouseMoveBot
                         Task.Delay(1000).Wait();
                     }
 
-                    if (cbCavebot.Checked && currentWaypoint.state == State.Walking && (!battleIsNormal && currentWaypoint.label == LabelWp.InCave) && iconTibia == iconColor)
-                        SendKeys.SendWait("{Esc}");
+                    //if (cbCavebot.Checked && currentWaypoint.state == State.Walking && (!battleIsNormal && currentWaypoint.label == LabelWp.InCave) && iconTibia == iconColor)
+                    //    SendKeys.SendWait("{Esc}");
 
                     if (cbCavebot.Checked && iconTibia == iconColor && currentWaypoint != null)
                     {
