@@ -108,6 +108,12 @@
     <Compile Include="Form5.Designer.cs">
       <DependentUpon>Form5.cs</DependentUpon>
     </Compile>
+    <Compile Include="Form6.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form6.Designer.cs">
+      <DependentUpon>Form6.cs</DependentUpon>
+    </Compile>
     <Compile Include="Function.cs" />
     <Compile Include="ImageAndText.cs" />
     <Compile Include="Label.cs" />
@@ -128,6 +134,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form5.resx">
       <DependentUpon>Form5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form6.resx">
+      <DependentUpon>Form6.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -173,11 +182,13 @@
     <Content Include="Resources\battleClear.png" />
     <Content Include="Resources\battleNotClear.png" />
     <Content Include="Resources\boneEye.png" />
+    <Content Include="Resources\connectionLost.png" />
     <Content Include="Resources\cultRobe.png" />
     <Content Include="Resources\depot.png" />
     <Content Include="Resources\egg.png" />
     <Content Include="Resources\emptyDepot.png" />
     <Content Include="Resources\emptySlot.png" />
+    <Content Include="Resources\fishingHole.png" />
     <Content Include="Resources\frostHeart.png" />
     <Content Include="Resources\greenDown.png" />
     <Content Include="Resources\greenUp.png" />
@@ -192,16 +203,21 @@
     <Content Include="Resources\jewelledBp.png" />
     <Content Include="Resources\killing.png" />
     <Content Include="Resources\kLegs.png" />
+    <Content Include="Resources\logado.png" />
+    <Content Include="Resources\logginEk.png" />
     <Content Include="Resources\mailDepot.png" />
     <Content Include="Resources\manaShield.png" />
     <Content Include="Resources\menuStowAll.png" />
+    <Content Include="Resources\Ok.png" />
     <Content Include="Resources\paralyzed.png" />
     <Content Include="Resources\poisoned.png" />
     <Content Include="Resources\ropebelt.png" />
     <Content Include="Resources\shard.png" />
     <Content Include="Resources\spiderSilk.png" />
+    <Content Include="Resources\squidgy.png" />
     <Content Include="Resources\stash.png" />
     <Content Include="Resources\vialUp.png" />
+    <Content Include="teste.txt" />
     <Content Include="WePH.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

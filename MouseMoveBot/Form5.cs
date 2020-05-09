@@ -94,5 +94,10 @@ namespace MouseMoveBot
                 pictureBox1.Image = imgInput.Bitmap;
             }
         }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

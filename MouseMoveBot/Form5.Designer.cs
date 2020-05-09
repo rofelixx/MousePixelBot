@@ -73,6 +73,7 @@
             this.pictureBox1.Size = new System.Drawing.Size(419, 418);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
             this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
             this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
@@ -124,7 +125,7 @@
             // targetToolStripMenuItem
             // 
             this.targetToolStripMenuItem.Name = "targetToolStripMenuItem";
-            this.targetToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
+            this.targetToolStripMenuItem.Size = new System.Drawing.Size(51, 20);
             this.targetToolStripMenuItem.Text = "Target";
             // 
             // lootToolStripMenuItem
@@ -144,7 +145,7 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click_1);
             // 

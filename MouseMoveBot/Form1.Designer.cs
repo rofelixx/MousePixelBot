@@ -64,6 +64,7 @@ namespace MouseMoveBot
             this.comboBoxLifeKey = new System.Windows.Forms.ComboBox();
             this.cbLooter = new System.Windows.Forms.CheckBox();
             this.cbTarget = new System.Windows.Forms.CheckBox();
+            this.cbTrainer = new System.Windows.Forms.CheckBox();
             this.cbHealerLife = new System.Windows.Forms.CheckBox();
             this.cbCavebot = new System.Windows.Forms.CheckBox();
             this.button2 = new System.Windows.Forms.Button();
@@ -76,6 +77,7 @@ namespace MouseMoveBot
             this.label6 = new System.Windows.Forms.Label();
             this.capTextBox = new System.Windows.Forms.TextBox();
             this.checkUseEnergyRing = new System.Windows.Forms.CheckBox();
+            this.trainerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.menuStrip2.SuspendLayout();
@@ -208,7 +210,8 @@ namespace MouseMoveBot
             this.cavebotToolStripMenuItem,
             this.targetToolStripMenuItem,
             this.lootToolStripMenuItem,
-            this.fileToolStripMenuItem});
+            this.fileToolStripMenuItem,
+            this.trainerToolStripMenuItem});
             this.menuStrip2.Location = new System.Drawing.Point(0, 0);
             this.menuStrip2.Name = "menuStrip2";
             this.menuStrip2.Size = new System.Drawing.Size(571, 24);
@@ -238,7 +241,7 @@ namespace MouseMoveBot
             // targetToolStripMenuItem
             // 
             this.targetToolStripMenuItem.Name = "targetToolStripMenuItem";
-            this.targetToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
+            this.targetToolStripMenuItem.Size = new System.Drawing.Size(51, 20);
             this.targetToolStripMenuItem.Text = "Target";
             this.targetToolStripMenuItem.Click += new System.EventHandler(this.TargetToolStripMenuItem_Click);
             // 
@@ -491,6 +494,13 @@ namespace MouseMoveBot
             this.checkUseEnergyRing.Text = "Use EnergyRing";
             this.checkUseEnergyRing.UseVisualStyleBackColor = true;
             // 
+            // trainerToolStripMenuItem
+            // 
+            this.trainerToolStripMenuItem.Name = "trainerToolStripMenuItem";
+            this.trainerToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
+            this.trainerToolStripMenuItem.Text = "Trainer";
+            this.trainerToolStripMenuItem.Click += new System.EventHandler(this.trainerToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -564,6 +574,7 @@ namespace MouseMoveBot
         public CheckBox cbHealerLife;
         public CheckBox cbCavebot;
         public CheckBox cbHealerMana;
+        public CheckBox cbTrainer;
         private Button button2;
         public ComboBox comboBoxLifeKey;
         public ComboBox comboBoxManaKey;
@@ -583,6 +594,7 @@ namespace MouseMoveBot
         private Label label6;
         private TextBox capTextBox;
         public CheckBox checkUseEnergyRing;
+        private ToolStripMenuItem trainerToolStripMenuItem;
     }
 }
 

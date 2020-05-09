@@ -1,0 +1,48 @@
+﻿ Bitmap screenCapture = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+ var image = Directory.GetFiles("D:\\Prints\\Desktop", "*.*", SearchOption.AllDirectories)
+ .Where(s => s.EndsWith(".png")).LastOrDefault();
+
+ Graphics g = Graphics.FromImage(screenCapture);
+
+ g.CopyFromScreen(Screen.PrimaryScreen.Bounds.X,
+                  Screen.PrimaryScreen.Bounds.Y,
+                  0, 0,
+                  screenCapture.Size,
+                  CopyPixelOperation.SourceCopy);
+ Bitmap screenCapture = new Bitmap(image);
+
+
+
+ public Color GetColorAt(Point location)
+{
+    Bitmap screenPixel = new Bitmap(1, 1, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+    using (Graphics gdest = Graphics.FromImage(screenPixel))
+    {
+        using (Graphics gsrc = Graphics.FromHwnd(IntPtr.Zero))
+        {
+            IntPtr hSrcDC = gsrc.GetHdc();
+            IntPtr hDC = gdest.GetHdc();
+            int retval = BitBlt(hDC, 0, 0, 1, 1, hSrcDC, location.X, location.Y, (int)CopyPixelOperation.SourceCopy);
+            gdest.ReleaseHdc();
+            gsrc.ReleaseHdc();
+        }
+    }
+    var lastImage = Directory.GetFiles("D:\\Prints\\Desktop", "*.*", SearchOption.AllDirectories)
+    .Where(s => s.EndsWith(".png")).LastOrDefault();
+
+    return screenPixel.GetPixel(0, 0);
+    Bitmap screenPixel = new Bitmap(lastImage);
+
+    return screenPixel.GetPixel(location.X, location.Y);
+}
+
+
+public Bitmap CropImage(Bitmap source, Rectangle section)
+{
+    var bitmap = new Bitmap(section.Width, section.Height);
+    using (var g = Graphics.FromImage(bitmap))
+    {
+        g.DrawImage(source, 0, 0, section, GraphicsUnit.Pixel);
+        return bitmap;
+    }
+}

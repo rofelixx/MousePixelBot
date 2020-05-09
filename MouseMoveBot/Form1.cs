@@ -91,6 +91,7 @@ namespace MouseMoveBot
         Form3 f3;
         Form4 f4;
         Form5 f5;
+        Form6 f6;
 
         Task taskHealerLife;
         Task taskHealerMana;
@@ -105,8 +106,13 @@ namespace MouseMoveBot
         Task taskCheckEatFood;
         Task taskCheckParalyze;
         Task taskCheckUseEnergyRing;
+        Task taskCheckLogged;
+        Task taskPrintScreen;
+        Task taskDeletePrints;
+        Task taskTrainerSlime;
 
-        bool battleIsNormal = false;
+        public bool battleIsNormal = false;
+        public bool logado = false;
 
         public Waypoints currentWaypoint = new Waypoints() { bitIcon = null, state = State.Waiting, function = null };
 
@@ -840,14 +846,94 @@ namespace MouseMoveBot
             //    } while (true);
             //});
 
+
+            taskCheckLogged = Task.Factory.StartNew(() =>
+            {
+                do
+                {
+                    checkLogado();
+                    Task.Delay(500).Wait();
+                } while (true);
+            });
+
+            taskTrainerSlime = Task.Factory.StartNew(() =>
+            {
+                do
+                {
+                    if (this.cbTrainer.Checked && logado)
+                    {
+                        try
+                        {
+
+                            var sim = new InputSimulator();
+                            Cursor.Position = new Point(1760, 467);
+                            Task.Delay(400).Wait();
+                            sim.Mouse.LeftButtonClick();
+                            Task.Delay(10000).Wait();
+                            Cursor.Position = new Point(1760, 490);
+                            Task.Delay(400).Wait();
+                            sim.Mouse.LeftButtonClick();
+                            Task.Delay(10000).Wait();
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Erro trainer - " + ex.Message);
+                        }
+                    }
+                } while (true);
+            });
+
+            taskPrintScreen = Task.Factory.StartNew(() =>
+             {
+                 Thread.CurrentThread.Priority = ThreadPriority.Highest;
+                 do
+                 {
+                     if (logado)
+                     {
+                         try
+                         {
+                             SendKeys.SendWait("{INS}");
+                             Task.Delay(600).Wait();
+                         }
+                         catch (Exception e)
+                         {
+                             Console.WriteLine("Erro criar imagens - " + e.Message);
+                         }
+                     }
+                 } while (true);
+             });
+
+            taskDeletePrints = Task.Factory.StartNew(() =>
+           {
+               do
+               {
+                   try
+                   {
+                       deleteImages();
+                   }
+                   catch (Exception e)
+                   {
+                       Console.WriteLine("Erro deletar imagens - " + e.Message);
+                   }
+                   Task.Delay(10000).Wait();
+               } while (true);
+           });
+
             taskHealerLife = Task.Factory.StartNew(() =>
             {
                 Thread.CurrentThread.Priority = ThreadPriority.Highest;
                 do
                 {
-                    if (this.cbHealerLife.Checked && iconTibia == iconColor)
+                    if (this.cbHealerLife.Checked && logado)
                     {
-                        checkHealer();
+                        try
+                        {
+                            checkHealer();
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e.Message);
+                        }
                     }
 
                     Task.Delay(100).Wait();
@@ -858,9 +944,16 @@ namespace MouseMoveBot
             {
                 do
                 {
-                    if (this.cbHealerMana.Checked && iconTibia == iconColor)
+                    if (this.cbHealerMana.Checked && logado)
                     {
-                        checkMana();
+                        try
+                        {
+                            checkMana();
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e.Message);
+                        }
                     }
 
                     Task.Delay(500).Wait();
@@ -871,11 +964,15 @@ namespace MouseMoveBot
             {
                 do
                 {
-                    if (iconTibia == iconColor)
+                    try
                     {
-                        checkBattleList();
+                        if (logado)
+                            checkBattleList();
                     }
-
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                    }
                     Task.Delay(300).Wait();
                 } while (true);
             });
@@ -884,64 +981,71 @@ namespace MouseMoveBot
             {
                 do
                 {
-                    //var corBattle = Color.FromArgb(255, 71, 71, 71);
-                    //var corPixelBattle = GetColorAt(new Point(1755, 417));
-
-                    if (cbCavebot.Checked && cbLooter.Checked && currentWaypoint.state == State.Attacking && iconTibia == iconColor)
+                    try
                     {
-                        looting();
-                        Task.Delay(1000).Wait();
-                    }
-
-                    //if (cbCavebot.Checked && currentWaypoint.state == State.Walking && (!battleIsNormal && currentWaypoint.label == LabelWp.InCave) && iconTibia == iconColor)
-                    //    SendKeys.SendWait("{Esc}");
-
-                    if (cbCavebot.Checked && iconTibia == iconColor && currentWaypoint != null)
-                    {
-                        if (currentWaypoint.state == State.Attacking && battleIsNormal)
-                            currentWaypoint.state = State.Waiting;
-
-                        // Attacking
-                        if (currentWaypoint.state == State.Attacking)
+                        if (logado)
                         {
-                            Task.Delay(300).Wait();
-                            continue;
-                        }
-
-                        // Walking
-                        if (currentWaypoint.state == State.Walking)
-                        {
-                            checkArrivedWaypoint();
-                            continue;
-                        }
-
-                        // waiting
-                        if (currentWaypoint.state == State.Waiting)
-                        {
-                            walk();
-                        }
-
-                        // Special Movement
-                        if (currentWaypoint.state == State.SpecialMovement)
-                        {
-                            checkFunctionToDo();
-                            continue;
-                        }
-
-                        if (currentWaypoint.state == State.Concluded)
-                        {
-                            var index = listWaypoints.IndexOf(currentWaypoint) >= listWaypoints.Count - 1 ? listWaypoints.IndexOf(currentWaypoint) : listWaypoints.IndexOf(currentWaypoint) + 1;
-
-                            if (index == (listWaypoints.Count - 1) && listWaypoints[index].state == State.Concluded)
+                            if (cbCavebot.Checked && cbLooter.Checked && currentWaypoint.state == State.Attacking)
                             {
-                                resetStateWaypoints();
-                                index = 0;
-                                Console.WriteLine("Resetou waypoints");
+                                looting();
+                                Task.Delay(1000).Wait();
                             }
 
-                            currentWaypoint = listWaypoints[index];
-                            currentWaypoint.state = State.Waiting;
+                            if (cbCavebot.Checked && currentWaypoint.state == State.Walking && (!battleIsNormal && currentWaypoint.label == LabelWp.InCave))
+                                SendKeys.SendWait("{Esc}");
+
+                            if (cbCavebot.Checked && currentWaypoint != null)
+                            {
+                                if (currentWaypoint.state == State.Attacking && battleIsNormal)
+                                    currentWaypoint.state = State.Waiting;
+
+                                // Attacking
+                                if (currentWaypoint.state == State.Attacking)
+                                {
+                                    Task.Delay(300).Wait();
+                                    continue;
+                                }
+
+                                // Walking
+                                if (currentWaypoint.state == State.Walking)
+                                {
+                                    checkArrivedWaypoint();
+                                    continue;
+                                }
+
+                                // waiting
+                                if (currentWaypoint.state == State.Waiting)
+                                {
+                                    walk();
+                                }
+
+                                // Special Movement
+                                if (currentWaypoint.state == State.SpecialMovement)
+                                {
+                                    checkFunctionToDo();
+                                    continue;
+                                }
+
+                                if (currentWaypoint.state == State.Concluded)
+                                {
+                                    var index = listWaypoints.IndexOf(currentWaypoint) >= listWaypoints.Count - 1 ? listWaypoints.IndexOf(currentWaypoint) : listWaypoints.IndexOf(currentWaypoint) + 1;
+
+                                    if (index == (listWaypoints.Count - 1) && listWaypoints[index].state == State.Concluded)
+                                    {
+                                        resetStateWaypoints();
+                                        index = 0;
+                                        Console.WriteLine("Resetou waypoints");
+                                    }
+
+                                    currentWaypoint = listWaypoints[index];
+                                    currentWaypoint.state = State.Waiting;
+                                }
+                            }
                         }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Erro cavebot - " + e.Message);
                     }
                 } while (true);
             });
@@ -950,9 +1054,17 @@ namespace MouseMoveBot
             {
                 do
                 {
-                    if (cbTarget.Checked && iconTibia == iconColor && currentWaypoint.label == LabelWp.InCave)
+                    if (cbTarget.Checked && currentWaypoint.label == LabelWp.InCave && logado)
                     {
-                        checkAttack();
+                        try
+                        {
+                            checkAttack();
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine("Erro ifStopped - " + e.Message);
+                        }
+                        Task.Delay(500).Wait();
                     }
                 } while (true);
             });
@@ -961,10 +1073,18 @@ namespace MouseMoveBot
             {
                 do
                 {
-                    if ((this.checkAttackSpell.Checked || this.checkAttackMissileRune.Checked || this.checkAttackAreaRune.Checked) && iconTibia == iconColor && currentWaypoint.label == LabelWp.InCave)
+                    try
                     {
-                        checkAttackRunes();
+                        if ((this.checkAttackSpell.Checked || this.checkAttackMissileRune.Checked || this.checkAttackAreaRune.Checked) && logado && currentWaypoint.label == LabelWp.InCave)
+                        {
+                            checkAttackRunes();
+                        }
                     }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Erro ifStopped - " + e.Message);
+                    }
+                    Task.Delay(500).Wait();
                 } while (true);
             }));
 
@@ -972,9 +1092,16 @@ namespace MouseMoveBot
             {
                 do
                 {
-                    if (cbCavebot.Checked && iconTibia == iconColor && currentWaypoint.bitIcon != null && currentWaypoint.state != State.Attacking)
+                    if (cbCavebot.Checked && currentWaypoint.bitIcon != null && currentWaypoint.state != State.Attacking)
                     {
-                        checkArrivedWaypoint();
+                        try
+                        {
+                            checkArrivedWaypoint();
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine("Erro checkArrivedWaypoint - " + e.Message);
+                        }
                     }
                     Task.Delay(1000).Wait();
                 } while (true);
@@ -984,9 +1111,16 @@ namespace MouseMoveBot
             {
                 do
                 {
-                    if (cbCavebot.Checked && iconTibia == iconColor && currentWaypoint.state == State.Walking && (battleIsNormal || !battleIsNormal) && currentWaypoint.label != LabelWp.Reffil)
+                    if (cbCavebot.Checked && currentWaypoint.state == State.Walking && currentWaypoint.label != LabelWp.Reffil)
                     {
-                        checkIfStopped();
+                        try
+                        {
+                            checkIfStopped();
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine("Erro ifStopped - " + e.Message);
+                        }
                     }
                 } while (true);
             });
@@ -995,7 +1129,7 @@ namespace MouseMoveBot
             {
                 do
                 {
-                    if (iconTibia == iconColor)
+                    if (logado)
                     {
                         CheckArePoisoned();
                     }
@@ -1007,11 +1141,18 @@ namespace MouseMoveBot
             {
                 do
                 {
-                    if (iconTibia == iconColor)
+                    try
                     {
-                        checkAreParalyzed();
+                        if (logado)
+                        {
+                            checkAreParalyzed();
+                        }
                     }
-                    Task.Delay(1100).Wait();
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Erro ifStopped - " + e.Message);
+                    }
+                    Task.Delay(1100000).Wait();
                 } while (true);
             });
 
@@ -1019,9 +1160,14 @@ namespace MouseMoveBot
             {
                 do
                 {
-                    if (iconTibia == iconColor)
+                    try
                     {
-                        CheckAreHungry();
+                        if (logado)
+                            CheckAreHungry();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Erro CheckAreHungry - " + e.Message);
                     }
                     Task.Delay(1200).Wait();
                 } while (true);
@@ -1037,6 +1183,69 @@ namespace MouseMoveBot
             //        }
             //    } while (true);
             //});
+        }
+
+        private bool checkLogado()
+        {
+            var screenCapture = GetPrintScreenBitmap();
+
+            Bitmap bitLogado = new Bitmap(path + "logado.png");
+
+            this.logado = CheckFindBattle(bitLogado, screenCapture);
+
+            return logado;
+        }
+
+        private void deleteImages()
+        {
+            var images = Directory.GetFiles("C:\\Users\\Guigo\\AppData\\Local\\Tibia\\packages\\Tibia\\screenshots", "*.*", SearchOption.AllDirectories)
+            .Where(s => s.EndsWith(".png")).ToList();
+
+            if (images.Count() > 5)
+            {
+                images = images.Take(images.Count() - 5).ToList();
+
+                foreach (var item in images)
+                {
+                    File.Delete(item);
+                }
+            }
+        }
+
+        private void checkCharLogged()
+        {
+            Bitmap screenCapture = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+
+            Graphics g = Graphics.FromImage(screenCapture);
+
+            g.CopyFromScreen(Screen.PrimaryScreen.Bounds.X,
+                             Screen.PrimaryScreen.Bounds.Y,
+                             0, 0,
+                             screenCapture.Size,
+                             CopyPixelOperation.SourceCopy);
+
+            Bitmap myPic = new Bitmap(path + "logginEk.png");
+            Bitmap connectionLost = new Bitmap(path + "connectionLost.png");
+            Bitmap ok = new Bitmap(path + "Ok.png");
+
+            InputSimulator sim = new InputSimulator();
+
+            if (CheckFindBattle(connectionLost, screenCapture))
+            {
+                Task.Delay(400).Wait();
+                moveMouseWaypointEmgu(ok);
+                Task.Delay(400).Wait();
+            }
+
+            if (CheckFindBattle(myPic, screenCapture))
+            {
+                moveMouseWaypointEmgu(myPic);
+                Task.Delay(400).Wait();
+                sim.Mouse.LeftButtonClick();
+                sim.Mouse.LeftButtonClick();
+                Task.Delay(400).Wait();
+            }
+
         }
 
         private void checkEquipEnergyRing()
@@ -1056,8 +1265,6 @@ namespace MouseMoveBot
                 Console.WriteLine("Use energy ring.");
                 Task.Delay(1000).Wait();
             }
-
-
 
             if (manaShield && countMonster < 3)
             {
@@ -1104,15 +1311,15 @@ namespace MouseMoveBot
 
         private void CheckAreHungry()
         {
+            Rectangle rect = new Rectangle(1752, 290, 108, 13);
 
-            Rectangle rect = new Rectangle(1752, 313, 108, 13);
-            Bitmap areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            Graphics g = Graphics.FromImage(areaIcon);
-            g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
+            var screenCapture = GetPrintScreenBitmap();
 
-            var hungry = CheckFindBattle(new Bitmap(path + "hungry.png"), areaIcon);
+            var CroppedImage = CropImage(screenCapture, rect);
 
-            if (battleIsNormal && hungry && keyEatFood != null)
+            var hungry = CheckFindBattle(new Bitmap(path + "hungry.png"), CroppedImage);
+
+            if (hungry && keyEatFood != null)
             {
                 SendKeys.SendWait("{" + keyEatFood + "}");
                 Console.WriteLine("Eat Food.");
@@ -1190,9 +1397,9 @@ namespace MouseMoveBot
         {
             var blackColor = Color.FromArgb(255, 0, 0, 0);
             var countMonster = 0;
-            for (int i = 457; i < 600; i = i + 22)
+            for (int i = 440; i < 600; i = i + 22)
             {
-                var colorFound = GetColorAt(new Point(1770, i));
+                var colorFound = GetColorAtNew(new Point(1749, i));
                 if (colorFound == blackColor)
                     countMonster++;
             }
@@ -1246,7 +1453,7 @@ namespace MouseMoveBot
                     break;
                 case EnumAction.CheckBuyedPots:
                     checkBuyedPots();
-                    break; 
+                    break;
                 default:
                     break;
             }
@@ -1614,7 +1821,7 @@ namespace MouseMoveBot
 
         private void checkPotAndCap()
         {
-            var totalMp= checkTotalMp();
+            var totalMp = checkTotalMp();
 
             var totalRunes = checkTotalRunes();
 
@@ -1915,27 +2122,38 @@ namespace MouseMoveBot
 
         private void checkBattleList()
         {
-            Bitmap screenCapture = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
-
-            Graphics g = Graphics.FromImage(screenCapture);
-
-            g.CopyFromScreen(Screen.PrimaryScreen.Bounds.X,
-                             Screen.PrimaryScreen.Bounds.Y,
-                             0, 0,
-                             screenCapture.Size,
-                             CopyPixelOperation.SourceCopy);
+            var screenCapture = GetPrintScreenBitmap();
 
             Bitmap myPic = new Bitmap(path + "battleClear.png");
             battleIsNormal = CheckFindBattle(myPic, screenCapture);
+            Console.WriteLine(battleIsNormal.ToString());
+        }
+
+        private Bitmap GetPrintScreenBitmap()
+        {
+            var lastImage = Directory.GetFiles("C:\\Users\\Guigo\\AppData\\Local\\Tibia\\packages\\Tibia\\screenshots", "*.*", SearchOption.AllDirectories)
+            .Where(s => s.EndsWith(".png")).LastOrDefault();
+
+            Bitmap screenPixel = new Bitmap(lastImage);
+
+            return screenPixel;
+        }
+
+
+        public Color GetColorAtNew(Point location)
+        {
+            Bitmap screenPixel = GetPrintScreenBitmap();
+
+            return screenPixel.GetPixel(location.X, location.Y);
         }
 
         private void checkIfStopped()
         {
-            Color c1 = GetColorAt(new Point(808, 434));
+            Color c1 = GetColorAtNew(new Point(808, 434));
             Task.Delay(2000).Wait();
-            Color c2 = GetColorAt(new Point(808, 434));
+            Color c2 = GetColorAtNew(new Point(808, 434));
 
-            if (c1 == c2)
+            if (c1 == c2 && currentWaypoint.state != State.Concluded)
             {
                 currentWaypoint.state = State.Waiting;
                 Console.WriteLine("Estava parado.");
@@ -1952,15 +2170,13 @@ namespace MouseMoveBot
         {
             var arrived = false;
 
-            var p1 = new Point(1780, 70);
-            var p2 = new Point(1820, 95);
+            Rectangle rect = new Rectangle(1800, 52, 12, 12);
 
-            Rectangle rect = new Rectangle(1800, 75, 12, 12);
-            Bitmap areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            Graphics g = Graphics.FromImage(areaIcon);
-            g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
+            var screenCapture = GetPrintScreenBitmap();
 
-            arrived = CheckFindBattle(currentWaypoint.bitIcon, areaIcon);
+            var CroppedImage = CropImage(screenCapture, rect);
+
+            arrived = CheckFindBattle(currentWaypoint.bitIcon, CroppedImage);
 
             if (arrived)
             {
@@ -1968,6 +2184,17 @@ namespace MouseMoveBot
                     currentWaypoint.state = State.SpecialMovement;
                 else
                     currentWaypoint.state = State.Concluded;
+            }
+        }
+
+        public Bitmap CropImage(Bitmap source, Rectangle section)
+        {
+            var bitmap = new Bitmap(section.Width, section.Height);
+            using (var g = Graphics.FromImage(bitmap))
+            {
+                g.DrawImage(source, 0, 0, section, GraphicsUnit.Pixel);
+                g.Dispose();
+                return bitmap;
             }
         }
 
@@ -1985,7 +2212,7 @@ namespace MouseMoveBot
                 DoMouseClick();
                 Task.Delay(200).Wait();
                 Console.WriteLine("Moveu mouse");
-                Cursor.Position = new Point(1700, 80);
+                Cursor.Position = new Point(1700, 57);
                 Task.Delay(200).Wait();
                 currentWaypoint.state = State.Walking;
             }
@@ -2012,15 +2239,15 @@ namespace MouseMoveBot
         public void checkHealer()
         {
             Color lifeBar = new Color();
-            lifeBar = GetColorAt(new Point(620, 33));
+            lifeBar = GetColorAtNew(new Point(620, 10));
             Color iconColor = Color.FromArgb(255, 0, 190, 0);
 
 
             Color healthColor = Color.FromArgb(255, 167, 51, 51);
 
-            var percent90 = GetColorAt(new Point(1845, 145)) == healthColor;
-            var percent70 = GetColorAt(new Point(1840, 145)) == healthColor;
-            var percent30 = GetColorAt(new Point(1795, 145)) == healthColor;
+            var percent90 = GetColorAtNew(new Point(1845, 122)) == healthColor;
+            var percent70 = GetColorAtNew(new Point(1840, 122)) == healthColor;
+            var percent30 = GetColorAtNew(new Point(1795, 122)) == healthColor;
 
             if (!percent90 && percent70 && percent30 && keyMaxHealerSelected != null)
             {
@@ -2046,7 +2273,7 @@ namespace MouseMoveBot
         public void checkMana()
         {
             Color manaBar = new Color();
-            manaBar = GetColorAt(new Point(1213, 30));
+            manaBar = GetColorAtNew(new Point(1213, 7));
             Color iconColor = Color.FromArgb(255, 39, 39, 39);
 
             if (keyManaSelected != null && iconColor == manaBar)
@@ -2089,7 +2316,7 @@ namespace MouseMoveBot
 
             for (int i = 440; i < 600; i = i + 22)
             {
-                var colorFound = GetColorAt(new Point(1767, i));
+                var colorFound = GetColorAtNew(new Point(1749, i));
                 if (colorFound == red)
                     return true;
             }
@@ -2099,7 +2326,7 @@ namespace MouseMoveBot
         private void checkFollowMonster()
         {
             var follow = Color.FromArgb(255, 85, 255, 85);
-            var followMonster = GetColorAt(new Point(1902, 201));
+            var followMonster = GetColorAtNew(new Point(1902, 178));
 
             if (followMonster != follow && cbFollowMonster.Checked)
             {
@@ -2204,15 +2431,7 @@ namespace MouseMoveBot
 
         private void moveMouseWaypointEmgu(Bitmap myPic)
         {
-            Bitmap screenCapture = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
-
-            Graphics g = Graphics.FromImage(screenCapture);
-
-            g.CopyFromScreen(Screen.PrimaryScreen.Bounds.X,
-                             Screen.PrimaryScreen.Bounds.Y,
-                             0, 0,
-                             screenCapture.Size,
-                             CopyPixelOperation.SourceCopy);
+            var screenCapture = GetPrintScreenBitmap();
 
             Image<Bgr, Byte> source = new Image<Bgr, Byte>(screenCapture);
             Image<Bgr, byte> template = new Image<Bgr, byte>(myPic); // Image A
@@ -2232,14 +2451,14 @@ namespace MouseMoveBot
                     imageToShow.Draw(match, new Bgr(Color.Red), 3);
                     //Console.WriteLine(minLocations[0]);
                     //Console.WriteLine(maxLocations[0]);
-                    Console.WriteLine("Achou");
+                    Console.WriteLine("Achou slime");
                     //var pMin = minLocations[0];
                     //var pMax = maxLocations[0];
 
                     //var meioQuad = pMin.Y - pMax.Y;
                     //var centerPosition = new Point((maxLocations[0].X + meioQuad), minLocations[0].Y);
                     //Console.WriteLine("Center: " + centerPosition);
-                    Cursor.Position = new Point(maxLocations[0].X, maxLocations[0].Y);
+                    Cursor.Position = new Point(maxLocations[0].X, maxLocations[0].Y + 23);
                 }
                 else
                 {
@@ -2256,15 +2475,7 @@ namespace MouseMoveBot
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            Bitmap screenCapture = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
-
-            Graphics g = Graphics.FromImage(screenCapture);
-
-            g.CopyFromScreen(Screen.PrimaryScreen.Bounds.X,
-                             Screen.PrimaryScreen.Bounds.Y,
-                             0, 0,
-                             screenCapture.Size,
-                             CopyPixelOperation.SourceCopy);
+            var screenCapture = GetPrintScreenBitmap();
 
             Bitmap myPic = new Bitmap(path + "battleClear.png");
             var contain = CheckFindBattle(myPic, screenCapture);
@@ -2277,15 +2488,7 @@ namespace MouseMoveBot
 
         private bool FindBattle()
         {
-            Bitmap screenCapture = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
-
-            Graphics g = Graphics.FromImage(screenCapture);
-
-            g.CopyFromScreen(Screen.PrimaryScreen.Bounds.X,
-                             Screen.PrimaryScreen.Bounds.Y,
-                             0, 0,
-                             screenCapture.Size,
-                             CopyPixelOperation.SourceCopy);
+            var screenCapture = GetPrintScreenBitmap();
 
             Bitmap myPic = new Bitmap(path + "battleClear.png");
             return compareTwoImages(screenCapture, myPic);
@@ -2487,70 +2690,79 @@ namespace MouseMoveBot
 
             // ------------------------ Check Runes 
 
-            var casa1 = false;
-            var casa2 = false;
-            var casa3 = false;
+            //var casa1 = false;
+            //var casa2 = false;
+            //var casa3 = false;
 
-            Rectangle rect = new Rectangle(40, 849, 7, 8);
-            Bitmap areaIcon = null;
-            Graphics g = null;
+            //Rectangle rect = new Rectangle(40, 849, 7, 8);
+            //Bitmap areaIcon = null;
+            //Graphics g = null;
 
-            var n1 = 0;
-            var n2 = 0;
-            var n3 = 0;
+            //var n1 = 0;
+            //var n2 = 0;
+            //var n3 = 0;
 
-            var listNumbers = new List<Bitmap>()
-            {
-                new Bitmap(path + "0.png"),
-                new Bitmap(path + "1.png"),
-                new Bitmap(path + "2.png"),
-                new Bitmap(path + "3.png"),
-                new Bitmap(path + "4.png"),
-                new Bitmap(path + "5.png"),
-                new Bitmap(path + "6.png"),
-                new Bitmap(path + "7.png"),
-                new Bitmap(path + "8.png"),
-                new Bitmap(path + "9.png"),
-            };
+            //var listNumbers = new List<Bitmap>()
+            //{
+            //    new Bitmap(path + "0.png"),
+            //    new Bitmap(path + "1.png"),
+            //    new Bitmap(path + "2.png"),
+            //    new Bitmap(path + "3.png"),
+            //    new Bitmap(path + "4.png"),
+            //    new Bitmap(path + "5.png"),
+            //    new Bitmap(path + "6.png"),
+            //    new Bitmap(path + "7.png"),
+            //    new Bitmap(path + "8.png"),
+            //    new Bitmap(path + "9.png"),
+            //};
 
-            foreach (var item in listNumbers)
-            {
-                if (!casa1)
-                {
-                    rect = new Rectangle(358, 849, 7, 8);
-                    areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-                    g = Graphics.FromImage(areaIcon);
-                    g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
+            //foreach (var item in listNumbers)
+            //{
+            //    if (!casa1)
+            //    {
+            //        rect = new Rectangle(358, 849, 7, 8);
+            //        areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            //        g = Graphics.FromImage(areaIcon);
+            //        g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
 
-                    casa1 = CheckFindBattle(item, areaIcon);
-                    n1 = casa1 ? listNumbers.IndexOf(item) : 0;
-                }
+            //        casa1 = CheckFindBattle(item, areaIcon);
+            //        n1 = casa1 ? listNumbers.IndexOf(item) : 0;
+            //    }
 
-                if (!casa2)
-                {
-                    rect = new Rectangle(364, 849, 7, 8);
-                    areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-                    g = Graphics.FromImage(areaIcon);
-                    g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
+            //    if (!casa2)
+            //    {
+            //        rect = new Rectangle(364, 849, 7, 8);
+            //        areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            //        g = Graphics.FromImage(areaIcon);
+            //        g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
 
-                    casa2 = CheckFindBattle(item, areaIcon);
-                    n2 = casa2 ? listNumbers.IndexOf(item) : 0;
-                }
+            //        casa2 = CheckFindBattle(item, areaIcon);
+            //        n2 = casa2 ? listNumbers.IndexOf(item) : 0;
+            //    }
 
-                if (!casa3)
-                {
-                    rect = new Rectangle(369, 849, 7, 8);
-                    areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-                    g = Graphics.FromImage(areaIcon);
-                    g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
-                    casa3 = CheckFindBattle(item, areaIcon);
-                    n3 = casa3 ? listNumbers.IndexOf(item) : 0;
-                }
-            }
+            //    if (!casa3)
+            //    {
+            //        rect = new Rectangle(369, 849, 7, 8);
+            //        areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            //        g = Graphics.FromImage(areaIcon);
+            //        g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
+            //        casa3 = CheckFindBattle(item, areaIcon);
+            //        n3 = casa3 ? listNumbers.IndexOf(item) : 0;
+            //    }
+            //}
 
-            var totalHp = (n1 * 100) + (n2 * 10) + n3;
+            //var totalHp = (n1 * 100) + (n2 * 10) + n3;
 
-            MessageBox.Show(totalHp.ToString());
+            //MessageBox.Show(totalHp.ToString());
+
+            //var screenCapture = GetPrintScreenBitmap();
+
+            //Bitmap logado = new Bitmap(path + "logado.png");
+
+            //var gg = CheckFindBattle(logado, screenCapture);
+
+            //MessageBox.Show(gg.ToString());
+
         }
 
         private bool compareTwoImages(Bitmap img1, Bitmap img2)
@@ -2636,7 +2848,6 @@ namespace MouseMoveBot
                     // This is a match. Do something with it, for example draw a rectangle around it.
                     Rectangle match = new Rectangle(maxLocations[0], template.Size);
                     imageToShow.Draw(match, new Bgr(Color.Red), 3);
-                    Console.WriteLine("Achou");
                     //var pMin = minLocations[0];
                     //var pMax = maxLocations[0];
 
@@ -2833,6 +3044,13 @@ namespace MouseMoveBot
         private void cbTarget_CheckedChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void trainerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            f6 = new Form6(this);
+            this.Hide();
+            f6.ShowDialog();
         }
     }
 }
