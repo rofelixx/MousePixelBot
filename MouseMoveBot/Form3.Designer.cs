@@ -137,7 +137,7 @@
             // targetToolStripMenuItem
             // 
             this.targetToolStripMenuItem.Name = "targetToolStripMenuItem";
-            this.targetToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
+            this.targetToolStripMenuItem.Size = new System.Drawing.Size(51, 20);
             this.targetToolStripMenuItem.Text = "Target";
             this.targetToolStripMenuItem.Click += new System.EventHandler(this.TargetToolStripMenuItem_Click);
             // 
@@ -190,6 +190,7 @@
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(207, 54);
             this.comboBox2.TabIndex = 22;
+            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
             // 
             // button2
             // 

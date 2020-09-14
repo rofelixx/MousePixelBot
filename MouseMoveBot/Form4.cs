@@ -100,5 +100,10 @@ namespace MouseMoveBot
         {
             f1.checkAttackAreaRune.Checked = this.checkAttackAreaRune.Checked;
         }
+
+        private void cbFollowMonster_CheckedChanged(object sender, EventArgs e)
+        {
+            f1.cbFollowMonster.Checked = this.cbFollowMonster.Checked;
+        }
     }
 }

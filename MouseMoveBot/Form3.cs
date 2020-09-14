@@ -482,5 +482,10 @@ namespace MouseMoveBot
             this.Hide();
             f4.ShowDialog();
         }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

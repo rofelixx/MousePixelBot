@@ -85,7 +85,7 @@
             // targetToolStripMenuItem
             // 
             this.targetToolStripMenuItem.Name = "targetToolStripMenuItem";
-            this.targetToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
+            this.targetToolStripMenuItem.Size = new System.Drawing.Size(51, 20);
             this.targetToolStripMenuItem.Text = "Target";
             // 
             // lootToolStripMenuItem
@@ -160,6 +160,7 @@
             this.cbFollowMonster.TabIndex = 29;
             this.cbFollowMonster.Text = "Follow Monster";
             this.cbFollowMonster.UseVisualStyleBackColor = true;
+            this.cbFollowMonster.CheckedChanged += new System.EventHandler(this.cbFollowMonster_CheckedChanged);
             // 
             // cbAttackMissile
             // 

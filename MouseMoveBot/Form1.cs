@@ -14,6 +14,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using Emgu.CV;
 using Emgu.CV.Structure;
 using IronOcr;
@@ -49,6 +50,8 @@ namespace MouseMoveBot
 
         [DllImport("User32")]
         public static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        private const int MOUSEEVENTF_WHEEL = 0x0800;
 
         int zoom = 2;
 
@@ -101,16 +104,13 @@ namespace MouseMoveBot
         Task taskTimer;
         Task checkArriveWp;
         Task TaskCheckBattleList;
-        Task taskCheckTibiaAreInFront;
         Task taskCheckPoison;
         Task taskCheckEatFood;
         Task taskCheckParalyze;
-        Task taskCheckUseEnergyRing;
         Task taskCheckLogged;
-        Task taskPrintScreen;
-        Task taskDeletePrints;
         Task taskTrainerSlime;
 
+        public Bitmap printScreen;
         public bool battleIsNormal = false;
         public bool logado = false;
 
@@ -831,28 +831,20 @@ namespace MouseMoveBot
 
         public void ManageFunction()
         {
-            //var iconGoogle = System.Drawing.Color.FromArgb(GetPixel(DesktopDC, 830, 291));
-            //var iconGoogleColor = Color.FromArgb(0, 244, 133, 66);           
-
-            //taskCheckTibiaAreInFront = Task.Factory.StartNew(() =>
-            //{
-            //    do
-            //    {
-            //        checkIconTibia();
-            //        if (checkMaximized.Checked)
-            //            checkTibiaAreInFront();
-
-            //        Task.Delay(100).Wait();
-            //    } while (true);
-            //});
-
-
             taskCheckLogged = Task.Factory.StartNew(() =>
             {
                 do
                 {
-                    checkLogado();
-                    Task.Delay(500).Wait();
+                    try
+                    {
+                        checkLogado();
+                        Task.Delay(1500).Wait();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Erro checkLogado - " + ex.Message);
+                    }
+
                 } while (true);
             });
 
@@ -883,42 +875,6 @@ namespace MouseMoveBot
                 } while (true);
             });
 
-            taskPrintScreen = Task.Factory.StartNew(() =>
-             {
-                 Thread.CurrentThread.Priority = ThreadPriority.Highest;
-                 do
-                 {
-                     if (logado)
-                     {
-                         try
-                         {
-                             SendKeys.SendWait("{INS}");
-                             Task.Delay(600).Wait();
-                         }
-                         catch (Exception e)
-                         {
-                             Console.WriteLine("Erro criar imagens - " + e.Message);
-                         }
-                     }
-                 } while (true);
-             });
-
-            taskDeletePrints = Task.Factory.StartNew(() =>
-           {
-               do
-               {
-                   try
-                   {
-                       deleteImages();
-                   }
-                   catch (Exception e)
-                   {
-                       Console.WriteLine("Erro deletar imagens - " + e.Message);
-                   }
-                   Task.Delay(10000).Wait();
-               } while (true);
-           });
-
             taskHealerLife = Task.Factory.StartNew(() =>
             {
                 Thread.CurrentThread.Priority = ThreadPriority.Highest;
@@ -936,7 +892,7 @@ namespace MouseMoveBot
                         }
                     }
 
-                    Task.Delay(100).Wait();
+                    Task.Delay(250).Wait();
                 } while (true);
             });
 
@@ -973,7 +929,7 @@ namespace MouseMoveBot
                     {
                         Console.WriteLine(e.Message);
                     }
-                    Task.Delay(300).Wait();
+                    Task.Delay(400).Wait();
                 } while (true);
             });
 
@@ -983,64 +939,71 @@ namespace MouseMoveBot
                 {
                     try
                     {
-                        if (logado)
+
+                        if (cbCavebot.Checked && cbLooter.Checked && currentWaypoint.state == State.Attacking && !this.battleIsNormal)
                         {
-                            if (cbCavebot.Checked && cbLooter.Checked && currentWaypoint.state == State.Attacking)
+                            looting();
+                        }
+
+                        if (cbCavebot.Checked && currentWaypoint.state == State.Walking && (!this.battleIsNormal && currentWaypoint.label == LabelWp.InCave))
+                        {
+                            SendKeys.SendWait("{Esc}");
+                            currentWaypoint.state = State.Attacking;
+                        }
+
+                        if (cbCavebot.Checked && currentWaypoint.state == State.Attacking && this.battleIsNormal)
+                        {
+                            looting();
+                            currentWaypoint.state = State.Waiting;
+                        }
+
+                        if (cbCavebot.Checked && currentWaypoint != null)
+                        {
+                            if (currentWaypoint.state == State.Attacking && this.battleIsNormal)
+                                currentWaypoint.state = State.Waiting;
+
+                            // Attacking
+                            if (currentWaypoint.state == State.Attacking)
                             {
-                                looting();
-                                Task.Delay(1000).Wait();
+                                Task.Delay(300).Wait();
+                                continue;
                             }
 
-                            if (cbCavebot.Checked && currentWaypoint.state == State.Walking && (!battleIsNormal && currentWaypoint.label == LabelWp.InCave))
-                                SendKeys.SendWait("{Esc}");
-
-                            if (cbCavebot.Checked && currentWaypoint != null)
+                            // Walking
+                            if (currentWaypoint.state == State.Walking)
                             {
-                                if (currentWaypoint.state == State.Attacking && battleIsNormal)
-                                    currentWaypoint.state = State.Waiting;
-
-                                // Attacking
-                                if (currentWaypoint.state == State.Attacking)
-                                {
-                                    Task.Delay(300).Wait();
-                                    continue;
-                                }
-
-                                // Walking
-                                if (currentWaypoint.state == State.Walking)
-                                {
-                                    checkArrivedWaypoint();
-                                    continue;
-                                }
-
-                                // waiting
-                                if (currentWaypoint.state == State.Waiting)
-                                {
-                                    walk();
-                                }
-
-                                // Special Movement
-                                if (currentWaypoint.state == State.SpecialMovement)
-                                {
-                                    checkFunctionToDo();
-                                    continue;
-                                }
-
-                                if (currentWaypoint.state == State.Concluded)
-                                {
-                                    var index = listWaypoints.IndexOf(currentWaypoint) >= listWaypoints.Count - 1 ? listWaypoints.IndexOf(currentWaypoint) : listWaypoints.IndexOf(currentWaypoint) + 1;
-
-                                    if (index == (listWaypoints.Count - 1) && listWaypoints[index].state == State.Concluded)
-                                    {
-                                        resetStateWaypoints();
-                                        index = 0;
-                                        Console.WriteLine("Resetou waypoints");
-                                    }
-
-                                    currentWaypoint = listWaypoints[index];
-                                    currentWaypoint.state = State.Waiting;
-                                }
+                                checkArrivedWaypoint();
+                                continue;
                             }
+
+                            // waiting
+                            if (currentWaypoint.state == State.Waiting)
+                            {
+                                walk();
+                            }
+
+                            // Special Movement
+                            if (currentWaypoint.state == State.SpecialMovement)
+                            {
+                                checkFunctionToDo();
+                                continue;
+                            }
+
+                            if (currentWaypoint.state == State.Concluded)
+                            {
+                                var index = listWaypoints.IndexOf(currentWaypoint) >= listWaypoints.Count - 1 ? listWaypoints.IndexOf(currentWaypoint) : listWaypoints.IndexOf(currentWaypoint) + 1;
+
+                                if (index == (listWaypoints.Count - 1) && listWaypoints[index].state == State.Concluded)
+                                {
+                                    resetStateWaypoints();
+                                    index = 0;
+                                    Console.WriteLine("Resetou waypoints");
+                                }
+
+                                currentWaypoint = listWaypoints[index];
+                                currentWaypoint.state = State.Waiting;
+                            }
+
                         }
                     }
                     catch (Exception e)
@@ -1054,7 +1017,7 @@ namespace MouseMoveBot
             {
                 do
                 {
-                    if (cbTarget.Checked && currentWaypoint.label == LabelWp.InCave && logado)
+                    if (cbTarget.Checked && !this.battleIsNormal && logado)
                     {
                         try
                         {
@@ -1062,10 +1025,10 @@ namespace MouseMoveBot
                         }
                         catch (Exception e)
                         {
-                            Console.WriteLine("Erro ifStopped - " + e.Message);
+                            Console.WriteLine("Erro if attacked - " + e.Message);
                         }
-                        Task.Delay(500).Wait();
                     }
+                    Task.Delay(400).Wait();
                 } while (true);
             });
 
@@ -1082,9 +1045,9 @@ namespace MouseMoveBot
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine("Erro ifStopped - " + e.Message);
+                        Console.WriteLine("Erro attackRune - " + e.Message);
                     }
-                    Task.Delay(500).Wait();
+                    Task.Delay(250).Wait();
                 } while (true);
             }));
 
@@ -1103,7 +1066,7 @@ namespace MouseMoveBot
                             Console.WriteLine("Erro checkArrivedWaypoint - " + e.Message);
                         }
                     }
-                    Task.Delay(1000).Wait();
+                    Task.Delay(500).Wait();
                 } while (true);
             });
 
@@ -1111,7 +1074,7 @@ namespace MouseMoveBot
             {
                 do
                 {
-                    if (cbCavebot.Checked && currentWaypoint.state == State.Walking && currentWaypoint.label != LabelWp.Reffil)
+                    if (cbCavebot.Checked && currentWaypoint.state == State.Walking/* && currentWaypoint.label != LabelWp.Reffil*/)
                     {
                         try
                         {
@@ -1121,6 +1084,7 @@ namespace MouseMoveBot
                         {
                             Console.WriteLine("Erro ifStopped - " + e.Message);
                         }
+                        Task.Delay(500).Wait();
                     }
                 } while (true);
             });
@@ -1129,7 +1093,7 @@ namespace MouseMoveBot
             {
                 do
                 {
-                    if (logado)
+                    if (this.checkPoisoned.Checked && logado)
                     {
                         CheckArePoisoned();
                     }
@@ -1143,7 +1107,7 @@ namespace MouseMoveBot
                 {
                     try
                     {
-                        if (logado)
+                        if (this.checkParalyze.Checked && logado)
                         {
                             checkAreParalyzed();
                         }
@@ -1162,7 +1126,7 @@ namespace MouseMoveBot
                 {
                     try
                     {
-                        if (logado)
+                        if (this.checkHungry.Checked && logado)
                             CheckAreHungry();
                     }
                     catch (Exception e)
@@ -1172,105 +1136,28 @@ namespace MouseMoveBot
                     Task.Delay(1200).Wait();
                 } while (true);
             });
-
-            //taskCheckUseEnergyRing = Task.Factory.StartNew(() =>
-            //{
-            //    do
-            //    {
-            //        if (iconTibia == iconColor && currentWaypoint.label == LabelWp.InCave)
-            //        {
-            //            checkEquipEnergyRing();
-            //        }
-            //    } while (true);
-            //});
         }
 
-        private bool checkLogado()
+        private void checkLogado()
         {
-            var screenCapture = GetPrintScreenBitmap();
+            Rectangle rect = new Rectangle(3671, 322, 111, 27);
 
-            Bitmap bitLogado = new Bitmap(path + "logado.png");
+            var captureRect = Screen.FromPoint(new Point(2160, 500)).Bounds;
 
-            this.logado = CheckFindBattle(bitLogado, screenCapture);
-
-            return logado;
-        }
-
-        private void deleteImages()
-        {
-            var images = Directory.GetFiles("C:\\Users\\Guigo\\AppData\\Local\\Tibia\\packages\\Tibia\\screenshots", "*.*", SearchOption.AllDirectories)
-            .Where(s => s.EndsWith(".png")).ToList();
-
-            if (images.Count() > 5)
+            // Create a bitmap of the appropriate size to receive the screenshot.
+            using (Bitmap screenCapture = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height))
             {
-                images = images.Take(images.Count() - 5).ToList();
-
-                foreach (var item in images)
+                // Draw the screenshot into our bitmap.
+                using (Graphics g = Graphics.FromImage(screenCapture))
                 {
-                    File.Delete(item);
+                    g.CopyFromScreen(captureRect.X, captureRect.Y, 0, 0, screenCapture.Size);
                 }
-            }
-        }
 
-        private void checkCharLogged()
-        {
-            Bitmap screenCapture = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+                var CroppedImage = CropImage(screenCapture, rect);
 
-            Graphics g = Graphics.FromImage(screenCapture);
+                Bitmap bitLogado = new Bitmap(path + "logado.png");
 
-            g.CopyFromScreen(Screen.PrimaryScreen.Bounds.X,
-                             Screen.PrimaryScreen.Bounds.Y,
-                             0, 0,
-                             screenCapture.Size,
-                             CopyPixelOperation.SourceCopy);
-
-            Bitmap myPic = new Bitmap(path + "logginEk.png");
-            Bitmap connectionLost = new Bitmap(path + "connectionLost.png");
-            Bitmap ok = new Bitmap(path + "Ok.png");
-
-            InputSimulator sim = new InputSimulator();
-
-            if (CheckFindBattle(connectionLost, screenCapture))
-            {
-                Task.Delay(400).Wait();
-                moveMouseWaypointEmgu(ok);
-                Task.Delay(400).Wait();
-            }
-
-            if (CheckFindBattle(myPic, screenCapture))
-            {
-                moveMouseWaypointEmgu(myPic);
-                Task.Delay(400).Wait();
-                sim.Mouse.LeftButtonClick();
-                sim.Mouse.LeftButtonClick();
-                Task.Delay(400).Wait();
-            }
-
-        }
-
-        private void checkEquipEnergyRing()
-        {
-            var countMonster = countMonsterInBattle();
-
-            Rectangle rect = new Rectangle(1752, 313, 108, 13);
-            Bitmap areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            Graphics g = Graphics.FromImage(areaIcon);
-            g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
-
-            var manaShield = CheckFindBattle(new Bitmap(path + "manaShield.png"), areaIcon);
-
-            if (this.checkUseEnergyRing.Checked && countMonster > 3 && !manaShield)
-            {
-                SendKeys.SendWait("{" + keyUseEnergyRing + "}");
-                Console.WriteLine("Use energy ring.");
-                Task.Delay(1000).Wait();
-            }
-
-            if (manaShield && countMonster < 3)
-            {
-                SendKeys.SendWait("{" + keyUseEnergyRing + "}");
-                Console.WriteLine("Use energy ring.");
-                Task.Delay(200).Wait();
+                this.logado = CheckFindBattle(bitLogado, screenCapture);
             }
         }
 
@@ -1311,13 +1198,24 @@ namespace MouseMoveBot
 
         private void CheckAreHungry()
         {
-            Rectangle rect = new Rectangle(1752, 290, 108, 13);
+            Rectangle rect = new Rectangle(3669, 305, 108, 20);
 
-            var screenCapture = GetPrintScreenBitmap();
+            int screenLeft = SystemInformation.VirtualScreen.Left;
+            int screenTop = SystemInformation.VirtualScreen.Top;
+            int screenWidth = SystemInformation.VirtualScreen.Width;
+            int screenHeight = SystemInformation.VirtualScreen.Height;
 
-            var CroppedImage = CropImage(screenCapture, rect);
+            Bitmap screenPixel = new Bitmap(screenWidth, screenHeight);
 
-            var hungry = CheckFindBattle(new Bitmap(path + "hungry.png"), CroppedImage);
+            Graphics g = Graphics.FromImage(screenPixel);
+
+            g.CopyFromScreen(screenLeft, screenTop, 0, 0, screenPixel.Size);
+
+            var CroppedImage = CropImage(screenPixel, rect);
+
+            CroppedImage.Save(path + "\\teste.png");
+
+            var hungry = CheckFindBattle(new Bitmap(path + "hungry2.png"), CroppedImage);
 
             if (hungry && keyEatFood != null)
             {
@@ -1354,7 +1252,7 @@ namespace MouseMoveBot
                 {
                     SendKeys.SendWait("{" + keySpellAttack + "}");
                     Console.WriteLine("spell key.");
-                    Task.Delay(2100).Wait();
+                    Task.Delay(2000).Wait();
                 }
             }
             else if (!this.checkAttackAreaRune.Checked && !this.checkAttackSpell.Checked && this.checkAttackMissileRune.Checked)
@@ -1397,9 +1295,24 @@ namespace MouseMoveBot
         {
             var blackColor = Color.FromArgb(255, 0, 0, 0);
             var countMonster = 0;
-            for (int i = 440; i < 600; i = i + 22)
+            var colorFound = new Color();
+
+            for (int i = 468; i < 600; i = i + 24)
             {
-                var colorFound = GetColorAtNew(new Point(1749, i));
+                var captureRect = Screen.FromPoint(new Point(2160, 500)).Bounds;
+                // Create a bitmap of the appropriate size to receive the screenshot.
+                using (Bitmap screenCapture = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height))
+                {
+                    // Draw the screenshot into our bitmap.
+                    using (Graphics g = Graphics.FromImage(screenCapture))
+                    {
+                        g.CopyFromScreen(captureRect.X, captureRect.Y, 0, 0, screenCapture.Size);
+                    }
+
+                    // Stuff the bitmap into a file
+                    colorFound = screenCapture.GetPixel(1748, i);
+                }
+
                 if (colorFound == blackColor)
                     countMonster++;
             }
@@ -1458,7 +1371,7 @@ namespace MouseMoveBot
                     break;
             }
 
-            Task.Delay(200).Wait();
+            Task.Delay(600).Wait();
 
             if (currentWaypoint.function.bitCheck != null)
             {
@@ -2021,11 +1934,12 @@ namespace MouseMoveBot
         {
             InputSimulator sim = new InputSimulator();
             sim.Keyboard.KeyPress(VirtualKeyCode.F11);
+            Task.Delay(500).Wait();
 
             //// Center of xar 870, 470 in screen            
             if (currentWaypoint.function.action == EnumAction.ShovelToUp)
             {
-                Cursor.Position = new Point(785, 380);
+                Cursor.Position = new Point(870, 380);
                 sim.Mouse.LeftButtonClick();
                 return;
             }
@@ -2056,11 +1970,11 @@ namespace MouseMoveBot
         {
             InputSimulator sim = new InputSimulator();
             sim.Keyboard.KeyPress(VirtualKeyCode.F12);
-
+            Task.Delay(1000).Wait();
             //// Center of xar 785, 450 in screen 
             if (currentWaypoint.function.action == EnumAction.RopeCenter)
             {
-                Cursor.Position = new Point(785, 450);
+                Cursor.Position = new Point(870, 430);
                 sim.Mouse.LeftButtonClick();
                 return;
             }
@@ -2098,65 +2012,123 @@ namespace MouseMoveBot
         {
             var arrived = false;
 
-            Rectangle rect = new Rectangle(1800, 75, 12, 12);
-            Bitmap areaIcon = new Bitmap(rect.Width, rect.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            Graphics g = Graphics.FromImage(areaIcon);
-            g.CopyFromScreen(rect.Left, rect.Top, 0, 0, areaIcon.Size, CopyPixelOperation.SourceCopy);
+            Rectangle rect = new Rectangle(1800, 55, 14, 14);
 
-            arrived = CheckFindBattle(currentWaypoint.function.bitCheck, areaIcon);
+            var captureRect = Screen.FromPoint(new Point(2160, 500)).Bounds;
+
+            // Set the bitmap object to the size of the screen
+            var screenCapture = new Bitmap(captureRect.Width, captureRect.Height);
+
+            // Create a graphics object from the bitmap
+            var gfxScreenshot = Graphics.FromImage(screenCapture);
+
+            // Take the screenshot from the upper left corner to the right bottom corner
+            gfxScreenshot.CopyFromScreen(captureRect.X, captureRect.Y, 0, 0, new Size { Width = 1920, Height = 1080 }, CopyPixelOperation.SourceCopy);
+
+            var CroppedImage = CropImage(screenCapture, rect);
+
+            CroppedImage.Save(path + "\\arrive.png");
+
+            arrived = CheckFindBattle(currentWaypoint.function.bitCheck, CroppedImage);
 
             return arrived ? true : false;
         }
 
-        private void checkTibiaAreInFront()
-        {
-            Process process = Process.GetProcesses().FirstOrDefault(f => f.ProcessName.Equals("client"));
-
-            if (process != null)
-            {
-                process.WaitForInputIdle();
-                IntPtr s = process.MainWindowHandle;
-                SetForegroundWindow(s);
-            }
-        }
-
         private void checkBattleList()
         {
-            var screenCapture = GetPrintScreenBitmap();
+            Color batleWithMonster = Color.FromArgb(255, 0, 0, 0);
 
-            Bitmap myPic = new Bitmap(path + "battleClear.png");
-            battleIsNormal = CheckFindBattle(myPic, screenCapture);
+            var captureRect = Screen.FromPoint(new Point(2160, 500)).Bounds;
+
+            var normal = false;
+
+            // Create a bitmap of the appropriate size to receive the screenshot.
+            using (Bitmap screenCapture = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height))
+            {
+                // Draw the screenshot into our bitmap.
+                using (Graphics g = Graphics.FromImage(screenCapture))
+                {
+                    g.CopyFromScreen(captureRect.X, captureRect.Y, 0, 0, screenCapture.Size);
+                }
+
+                // Stuff the bitmap into a file
+                normal = screenCapture.GetPixel(1770, 485) != batleWithMonster;
+            }
+
+            this.battleIsNormal = normal;
+
             Console.WriteLine(battleIsNormal.ToString());
+
         }
 
         private Bitmap GetPrintScreenBitmap()
         {
-            var lastImage = Directory.GetFiles("C:\\Users\\Guigo\\AppData\\Local\\Tibia\\packages\\Tibia\\screenshots", "*.*", SearchOption.AllDirectories)
-            .Where(s => s.EndsWith(".png")).LastOrDefault();
 
-            Bitmap screenPixel = new Bitmap(lastImage);
+            var captureRect = Screen.FromPoint(new Point(2160, 500)).Bounds;
 
-            return screenPixel;
+            // Create a bitmap of the appropriate size to receive the screenshot.
+            using (Bitmap screenCapture = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height))
+            {
+                // Draw the screenshot into our bitmap.
+                using (Graphics g = Graphics.FromImage(screenCapture))
+                {
+                    g.CopyFromScreen(captureRect.X, captureRect.Y, 0, 0, screenCapture.Size);
+                }
+
+                // Stuff the bitmap into a file
+                return screenCapture;
+            }
         }
 
 
         public Color GetColorAtNew(Point location)
         {
-            Bitmap screenPixel = GetPrintScreenBitmap();
+            var screenPixel = GetPrintScreenBitmap();
 
             return screenPixel.GetPixel(location.X, location.Y);
         }
 
         private void checkIfStopped()
         {
-            Color c1 = GetColorAtNew(new Point(808, 434));
-            Task.Delay(2000).Wait();
-            Color c2 = GetColorAtNew(new Point(808, 434));
-
-            if (c1 == c2 && currentWaypoint.state != State.Concluded)
+            try
             {
-                currentWaypoint.state = State.Waiting;
-                Console.WriteLine("Estava parado.");
+                var captureRect = Screen.FromPoint(new Point(2160, 500)).Bounds;
+                var icon1 = new Color();
+                // Create a bitmap of the appropriate size to receive the screenshot.
+                using (Bitmap screenCapture = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height))
+                {
+                    // Draw the screenshot into our bitmap.
+                    using (Graphics g = Graphics.FromImage(screenCapture))
+                    {
+                        g.CopyFromScreen(captureRect.X, captureRect.Y, 0, 0, screenCapture.Size);
+                    }
+
+                    // Stuff the bitmap into a file
+                    icon1 = screenCapture.GetPixel(800, 430);
+                }
+
+                Task.Delay(2000).Wait();
+
+                var icon2 = new Color();
+                // Create a bitmap of the appropriate size to receive the screenshot.
+                using (Bitmap screenCapture = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height))
+                {
+                    // Draw the screenshot into our bitmap.
+                    using (Graphics g = Graphics.FromImage(screenCapture))
+                    {
+                        g.CopyFromScreen(captureRect.X, captureRect.Y, 0, 0, screenCapture.Size);
+                    }
+
+                    // Stuff the bitmap into a file
+                    icon2 = screenCapture.GetPixel(800, 430);
+                }
+
+                if (icon1 == icon2)
+                    currentWaypoint.state = State.Waiting;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Erro checkStop - " + e.Message);
             }
         }
 
@@ -2170,11 +2142,22 @@ namespace MouseMoveBot
         {
             var arrived = false;
 
-            Rectangle rect = new Rectangle(1800, 52, 12, 12);
+            Rectangle rect = new Rectangle(1800, 55, 14, 14);
 
-            var screenCapture = GetPrintScreenBitmap();
+            var captureRect = Screen.FromPoint(new Point(2160, 500)).Bounds;
+
+            // Set the bitmap object to the size of the screen
+            var screenCapture = new Bitmap(captureRect.Width, captureRect.Height);
+
+            // Create a graphics object from the bitmap
+            var gfxScreenshot = Graphics.FromImage(screenCapture);
+
+            // Take the screenshot from the upper left corner to the right bottom corner
+            gfxScreenshot.CopyFromScreen(captureRect.X, captureRect.Y, 0, 0, new Size { Width = 1920, Height = 1080 }, CopyPixelOperation.SourceCopy);
 
             var CroppedImage = CropImage(screenCapture, rect);
+
+            CroppedImage.Save(path + "\\arrive.png");
 
             arrived = CheckFindBattle(currentWaypoint.bitIcon, CroppedImage);
 
@@ -2212,7 +2195,7 @@ namespace MouseMoveBot
                 DoMouseClick();
                 Task.Delay(200).Wait();
                 Console.WriteLine("Moveu mouse");
-                Cursor.Position = new Point(1700, 57);
+                Cursor.Position = new Point(1550, 85);
                 Task.Delay(200).Wait();
                 currentWaypoint.state = State.Walking;
             }
@@ -2239,50 +2222,78 @@ namespace MouseMoveBot
         public void checkHealer()
         {
             Color lifeBar = new Color();
-            lifeBar = GetColorAtNew(new Point(620, 10));
-            Color iconColor = Color.FromArgb(255, 0, 190, 0);
 
+            Color healthColor = Color.FromArgb(255, 177, 56, 56);
 
-            Color healthColor = Color.FromArgb(255, 167, 51, 51);
+            var percent85 = GetColorAtNew(new Point(1845, 130)) == healthColor;
 
-            var percent90 = GetColorAtNew(new Point(1845, 122)) == healthColor;
-            var percent70 = GetColorAtNew(new Point(1840, 122)) == healthColor;
-            var percent30 = GetColorAtNew(new Point(1795, 122)) == healthColor;
-
-            if (!percent90 && percent70 && percent30 && keyMaxHealerSelected != null)
+            if (!percent85 && keyMaxHealerSelected != null)
             {
                 SendKeys.SendWait("{" + keyMaxHealerSelected + "}");
                 Console.WriteLine("Key Healer Pressed.");
             }
 
-            if (!percent70 && percent30 && keyMidHealerSelected != null)
-            {
-                SendKeys.SendWait("{" + keyMidHealerSelected + "}");
-                Console.WriteLine("Key Healer Pressed.");
-            }
+            //lifeBar = GetColorAtNew(new Point(620, 10));
+            //Color iconColor = Color.FromArgb(255, 0, 190, 0);
 
-            if (!percent30 && keyMinHealerSelected != null)
-            {
-                SendKeys.SendWait("{" + keyMinHealerSelected + "}");
-                Console.WriteLine("Key Healer Pressed.");
-            }
-            Console.WriteLine("Healer.");
+
+            //Color healthColor = Color.FromArgb(255, 244, 100, 100);
+
+            //var percent90 = GetColorAtNew(new Point(3770, 133)) == healthColor;
+
+            //var percent70 = GetColorAtNew(new Point(3770, 144)) == healthColor;
+            //var percent30 = GetColorAtNew(new Point(3770, 144)) == healthColor;
+
+            //if (!percent90 && percent70 && percent30 && keyMaxHealerSelected != null)
+            //{
+            //    SendKeys.SendWait("{" + keyMaxHealerSelected + "}");
+            //    Console.WriteLine("Key Healer Pressed.");
+            //}
+
+            //if (!percent70 && percent30 && keyMidHealerSelected != null)
+            //{
+            //    SendKeys.SendWait("{" + keyMidHealerSelected + "}");
+            //    Console.WriteLine("Key Healer Pressed.");
+            //}
+
+            //if (!percent30 && keyMinHealerSelected != null)
+            //{
+            //    SendKeys.SendWait("{" + keyMinHealerSelected + "}");
+            //    Console.WriteLine("Key Healer Pressed.");
+            //}
+            //Console.WriteLine("Healer.");
 
         }
 
         public void checkMana()
         {
             Color manaBar = new Color();
-            manaBar = GetColorAtNew(new Point(1213, 7));
-            Color iconColor = Color.FromArgb(255, 39, 39, 39);
 
-            if (keyManaSelected != null && iconColor == manaBar)
+            //int screenLeft = SystemInformation.VirtualScreen.Left;
+            //int screenTop = SystemInformation.VirtualScreen.Top;
+            //int screenWidth = SystemInformation.VirtualScreen.Width;
+            //int screenHeight = SystemInformation.VirtualScreen.Height;
+
+            //// Create a bitmap of the appropriate size to receive the screenshot.
+            //using (Bitmap screenPixel = new Bitmap(screenWidth, screenHeight))
+            //{
+            //    // Draw the screenshot into our bitmap.
+            //    using (Graphics g = Graphics.FromImage(screenPixel))
+            //    {
+            //        g.CopyFromScreen(screenLeft, screenTop, 0, 0, screenPixel.Size);
+            //    }
+
+            //    manaBar = screenPixel.GetPixel(3740, 150);
+            //}
+
+            manaBar = GetPrintScreenBitmap().GetPixel(1823, 145);
+            Color iconColor = Color.FromArgb(255, 75, 72, 205);
+
+            if (keyManaSelected != null && iconColor != manaBar)
             {
                 SendKeys.SendWait("{" + keyManaSelected + "}");
                 Console.WriteLine("Key Mana Pressed.");
             }
-            Console.WriteLine("Mana.");
-
         }
 
         public void checkAttack()
@@ -2290,33 +2301,42 @@ namespace MouseMoveBot
             checkFollowMonster();
 
             var areAttacking = checkAreAttacking();
-
             InputSimulator sim = new InputSimulator();
 
             this.Invoke((MethodInvoker)delegate
             {
-                if (!battleIsNormal && !areAttacking)
+                if (!this.battleIsNormal && !areAttacking)
                 {
-                    // Press M key
-                    sim.Keyboard.KeyPress(VirtualKeyCode.VK_M);
+                    // Press SPACE key
+                    sim.Keyboard.KeyPress(VirtualKeyCode.SPACE);
                     //SendKeys.SendWait("{Esc}");
-                    //Cursor.Position = new Point(1757, 421);
-                    //DoMouseClick();
                     //Cursor.Position = new Point(1650, 421);
                     currentWaypoint.state = State.Attacking;
                     Console.WriteLine("Atacando");
                 }
             });
-            Task.Delay(300).Wait();
         }
 
         private bool checkAreAttacking()
         {
             var red = Color.FromArgb(255, 255, 0, 0);
-
-            for (int i = 440; i < 600; i = i + 22)
+            var colorFound = new Color();
+            for (int i = 468; i < 600; i = i + 24)
             {
-                var colorFound = GetColorAtNew(new Point(1749, i));
+                var captureRect = Screen.FromPoint(new Point(2160, 500)).Bounds;
+                // Create a bitmap of the appropriate size to receive the screenshot.
+                using (Bitmap screenCapture = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height))
+                {
+                    // Draw the screenshot into our bitmap.
+                    using (Graphics g = Graphics.FromImage(screenCapture))
+                    {
+                        g.CopyFromScreen(captureRect.X, captureRect.Y, 0, 0, screenCapture.Size);
+                    }
+
+                    // Stuff the bitmap into a file
+                    colorFound = screenCapture.GetPixel(1748, i);
+                }
+
                 if (colorFound == red)
                     return true;
             }
@@ -2325,8 +2345,22 @@ namespace MouseMoveBot
 
         private void checkFollowMonster()
         {
-            var follow = Color.FromArgb(255, 85, 255, 85);
-            var followMonster = GetColorAtNew(new Point(1902, 178));
+            var follow = Color.FromArgb(255, 92, 255, 92);
+            var followMonster = new Color();
+            var captureRect = Screen.FromPoint(new Point(2160, 500)).Bounds;
+
+            // Create a bitmap of the appropriate size to receive the screenshot.
+            using (Bitmap screenCapture = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height))
+            {
+                // Draw the screenshot into our bitmap.
+                using (Graphics g = Graphics.FromImage(screenCapture))
+                {
+                    g.CopyFromScreen(captureRect.X, captureRect.Y, 0, 0, screenCapture.Size);
+                }
+
+                // Stuff the bitmap into a file
+                followMonster = screenCapture.GetPixel(1903, 190);
+            }
 
             if (followMonster != follow && cbFollowMonster.Checked)
             {
@@ -2340,18 +2374,19 @@ namespace MouseMoveBot
         private void looting()
         {
             InputSimulator sim = new InputSimulator();
-            foreach (var item in listLootRange)
-            {
-                Cursor.Position = item;
-                sim.Keyboard.KeyDown(VirtualKeyCode.LMENU);
-                sim.Mouse.LeftButtonClick();
-                sim.Keyboard.KeyUp(VirtualKeyCode.LMENU);
-                if (sim.InputDeviceState.IsKeyDown(VirtualKeyCode.LMENU))
-                    sim.Keyboard.KeyUp(VirtualKeyCode.LMENU);
-            }
-            if (sim.InputDeviceState.IsKeyDown(VirtualKeyCode.LMENU))
-                sim.Keyboard.KeyUp(VirtualKeyCode.LMENU);
-            sim.Keyboard.KeyUp(VirtualKeyCode.LMENU);
+            //foreach (var item in listLootRange)
+            //{
+            //    Cursor.Position = item;
+            //    sim.Keyboard.KeyDown(VirtualKeyCode.RMENU);
+            //    sim.Mouse.LeftButtonClick();
+            //    sim.Keyboard.KeyUp(VirtualKeyCode.RMENU);
+            //    if (sim.InputDeviceState.IsKeyDown(VirtualKeyCode.RMENU))
+            //        sim.Keyboard.KeyUp(VirtualKeyCode.RMENU);
+            //}
+            //if (sim.InputDeviceState.IsKeyDown(VirtualKeyCode.RMENU))
+            //    sim.Keyboard.KeyUp(VirtualKeyCode.RMENU);
+            sim.Mouse.VerticalScroll(-1);
+            Task.Delay(500).Wait();
         }
 
         private void checkAttackSd()
@@ -2431,40 +2466,51 @@ namespace MouseMoveBot
 
         private void moveMouseWaypointEmgu(Bitmap myPic)
         {
-            var screenCapture = GetPrintScreenBitmap();
 
-            Image<Bgr, Byte> source = new Image<Bgr, Byte>(screenCapture);
-            Image<Bgr, byte> template = new Image<Bgr, byte>(myPic); // Image A
-            Image<Bgr, byte> imageToShow = source.Copy();
+            var captureRect = Screen.FromPoint(new Point(2160, 500)).Bounds;
 
-            using (Image<Gray, float> result = source.MatchTemplate(template, Emgu.CV.CvEnum.TemplateMatchingType.CcoeffNormed))
+            // Create a bitmap of the appropriate size to receive the screenshot.
+            using (Bitmap screenCapture = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height))
             {
-                double[] minValues, maxValues;
-                Point[] minLocations, maxLocations;
-                result.MinMax(out minValues, out maxValues, out minLocations, out maxLocations);
-
-                // You can try different values of the threshold. I guess somewhere between 0.75 and 0.95 would be good.
-                if (maxValues[0] > 0.95)
+                // Draw the screenshot into our bitmap.
+                using (Graphics g = Graphics.FromImage(screenCapture))
                 {
-                    // This is a match. Do something with it, for example draw a rectangle around it.
-                    Rectangle match = new Rectangle(maxLocations[0], template.Size);
-                    imageToShow.Draw(match, new Bgr(Color.Red), 3);
-                    //Console.WriteLine(minLocations[0]);
-                    //Console.WriteLine(maxLocations[0]);
-                    Console.WriteLine("Achou slime");
-                    //var pMin = minLocations[0];
-                    //var pMax = maxLocations[0];
-
-                    //var meioQuad = pMin.Y - pMax.Y;
-                    //var centerPosition = new Point((maxLocations[0].X + meioQuad), minLocations[0].Y);
-                    //Console.WriteLine("Center: " + centerPosition);
-                    Cursor.Position = new Point(maxLocations[0].X, maxLocations[0].Y + 23);
-                }
-                else
-                {
-                    Console.WriteLine("Não Achou");
+                    g.CopyFromScreen(captureRect.X, captureRect.Y, 0, 0, screenCapture.Size);
                 }
 
+                Image<Bgr, Byte> source = new Image<Bgr, Byte>(screenCapture);
+                Image<Bgr, byte> template = new Image<Bgr, byte>(myPic); // Image A
+                Image<Bgr, byte> imageToShow = source.Copy();
+
+                using (Image<Gray, float> result = source.MatchTemplate(template, Emgu.CV.CvEnum.TemplateMatchingType.CcoeffNormed))
+                {
+                    double[] minValues, maxValues;
+                    Point[] minLocations, maxLocations;
+                    result.MinMax(out minValues, out maxValues, out minLocations, out maxLocations);
+
+                    // You can try different values of the threshold. I guess somewhere between 0.75 and 0.95 would be good.
+                    if (maxValues[0] > 0.85)
+                    {
+                        // This is a match. Do something with it, for example draw a rectangle around it.
+                        Rectangle match = new Rectangle(maxLocations[0], template.Size);
+                        imageToShow.Draw(match, new Bgr(Color.Red), 3);
+                        //Console.WriteLine(minLocations[0]);
+                        //Console.WriteLine(maxLocations[0]);
+                        //Console.WriteLine("Achou slime");
+                        //var pMin = minLocations[0];
+                        //var pMax = maxLocations[0];
+
+                        //var meioQuad = pMin.Y - pMax.Y;
+                        //var centerPosition = new Point((maxLocations[0].X + meioQuad), minLocations[0].Y);
+                        //Console.WriteLine("Center: " + centerPosition);
+                        Cursor.Position = new Point(maxLocations[0].X, maxLocations[0].Y + 20);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Não Achou");
+                    }
+
+                }
             }
         }
 
@@ -2475,11 +2521,26 @@ namespace MouseMoveBot
 
         private void Button1_Click(object sender, EventArgs e)
         {
-            var screenCapture = GetPrintScreenBitmap();
 
-            Bitmap myPic = new Bitmap(path + "battleClear.png");
-            var contain = CheckFindBattle(myPic, screenCapture);
-            if (contain)
+            Color batleWithMonster = Color.FromArgb(255, 0, 0, 0);
+
+            var captureRect = Screen.FromPoint(new Point(2160, 500)).Bounds;
+
+            var normal = false;
+
+            // Create a bitmap of the appropriate size to receive the screenshot.
+            using (Bitmap screenCapture = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height))
+            {
+                // Draw the screenshot into our bitmap.
+                using (Graphics g = Graphics.FromImage(screenCapture))
+                {
+                    g.CopyFromScreen(captureRect.X, captureRect.Y, 0, 0, screenCapture.Size);
+                }
+
+                // Stuff the bitmap into a file
+                normal = screenCapture.GetPixel(1770, 485) != batleWithMonster;
+            }
+            if (normal)
                 MessageBox.Show("Battle Normal");
             else
                 MessageBox.Show("Battle with monster");
@@ -2763,6 +2824,49 @@ namespace MouseMoveBot
 
             //MessageBox.Show(gg.ToString());
 
+            taskHealerLife = Task.Factory.StartNew(() =>
+            {
+                Thread.CurrentThread.Priority = ThreadPriority.Highest;
+                do
+                {
+                    try
+                    {
+                        Color manaBar = new Color();
+
+                        int screenLeft = SystemInformation.VirtualScreen.Left;
+                        int screenTop = SystemInformation.VirtualScreen.Top;
+                        int screenWidth = SystemInformation.VirtualScreen.Width;
+                        int screenHeight = SystemInformation.VirtualScreen.Height;
+
+                        // Create a bitmap of the appropriate size to receive the screenshot.
+                        using (Bitmap screenPixel = new Bitmap(screenWidth, screenHeight))
+                        {
+                            // Draw the screenshot into our bitmap.
+                            using (Graphics g = Graphics.FromImage(screenPixel))
+                            {
+                                g.CopyFromScreen(screenLeft, screenTop, 0, 0, screenPixel.Size);
+                            }
+
+                            // Stuff the bitmap into a file
+                            manaBar = screenPixel.GetPixel(3740, 150);
+
+                            Color iconColor = Color.FromArgb(255, 102, 99, 192);
+
+                            if (iconColor != manaBar)
+                            {
+                                SendKeys.SendWait("{F2}");
+                                Console.WriteLine("Key Mana Pressed.");
+                            }
+                        }
+                    }
+                    catch (Exception ed)
+                    {
+                        Console.WriteLine("Erro teste " + ed.Message);
+                    }
+
+                } while (true);
+            });
+
         }
 
         private bool compareTwoImages(Bitmap img1, Bitmap img2)
@@ -2843,7 +2947,7 @@ namespace MouseMoveBot
                 result.MinMax(out minValues, out maxValues, out minLocations, out maxLocations);
 
                 // You can try different values of the threshold. I guess somewhere between 0.75 and 0.95 would be good.
-                if (maxValues[0] > 0.95)
+                if (maxValues[0] > 0.80)
                 {
                     // This is a match. Do something with it, for example draw a rectangle around it.
                     Rectangle match = new Rectangle(maxLocations[0], template.Size);
